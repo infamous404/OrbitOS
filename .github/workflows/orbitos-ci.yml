@@ -25,7 +25,7 @@ jobs:
       - run: pip install pyyaml
       - name: Branding is applied and no upstream product name is visible
         run: python orbitos/scripts/rebrand.py --check
-      - name: Only Apache-2.0 code, no Business Source License text
+      - name: Only Apache-2.0 code (licence check)
         run: python orbitos/scripts/upstream_license_check.py --tree
       - name: Translations complete (missing, untranslated, placeholders, unused OrbitOS keys)
         run: python orbitos/scripts/i18n_check.py
