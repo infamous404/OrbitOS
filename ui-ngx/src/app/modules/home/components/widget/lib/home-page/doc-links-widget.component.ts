@@ -19,28 +19,29 @@ import {
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { MediaBreakpoints } from '@shared/models/constants';
 
+// OrbitOS: default link names are translation keys (shown with the customTranslate pipe).
 const defaultDocLinksMap = new Map<Authority, DocumentationLinks>(
   [
     [Authority.SYS_ADMIN, {
       links: [
         {
           icon: 'rocket',
-          name: 'Getting started',
+          name: '{i18n:orbitos.doc-links.getting-started}',
           link: 'https://thingsboard.io/docs/getting-started-guides/helloworld/'
         },
         {
           icon: 'title',
-          name: 'Tenant profiles',
+          name: '{i18n:orbitos.doc-links.tenant-profiles}',
           link: 'https://thingsboard.io/docs/user-guide/tenant-profiles/'
         },
         {
           icon: 'insert_chart',
-          name: 'API',
+          name: '{i18n:orbitos.doc-links.api}',
           link: 'https://thingsboard.io/docs/api/'
         },
         {
           icon: 'now_widgets',
-          name: 'Widgets Library',
+          name: '{i18n:orbitos.doc-links.widgets-library}',
           link: 'https://thingsboard.io/docs/user-guide/ui/widget-library/'
         }
       ]
@@ -49,22 +50,22 @@ const defaultDocLinksMap = new Map<Authority, DocumentationLinks>(
       links: [
         {
           icon: 'rocket',
-          name: 'Getting started',
+          name: '{i18n:orbitos.doc-links.getting-started}',
           link: 'https://thingsboard.io/docs/getting-started-guides/helloworld/'
         },
         {
           icon: 'settings_ethernet',
-          name: 'Rule engine',
+          name: '{i18n:orbitos.doc-links.rule-engine}',
           link: 'https://thingsboard.io/docs/user-guide/rule-engine-2-0/re-getting-started/'
         },
         {
           icon: 'insert_chart',
-          name: 'API',
+          name: '{i18n:orbitos.doc-links.api}',
           link: 'https://thingsboard.io/docs/api/'
         },
         {
           icon: 'devices',
-          name: 'Device profiles',
+          name: '{i18n:orbitos.doc-links.device-profiles}',
           link: 'https://thingsboard.io/docs/user-guide/device-profiles/'
         }
       ]
@@ -73,7 +74,7 @@ const defaultDocLinksMap = new Map<Authority, DocumentationLinks>(
       links: [
         {
           icon: 'rocket',
-          name: 'Getting started',
+          name: '{i18n:orbitos.doc-links.getting-started}',
           link: 'https://thingsboard.io/docs/getting-started-guides/helloworld/'
         }
       ]

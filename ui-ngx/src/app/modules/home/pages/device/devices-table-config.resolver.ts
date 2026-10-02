@@ -408,7 +408,7 @@ export class DevicesTableConfigResolver  {
         {
           name: this.translate.instant('iot-hub.add-from-iot-hub'),
           icon: 'hub',
-          isEnabled: () => true,
+          isEnabled: () => this.iotHubActions.enabled,
           onAction: (_$event) => this.addDeviceFromIotHub()
         },
       );

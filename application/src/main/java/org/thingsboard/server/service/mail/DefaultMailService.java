@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.thingsboard.server.orbitos.i18n.MailLocaleResolver;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.NestedRuntimeException;
 import org.springframework.core.io.InputStreamSource;
@@ -72,6 +73,8 @@ public class DefaultMailService implements MailService {
     private final PasswordResetExecutorService passwordResetExecutorService;
     private final TbMailContextComponent ctx;
     private final RateLimitService rateLimitService;
+    // OrbitOS: each email in the recipient's language
+    private final MailLocaleResolver mailLocale;
 
     @Value("${mail.per_tenant_rate_limits:}")
     private String perTenantRateLimitConfig;
@@ -114,27 +117,27 @@ public class DefaultMailService implements MailService {
     public void sendTestMail(JsonNode jsonConfig, String email) throws ThingsboardException {
         TbMailSender testMailSender = new TbMailSender(ctx, jsonConfig);
         String mailFrom = jsonConfig.get("mailFrom").asText();
-        String subject = messages.getMessage("test.message.subject", null, Locale.US);
+        String subject = messages.getMessage("test.message.subject", null, mailLocale.forEmail(email));
         long timeout = jsonConfig.get("timeout").asLong(DEFAULT_TIMEOUT);
 
         Map<String, Object> model = new HashMap<>();
         model.put(TARGET_EMAIL, email);
 
-        String message = mergeTemplateIntoString("test.ftl", model);
+        String message = mergeTemplateIntoString(mailLocale.forEmail(email), "test.ftl", model);
 
         sendMail(testMailSender, mailFrom, email, subject, message, timeout);
     }
 
     @Override
     public void sendActivationEmail(String activationLink, long ttlMs, String email) throws ThingsboardException {
-        String subject = messages.getMessage("activation.subject", null, Locale.US);
+        String subject = messages.getMessage("activation.subject", null, mailLocale.forEmail(email));
 
         Map<String, Object> model = new HashMap<>();
         model.put("activationLink", activationLink);
         model.put("activationLinkTtlInHours", (int) Math.ceil(ttlMs / 3600000.0));
         model.put(TARGET_EMAIL, email);
 
-        String message = mergeTemplateIntoString("activation.ftl", model);
+        String message = mergeTemplateIntoString(mailLocale.forEmail(email), "activation.ftl", model);
 
         sendMail(mailSender, mailFrom, email, subject, message, timeout);
     }
@@ -142,13 +145,13 @@ public class DefaultMailService implements MailService {
     @Override
     public void sendAccountActivatedEmail(String loginLink, String email) throws ThingsboardException {
 
-        String subject = messages.getMessage("account.activated.subject", null, Locale.US);
+        String subject = messages.getMessage("account.activated.subject", null, mailLocale.forEmail(email));
 
         Map<String, Object> model = new HashMap<>();
         model.put("loginLink", loginLink);
         model.put(TARGET_EMAIL, email);
 
-        String message = mergeTemplateIntoString("account.activated.ftl", model);
+        String message = mergeTemplateIntoString(mailLocale.forEmail(email), "account.activated.ftl", model);
 
         sendMail(mailSender, mailFrom, email, subject, message, timeout);
     }
@@ -156,14 +159,14 @@ public class DefaultMailService implements MailService {
     @Override
     public void sendResetPasswordEmail(String passwordResetLink, long ttlMs, String email) throws ThingsboardException {
 
-        String subject = messages.getMessage("reset.password.subject", null, Locale.US);
+        String subject = messages.getMessage("reset.password.subject", null, mailLocale.forEmail(email));
 
         Map<String, Object> model = new HashMap<>();
         model.put("passwordResetLink", passwordResetLink);
         model.put("passwordResetLinkTtlInHours", (int) Math.ceil(ttlMs / 3600000.0));
         model.put(TARGET_EMAIL, email);
 
-        String message = mergeTemplateIntoString("reset.password.ftl", model);
+        String message = mergeTemplateIntoString(mailLocale.forEmail(email), "reset.password.ftl", model);
 
         sendMail(mailSender, mailFrom, email, subject, message, timeout);
     }
@@ -182,13 +185,13 @@ public class DefaultMailService implements MailService {
     @Override
     public void sendPasswordWasResetEmail(String loginLink, String email) throws ThingsboardException {
 
-        String subject = messages.getMessage("password.was.reset.subject", null, Locale.US);
+        String subject = messages.getMessage("password.was.reset.subject", null, mailLocale.forEmail(email));
 
         Map<String, Object> model = new HashMap<>();
         model.put("loginLink", loginLink);
         model.put(TARGET_EMAIL, email);
 
-        String message = mergeTemplateIntoString("password.was.reset.ftl", model);
+        String message = mergeTemplateIntoString(mailLocale.forEmail(email), "password.was.reset.ftl", model);
 
         sendMail(mailSender, mailFrom, email, subject, message, timeout);
     }
@@ -246,22 +249,22 @@ public class DefaultMailService implements MailService {
 
     @Override
     public void sendAccountLockoutEmail(String lockoutEmail, String email, Integer maxFailedLoginAttempts) throws ThingsboardException {
-        String subject = messages.getMessage("account.lockout.subject", null, Locale.US);
+        String subject = messages.getMessage("account.lockout.subject", null, mailLocale.forEmail(email));
 
         Map<String, Object> model = new HashMap<>();
         model.put("lockoutAccount", lockoutEmail);
         model.put("maxFailedLoginAttempts", maxFailedLoginAttempts);
         model.put(TARGET_EMAIL, email);
 
-        String message = mergeTemplateIntoString("account.lockout.ftl", model);
+        String message = mergeTemplateIntoString(mailLocale.forEmail(email), "account.lockout.ftl", model);
 
         sendMail(mailSender, mailFrom, email, subject, message, timeout);
     }
 
     @Override
     public void sendTwoFaVerificationEmail(String email, String verificationCode, int expirationTimeSeconds) throws ThingsboardException {
-        String subject = messages.getMessage("2fa.verification.code.subject", null, Locale.US);
-        String message = mergeTemplateIntoString("2fa.verification.code.ftl", Map.of(
+        String subject = messages.getMessage("2fa.verification.code.subject", null, mailLocale.forEmail(email));
+        String message = mergeTemplateIntoString(mailLocale.forEmail(email), "2fa.verification.code.ftl", Map.of(
                 TARGET_EMAIL, email,
                 "code", verificationCode,
                 "expirationTimeSeconds", expirationTimeSeconds
@@ -272,24 +275,30 @@ public class DefaultMailService implements MailService {
 
     @Override
     public void sendApiFeatureStateEmail(ApiFeature apiFeature, ApiUsageStateValue stateValue, String email, ApiUsageRecordState recordState) throws ThingsboardException {
-        String subject = messages.getMessage("api.usage.state", null, Locale.US);
+        String subject = messages.getMessage("api.usage.state", null, mailLocale.forEmail(email));
 
+        Locale locale = mailLocale.forEmail(email);
         Map<String, Object> model = new HashMap<>();
-        model.put("apiFeature", apiFeature.getLabel());
+        model.put("apiFeature", messages.getMessage("api.feature." + apiFeature.name(), null, apiFeature.getLabel(), locale));
         model.put(TARGET_EMAIL, email);
 
         String message = switch (stateValue) {
             case ENABLED -> {
-                model.put("apiLabel", toEnabledValueLabel(apiFeature));
-                yield mergeTemplateIntoString("state.enabled.ftl", model);
+                model.put("apiLabel", messages.getMessage("api.usage.verb." + apiFeature.name(), null,
+                        toEnabledValueLabel(apiFeature), locale));
+                yield mergeTemplateIntoString(mailLocale.forEmail(email), "state.enabled.ftl", model);
             }
             case WARNING -> {
-                model.put("apiValueLabel", toDisabledValueLabel(apiFeature) + " " + toWarningValueLabel(recordState));
-                yield mergeTemplateIntoString("state.warning.ftl", model);
+                model.put("apiValueLabel", messages.getMessage("api.usage.warning." + recordState.getKey().name(),
+                        new Object[]{recordState.getValueAsString(), recordState.getThresholdAsString()},
+                        toDisabledValueLabel(apiFeature) + " " + toWarningValueLabel(recordState), locale));
+                yield mergeTemplateIntoString(mailLocale.forEmail(email), "state.warning.ftl", model);
             }
             case DISABLED -> {
-                model.put("apiLimitValueLabel", toDisabledValueLabel(apiFeature) + " " + toDisabledValueLabel(recordState));
-                yield mergeTemplateIntoString("state.disabled.ftl", model);
+                model.put("apiLimitValueLabel", messages.getMessage("api.usage.limit." + recordState.getKey().name(),
+                        new Object[]{recordState.getValueAsString()},
+                        toDisabledValueLabel(apiFeature) + " " + toDisabledValueLabel(recordState), locale));
+                yield mergeTemplateIntoString(mailLocale.forEmail(email), "state.disabled.ftl", model);
             }
         };
 
@@ -387,10 +396,10 @@ public class DefaultMailService implements MailService {
         }
     }
 
-    private String mergeTemplateIntoString(String templateLocation,
+    private String mergeTemplateIntoString(Locale locale, String templateLocation,
                                            Map<String, Object> model) throws ThingsboardException {
         try {
-            Template template = freemarkerConfig.getTemplate(templateLocation);
+            Template template = freemarkerConfig.getTemplate(templateLocation, locale);
             return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         } catch (Exception e) {
             log.warn("Failed to process mail template: {}", ExceptionUtils.getRootCauseMessage(e));

@@ -344,7 +344,7 @@
           </button>
         }
       </div>
-      @if (selectWidgetMode === 'installed' && installedSubMode === 'allWidgets') {
+      @if (selectWidgetMode === 'installed' && installedSubMode === 'allWidgets' && iotHubEnabled) {
         <div class="tb-widget-select-browse-tip" role="button" tabindex="0"
              (click)="navigateToIotHubAllWidgets()"
              (keyup.enter)="navigateToIotHubAllWidgets()">

@@ -1,0 +1,10 @@
+# Keys of features that are turned off in OrbitOS (IoT Hub, Community Grant, Trendz).
+# Not checked for translation. If you turn one of these features on, translate them first.
+iot-hub.*
+ce-grant.*
+widgets.iot-hub.*
+admin.trendz*
+audit-log.type-community-grant-*
+widgets.version-info.free-community-grant-text
+widgets.version-info.get-community-grant
+widgets.version-info.community-grant-registration-close

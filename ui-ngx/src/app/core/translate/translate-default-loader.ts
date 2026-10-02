@@ -1,7 +1,10 @@
 // SPDX-FileCopyrightText: Copyright The Thingsboard Authors
 // SPDX-License-Identifier: Apache-2.0
+import { translationFiles } from '@app/orbitos/i18n';
 import { TranslateLoader, TranslationObject } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { deepMergeTranslations } from '@app/orbitos/translations';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -13,6 +16,10 @@ export class TranslateDefaultLoader implements TranslateLoader {
   }
 
   getTranslation(lang: string): Observable<TranslationObject> {
-    return this.http.get<TranslationObject>(`/assets/locale/locale.constant-${lang}.json`);
+    // OrbitOS: upstream base language, then OrbitOS strings, then regional differences (fr_CA, en_CA).
+    return forkJoin(translationFiles(lang).map((file, index) => {
+      const request = this.http.get<TranslationObject>(file);
+      return index === 0 ? request : request.pipe(catchError(() => of({})));
+    })).pipe(map(files => files.reduce((merged, file) => deepMergeTranslations(merged, file), {})));
   }
 }

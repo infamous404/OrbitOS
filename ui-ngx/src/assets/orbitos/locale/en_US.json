@@ -1,0 +1,40 @@
+{
+  "orbitos": {
+    "powered-by": "Powered by {{brandName}}",
+    "language": "Language",
+    "error": {
+      "invalid-credentials": "Invalid email or password.",
+      "authentication-failed": "Sign-in failed.",
+      "account-not-active": "This account is not activated yet. Use the link in your activation email.",
+      "account-locked": "This account is locked for security reasons. Contact your administrator.",
+      "token-expired": "Your session has expired. Please sign in again.",
+      "password-expired": "Your password has expired. Please choose a new one.",
+      "forbidden": "You do not have permission to do this.",
+      "not-found": "The requested item was not found.",
+      "invalid-request": "The request is not valid.",
+      "unable-to-connect": "Unable to connect to the server.",
+      "unauthorized": "Please sign in.",
+      "password-reused": "This password was already used in the last {{days}} days.",
+      "password-too-short": "The password must have at least {{count}} characters.",
+      "password-too-long": "The password must have at most {{count}} characters.",
+      "password-uppercase": "The password must contain at least {{count}} uppercase letter(s).",
+      "password-lowercase": "The password must contain at least {{count}} lowercase letter(s).",
+      "password-digits": "The password must contain at least {{count}} digit(s).",
+      "password-special": "The password must contain at least {{count}} special character(s)."
+    },
+    "doc-links": {
+      "getting-started": "Getting started",
+      "tenant-profiles": "Tenant profiles",
+      "api": "API",
+      "widgets-library": "Widgets library",
+      "rule-engine": "Rule engine",
+      "device-profiles": "Device profiles"
+    }
+  },
+  "language": {
+    "locales": {
+      "en_CA": "English (Canada)",
+      "fr_CA": "français (Canada)"
+    }
+  }
+}

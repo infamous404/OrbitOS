@@ -143,7 +143,7 @@ export class AlarmRulesTableConfig extends EntityTableConfig<AlarmRuleTableEntit
       {
         name: this.translate.instant('iot-hub.add-from-iot-hub'),
         icon: 'hub',
-        isEnabled: () => true,
+        isEnabled: () => this.iotHubActions.enabled,
         onAction: () => this.addAlarmRuleFromIotHub()
       }
     ];

@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: Copyright The OrbitOS Authors
+# SPDX-License-Identifier: Apache-2.0
+#
+# Dependency vulnerability scan (Maven and npm lock files) for the security-patch process
+# described in UPSTREAM_PATCHES.md, section 4. Reports only: it does not block merges yet,
+# because the inherited dependency tree has known findings that are tracked one by one.
+name: OrbitOS dependency scan
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'   # every Monday, 06:00 UTC
+  push:
+    branches: [main]
+    paths: ['**/pom.xml', 'ui-ngx/package.json', 'ui-ngx/yarn.lock']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan dependencies
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln
+          severity: HIGH,CRITICAL
+          format: sarif
+          output: trivy-results.sarif
+          exit-code: '0'
+      - name: Upload to GitHub code scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-results.sarif
+      - name: Human-readable report
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln
+          severity: HIGH,CRITICAL
+          format: table
+          output: trivy-report.txt
+          exit-code: '0'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dependency-scan
+          path: trivy-report.txt

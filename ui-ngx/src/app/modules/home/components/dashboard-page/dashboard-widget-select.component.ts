@@ -614,6 +614,10 @@ export class DashboardWidgetSelectComponent {
     }
   }
 
+  get iotHubEnabled(): boolean {
+    return this.iotHubActions.enabled;
+  }
+
   navigateToIotHubAllWidgets(): void {
     this.selectWidgetMode = 'iotHub';
     this.iotHubSubMode = 'allWidgets';
@@ -636,6 +640,9 @@ export class DashboardWidgetSelectComponent {
   }
 
   showTopLevelWidgetModeToggle(): boolean {
+    if (!this.iotHubActions.enabled) {
+      return false;
+    }
     if (this.selectWidgetMode === 'installed') {
       return !this.widgetsBundle && this.installedSubMode === 'default';
     }

@@ -5,6 +5,7 @@ import dirTree from 'directory-tree';
 import * as packageJson from '../package.json';
 import { gzip } from 'node:zlib';
 import * as path from 'node:path';
+import * as fs from 'node:fs';
 
 const defineTbVariablesPlugin: Plugin = {
   name: 'tb-define-variables',
@@ -19,7 +20,11 @@ const defineTbVariablesPlugin: Plugin = {
       langs.push(item.name.slice(item.name.lastIndexOf("-") + 1, -5));
     });
     options.define.TB_VERSION = JSON.stringify(packageJson.version);
-    options.define.SUPPORTED_LANGS = JSON.stringify(langs);
+    // OrbitOS: offer only the languages listed in assets/orbitos/languages.json (if present).
+    const orbitosLanguages = path.resolve('./src/assets/orbitos/languages.json');
+    const offeredLangs: string[] = fs.existsSync(orbitosLanguages)
+      ? JSON.parse(fs.readFileSync(orbitosLanguages, 'utf-8')) : langs;
+    options.define.SUPPORTED_LANGS = JSON.stringify(offeredLangs);
     options.define.ngJitMode = 'true';
   },
 };

@@ -43,8 +43,9 @@ $tb-mat-indigo: (
   )
 );
 
-$tb-primary: mat.m2-define-palette($tb-mat-indigo);
-$tb-accent: mat.m2-define-palette(mat.$m2-deep-orange-palette);
+// OrbitOS: palettes generated from the brand colors (scss/_orbitos-brand.scss).
+$tb-primary: mat.m2-define-palette($orbitos-primary-palette);
+$tb-accent: mat.m2-define-palette($orbitos-accent-palette);
 
 $tb-mat-theme: mat.m2-define-light-theme((
   color: (
@@ -97,7 +98,7 @@ $tb-dark-mat-indigo: (
   )
 );
 
-$tb-dark-primary: mat.m2-define-palette($tb-dark-mat-indigo);
+$tb-dark-primary: mat.m2-define-palette($orbitos-dark-palette);
 
 $tb-dark-theme: mat.m2-define-dark-theme((
   color: (
@@ -109,7 +110,7 @@ $tb-dark-theme: mat.m2-define-dark-theme((
 ));
 
 $tb-dark-theme-system: m2-utils.get-system($tb-dark-theme);
-$tb-dark-theme-system: map_merge($tb-dark-theme-system, ( surface: map_get($tb-dark-mat-indigo, 800) ));
+$tb-dark-theme-system: map_merge($tb-dark-theme-system, ( surface: map_get($orbitos-dark-palette, 800) ));
 $tb-dark-theme: map_merge($tb-dark-theme, (_mat-system: $tb-dark-theme-system));
 
 @mixin mat-fab-toolbar-theme($theme) {

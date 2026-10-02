@@ -1,0 +1,250 @@
+{
+  "action": {
+    "retry": "Réessayer"
+  },
+  "asset": {
+    "unassign-assets-from-edge": "Retirer les actifs de l'Edge"
+  },
+  "api-usage": {
+    "emails": "E-mails"
+  },
+  "contact": {
+    "email": "E-mail"
+  },
+  "customer": {
+    "public-edges": "Edges publics",
+    "manage-public-edges": "Gérer les Edges du client"
+  },
+  "dashboard": {
+    "assign-dashboard-to-edge-title": "Affecter des tableaux de bord à l'Edge"
+  },
+  "device": {
+    "assign-device-to-edge-title": "Affecter des appareils à l'Edge",
+    "assign-device-to-edge-text": "Veuillez sélectionner les appareils à affecter à l'Edge"
+  },
+  "edge": {
+    "label": "Libellé"
+  },
+  "entity-field": {
+    "email": "E-mail"
+  },
+  "entity-view": {
+    "assign-entity-view-to-edge-title": "Affecter des vues d'entité à l'Edge"
+  },
+  "item": {
+    "type-widget": "Widget",
+    "type-widget-plural": "Widgets",
+    "type-dashboard": "Tableau de bord",
+    "type-dashboard-plural": "Tableaux de bord",
+    "type-solution-template": "Modèle de solution",
+    "type-solution-template-plural": "Modèles de solution",
+    "type-calculated-field": "Champ calculé",
+    "type-calculated-field-plural": "Champs calculés",
+    "type-alarm-rule": "Règle d'alarme",
+    "type-alarm-rule-plural": "Règles d'alarme",
+    "type-rule-chain": "Chaîne de règles",
+    "type-rule-chain-plural": "Chaînes de règles",
+    "type-device": "Appareil",
+    "type-device-plural": "Appareils"
+  },
+  "item-data": {
+    "widget-type-timeseries": "Séries temporelles",
+    "widget-type-latest": "Dernières valeurs",
+    "widget-type-rpc": "Contrôle",
+    "widget-type-alarm": "Alarme",
+    "widget-type-static": "Statique",
+    "cf-type-simple": "Simple",
+    "cf-type-script": "Script",
+    "cf-type-geofencing": "Géorepérage",
+    "cf-type-alarm": "Alarme",
+    "cf-type-propagation": "Propagation",
+    "cf-type-related-entities-aggregation": "Agrégation des entités liées",
+    "cf-type-entity-aggregation": "Agrégation d'entités",
+    "rule-chain-type-core": "Principale",
+    "rule-chain-type-edge": "Edge",
+    "node-type-enrichment": "Enrichissement",
+    "node-type-filter": "Filtre",
+    "node-type-transformation": "Transformation",
+    "node-type-action": "Action",
+    "node-type-analytics": "Analytique",
+    "node-type-external": "Externe",
+    "node-type-flow": "Flux",
+    "node-type-unknown": "Inconnu"
+  },
+  "login": {
+    "email": "E-mail",
+    "email-label": "E-mail",
+    "sign-in": "Se connecter"
+  },
+  "notification": {
+    "delivery-method": {
+      "email": "E-mail"
+    }
+  },
+  "ota-update": {
+    "checksum": "Somme de contrôle"
+  },
+  "security": {
+    "2fa": {
+      "provider": {
+        "email": "E-mail"
+      }
+    }
+  },
+  "rule-node-config": {
+    "originator-tenant": "Locataire",
+    "entity-details-email": "E-mail"
+  },
+  "tenant-profile": {
+    "rate-limits": {
+      "sec": "s"
+    }
+  },
+  "timewindow": {
+    "sec": "{{ sec }} s"
+  },
+  "unit": {
+    "barleycorn": "Grain d'orge",
+    "neper": "Néper",
+    "cubic-meters-per-minute": "Mètres cubes par minute",
+    "gradian": "Grade",
+    "arcminute": "Minute d'arc"
+  },
+  "user": {
+    "email": "E-mail"
+  },
+  "widget": {
+    "installed": "Installés",
+    "type-timeseries": "Séries temporelles",
+    "type-latest": "Dernières valeurs",
+    "type-rpc": "Contrôle",
+    "type-alarm": "Alarme",
+    "type-static": "Statique"
+  },
+  "widgets": {
+    "date-range-navigator": {
+      "localizationMap": {
+        "Jan": "Janv.",
+        "Mar": "Mars",
+        "Sep": "Sept.",
+        "Oct": "Oct.",
+        "Nov": "Nov."
+      }
+    },
+    "maps": {
+      "layer": {
+        "webgl-not-available": "La couche de carte sélectionnée a besoin de l'accélération graphique. Activez « Accélération matérielle » dans les paramètres de votre navigateur, ou choisissez une autre couche.",
+        "provider": {
+          "carto": {
+            "title": "CARTO",
+            "positron": "Positron",
+            "dark-matter": "DarkMatter"
+          },
+          "custom": {
+            "attribution": "Texte de droits d'auteur",
+            "attribution-hint": "Affiché au bas de la carte. Exigé par la plupart des fournisseurs de tuiles."
+          }
+        }
+      }
+    },
+    "version-info": {
+      "thingsboard-version-available": "{{brandName}} {{ version }} est disponible"
+    },
+    "getting-started": {
+      "sys-admin": {
+        "step4": {
+          "how-to-configure-2fa": "Comment configurer l'authentification à deux facteurs"
+        },
+        "step5": {
+          "how-to-configure-oauth2": "Comment configurer OAuth 2"
+        },
+        "step6": {
+          "how-to-configure-notifications": "Comment configurer Slack"
+        }
+      },
+      "tenant-admin": {
+        "step6": {
+          "how-to-create-customer-and-assign-dashboard": "Comment créer un client et lui affecter un tableau de bord"
+        }
+      }
+    },
+    "html-container": {
+      "java-script": "JavaScript",
+      "js-function": "Fonction JavaScript",
+      "html": "HTML",
+      "angular-html-template": "Modèle HTML Angular",
+      "css": "CSS",
+      "container-type": "Type de conteneur",
+      "type-plain": "HTML simple",
+      "type-angular": "Angular",
+      "resources": "Ressources",
+      "no-resources": "Aucune ressource configurée"
+    }
+  },
+  "language": {
+    "locales": {
+      "ar_AE": "العربية (الإمارات العربية المتحدة)",
+      "ca_ES": "català (Espanya)",
+      "cs_CZ": "čeština (Česko)",
+      "da_DK": "dansk (Danmark)",
+      "de_DE": "Deutsch (Deutschland)",
+      "el_GR": "Ελληνικά (Ελλάδα)",
+      "en_US": "English (United States)",
+      "es_ES": "español (España)",
+      "fa_IR": "فارسی (ایران)",
+      "fr_FR": "français (France)",
+      "hi_IN": "हिन्दी (भारत)",
+      "it_IT": "italiano (Italia)",
+      "ja_JP": "日本語 (日本)",
+      "ka_GE": "ქართული (საქართველო)",
+      "ko_KR": "한국어 (대한민국)",
+      "lt_LT": "lietuvių (Lietuva)",
+      "lv_LV": "latviešu (Latvija)",
+      "nl_BE": "Nederlands (België)",
+      "nl_NL": "Nederlands (Nederland)",
+      "no_NO": "norsk (Norge)",
+      "pl_PL": "polski (Polska)",
+      "pt_BR": "português (Brasil)",
+      "ro_RO": "română (România)",
+      "sl_SI": "slovenščina (Slovenija)",
+      "tr_TR": "Türkçe (Türkiye)",
+      "uk_UA": "українська (Україна)",
+      "zh_CN": "中文 (中国)",
+      "zh_TW": "中文 (台灣)",
+      "en_CA": "English (Canada)",
+      "fr_CA": "français (Canada)"
+    }
+  },
+  "orbitos": {
+    "powered-by": "Propulsé par {{brandName}}",
+    "language": "Langue",
+    "error": {
+      "invalid-credentials": "Adresse e-mail ou mot de passe incorrect.",
+      "authentication-failed": "Échec de la connexion.",
+      "account-not-active": "Ce compte n'est pas encore activé. Utilisez le lien reçu par e-mail.",
+      "account-locked": "Ce compte est verrouillé pour des raisons de sécurité. Contactez votre administrateur.",
+      "token-expired": "Votre session a expiré. Veuillez vous reconnecter.",
+      "password-expired": "Votre mot de passe a expiré. Veuillez en choisir un nouveau.",
+      "forbidden": "Vous n'avez pas l'autorisation d'effectuer cette action.",
+      "not-found": "L'élément demandé est introuvable.",
+      "invalid-request": "La requête n'est pas valide.",
+      "unable-to-connect": "Impossible de se connecter au serveur.",
+      "unauthorized": "Veuillez vous connecter.",
+      "password-reused": "Ce mot de passe a déjà été utilisé au cours des {{days}} derniers jours.",
+      "password-too-short": "Le mot de passe doit contenir au moins {{count}} caractères.",
+      "password-too-long": "Le mot de passe doit contenir au plus {{count}} caractères.",
+      "password-uppercase": "Le mot de passe doit contenir au moins {{count}} lettre(s) majuscule(s).",
+      "password-lowercase": "Le mot de passe doit contenir au moins {{count}} lettre(s) minuscule(s).",
+      "password-digits": "Le mot de passe doit contenir au moins {{count}} chiffre(s).",
+      "password-special": "Le mot de passe doit contenir au moins {{count}} caractère(s) spécial(aux)."
+    },
+    "doc-links": {
+      "getting-started": "Premiers pas",
+      "tenant-profiles": "Profils de locataire",
+      "api": "API",
+      "widgets-library": "Bibliothèque de widgets",
+      "rule-engine": "Moteur de règles",
+      "device-profiles": "Profils d'appareil"
+    }
+  }
+}

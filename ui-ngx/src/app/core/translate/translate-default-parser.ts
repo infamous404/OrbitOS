@@ -3,6 +3,7 @@
 import { Injectable } from '@angular/core';
 import { InterpolateFunction, InterpolationParameters, TranslateParser } from '@ngx-translate/core';
 import { isDefinedAndNotNull } from '@core/utils';
+import { getBranding } from '@app/orbitos/branding';
 
 @Injectable({ providedIn: 'root' })
 export class TranslateDefaultParser extends TranslateParser {
@@ -48,6 +49,10 @@ export class TranslateDefaultParser extends TranslateParser {
   }
 
   private interpolateString(expr: string, params?: InterpolationParameters) {
+    // OrbitOS: {{brandName}} resolves to the configured product name in every string.
+    if (expr.includes('brandName')) {
+      params = {brandName: getBranding().name, ...(params || {})};
+    }
     if (!params) {
       return expr;
     }

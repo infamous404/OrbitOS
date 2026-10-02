@@ -1,5 +1,7 @@
 // SPDX-FileCopyrightText: Copyright The Thingsboard Authors
 // SPDX-License-Identifier: Apache-2.0
+import { LOCALE_ID } from '@angular/core';
+import { bootLocaleId } from '@app/orbitos/i18n';
 import { NgModule } from '@angular/core';
 import { CommonModule, IMAGE_CONFIG } from '@angular/common';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -67,6 +69,8 @@ import { EntityConflictInterceptor } from '@core/interceptors/entity-conflict.in
                 name: env.appTitle,
                 connectInZone: true
             })], providers: [
+        // OrbitOS: dates and numbers follow the user's language.
+        { provide: LOCALE_ID, useFactory: bootLocaleId },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: GlobalHttpInterceptor,

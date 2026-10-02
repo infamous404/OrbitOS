@@ -1,0 +1,455 @@
+{
+  "access": {
+    "access-forbidden-text": "Vous n'avez pas les droits d'accès à cet emplacement!<br/>Essayez de vous connecter avec un autre utilisateur si vous souhaitez toujours y accéder.",
+    "permission-denied-text": "Vous n'avez pas la permission d'effectuer cette opération!",
+    "unauthorized-access-text": "Vous devez vous connecter pour accéder à cette ressource!"
+  },
+  "action": {
+    "sign-in": "Connectez-vous!"
+  },
+  "admin": {
+    "check-repository-access-success": "Accès au dépôt vérifié avec succès!",
+    "delete-auto-commit-settings-title": "Êtes-vous sûr de vouloir supprimer les paramètres de commit automatique?",
+    "delete-repository-settings-title": "Êtes-vous sûr de vouloir supprimer les paramètres du dépôt?",
+    "force-reset-password-if-no-valid-hint": "Attention : cette option obligera les utilisateurs avec un mot de passe invalide à le réinitialiser par courriel.",
+    "oauth2": {
+      "delete-client-title": "Êtes-vous sûr de vouloir supprimer le client OAuth 2.0 '{{clientName}}'?",
+      "delete-domain-title": "Êtes-vous sûr de vouloir supprimer le domaine '{{domainName}}'?",
+      "delete-mobile-app-title": "Êtes-vous sûr de vouloir supprimer l'application mobile '{{applicationName}}'?",
+      "delete-registration-title": "Êtes-vous sûr de vouloir supprimer le fournisseur '{{name}}'?",
+      "email-attribute-key": "Clé de l'attribut courriel",
+      "email-attribute-key-max-length": "La clé de l'attribut courriel doit contenir moins de 32 caractères",
+      "email-attribute-key-required": "La clé de l'attribut courriel est requise."
+    },
+    "queue-name-required": "Le nom de la file est requis!",
+    "send-test-mail": "Envoyer un courriel de test",
+    "test-mail-sent": "Courriel de test envoyé avec succès!",
+    "test-sms-sent": "Le SMS de test a été envoyé avec succès!",
+    "user-lockout-notification-email": "En cas de verrouillage du compte utilisateur, envoyer une notification par courriel"
+  },
+  "ai-models": {
+    "delete-model-title": "Voulez-vous vraiment supprimer le modèle '{{modelName}}'?",
+    "delete-models-title": "Voulez-vous vraiment supprimer { count, plural, =1 {1 modèle} other {# modèles} }?"
+  },
+  "alarm-activity": {
+    "delete-alarm-comment": "Voulez-vous supprimer ce commentaire?"
+  },
+  "alarm-rule": {
+    "delete-multiple-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 règle d’alarme} other {# règles d’alarme} }?",
+    "delete-title": "Êtes-vous sûr de vouloir supprimer la règle d’alarme « {{title}} »?"
+  },
+  "alarm": {
+    "aknowledge-alarm-text": "Êtes-vous sûr de vouloir reconnaître l'alarme?",
+    "aknowledge-alarms-text": "Êtes-vous sûr de vouloir reconnaître { count, plural, =1 {1 alarme} other {# alarmes} }?",
+    "assignee-email": "Courriel de l'assigné",
+    "clear-alarm-text": "Êtes-vous sûr de vouloir réinitialiser l'alarme?",
+    "clear-alarms-text": "Êtes-vous sûr de vouloir réinitialiser { count, plural, =1 {1 alarme} other {# alarmes} }?",
+    "delete-alarms-text": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 alarme} other {# alarmes} }?"
+  },
+  "api-key": {
+    "delete-api-key-title": "Êtes-vous sûr de vouloir supprimer la clé API '{{name}}'?",
+    "delete-api-keys-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 clé API} other {# clés API} }?",
+    "generated-api-key-title": "Clé API générée. Vérifions la connectivité!"
+  },
+  "api-usage": {
+    "email": "Courriel",
+    "email-messages": "Messages courriel",
+    "email-messages-daily-activity": "Activité quotidienne des courriels",
+    "email-messages-monthly-activity": "Activité mensuelle des courriels",
+    "emails": "Courriels",
+    "emails-daily-activity": "Activité quotidienne des Courriels",
+    "emails-hourly-activity": "Activité horaire des Courriels",
+    "emails-monthly-activity": "Activité mensuelle des Courriels"
+  },
+  "asset-profile": {
+    "create-new-asset-profile": "Créer un nouveau!",
+    "delete-asset-profile-title": "Êtes-vous sûr de vouloir supprimer le profil d'actif '{{assetProfileName}}'?",
+    "delete-asset-profiles-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 profil d'actif} other {# profils d'actifs} }?",
+    "set-default-asset-profile-title": "Êtes-vous sûr de vouloir définir le profil d'actif '{{assetProfileName}}' comme par défaut?"
+  },
+  "asset": {
+    "delete-asset-title": "Êtes-vous sûr de vouloir supprimer l'actif '{{assetName}}'?",
+    "delete-assets-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 actif} other {# actifs} }?",
+    "make-private-asset-title": "Êtes-vous sûr de vouloir rendre l'actif '{{assetName}}' privé?",
+    "make-public-asset-title": "Êtes-vous sûr de vouloir rendre l'actif '{{assetName}}' public?",
+    "unassign-asset-from-edge-title": "Êtes-vous sûr de vouloir désassigner l'actif '{{assetName}}'?",
+    "unassign-asset-title": "Êtes-vous sûr de vouloir désassigner l'actif '{{assetName}}'?",
+    "unassign-assets-from-edge-title": "Êtes-vous sûr de vouloir désassigner { count, plural, =1 {1 actif} other {# actifs} }?",
+    "unassign-assets-title": "Êtes-vous sûr de vouloir désassigner { count, plural, =1 {1 actif} other {# actifs} }?"
+  },
+  "attribute": {
+    "delete-attributes-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 attribut} other {# attributs} }?"
+  },
+  "calculated-fields": {
+    "delete-multiple-title": "Voulez-vous vraiment supprimer { count, plural, =1 {1 champ calculé} other {# champs calculés} }?",
+    "delete-title": "Voulez-vous vraiment supprimer le champ calculé '{{title}}'?"
+  },
+  "confirm-on-exit": {
+    "html-message": "Des modifications non enregistrées existent.<br/>Voulez-vous vraiment quitter cette page?",
+    "message": "Des modifications non enregistrées existent. Voulez-vous vraiment quitter cette page?"
+  },
+  "contact": {
+    "email": "Courriel"
+  },
+  "customer": {
+    "delete-customer-title": "Êtes-vous sûr de vouloir supprimer le client '{{customerTitle}}'?",
+    "delete-customers-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 client} other {# clients} }?"
+  },
+  "dashboard": {
+    "delete-dashboard-title": "Êtes-vous sûr de vouloir supprimer le tableau de bord '{{dashboardTitle}}'?",
+    "delete-dashboards-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 tableau de bord} other {# tableaux de bord} }?",
+    "delete-state-text": "Êtes-vous sûr de vouloir supprimer l'état du tableau de bord nommé '{{stateName}}'?",
+    "make-private-dashboard-title": "Êtes-vous sûr de vouloir rendre le tableau de bord '{{dashboardTitle}}' privé?",
+    "unassign-dashboard-title": "Êtes-vous sûr de vouloir désassigner le tableau de bord '{{dashboardTitle}}'?",
+    "unassign-dashboards-from-edge-title": "Êtes-vous sûr de vouloir désassigner { count, plural, =1 {1 tableau de bord} other {# tableaux de bord} }?",
+    "unassign-dashboards-title": "Êtes-vous sûr de vouloir désassigner { count, plural, =1 {1 tableau de bord} other {# tableaux de bord} }?"
+  },
+  "datakey": {
+    "prev-orig-value-description": "valeur précédente d'origine;",
+    "prev-value-description": "résultat de l'appel de fonction précédent;",
+    "time-description": "horodatage de la valeur actuelle;",
+    "time-prev-description": "horodatage de la valeur précédente;",
+    "value-description": "la valeur actuelle;"
+  },
+  "device-profile": {
+    "create-new-device-profile": "Créer un nouveau!",
+    "delete-device-profile-title": "Voulez-vous vraiment supprimer le profil d’appareil '{{deviceProfileName}}'?",
+    "delete-device-profiles-title": "Voulez-vous vraiment supprimer { count, plural, =1 {1 profil d’appareil} other {# profils d’appareil} }?",
+    "lwm2m": {
+      "binding-type": {
+        "tqs": "TQS : Connexions TCP et SMS actives; TCP en mode file d'attente, SMS en mode standard (non pris en charge depuis LWM2M 1.1)",
+        "uqs": "UQS : Connexions UDP et SMS actives; UDP en mode file d'attente, SMS en mode standard (non pris en charge depuis LWM2M 1.1)"
+      },
+      "bootstrap-update-title": "Un serveur Bootstrap est déjà configuré. Êtes-vous sûr de vouloir exclure les mises à jour?",
+      "delete-server-title": "Êtes-vous sûr de vouloir supprimer ce serveur?"
+    },
+    "set-default-device-profile-title": "Voulez-vous définir le profil d’appareil '{{deviceProfileName}}' comme profil par défaut?"
+  },
+  "device": {
+    "connectivity": {
+      "device-created-check-connectivity": "Appareil créé. Vérifions sa connectivité!"
+    },
+    "create-new-alias": "Créez-en un nouveau!",
+    "create-new-key": "Créez-en un nouveau!",
+    "delete-device-title": "Êtes-vous sûr de vouloir supprimer l'appareil '{{deviceName}}'?",
+    "delete-devices-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 appareil} other {# appareils} }?",
+    "device-type-list-empty": "Aucun profil d'appareil sélectionné!",
+    "lwm2m-security-config": {
+      "client-key-tooltip-prk": "La clé publique ou l'identifiant RPK doit respecter la norme [RFC7250] et être encodé en Base64!",
+      "client-key-tooltip-psk": "La clé PSK doit respecter la norme [RFC4279] et être au format HexDec : 32, 64 ou 128 caractères!",
+      "client-public-key-tooltip": "La clé publique X509 doit être au format X509v3 encodé en DER, uniquement compatible avec l'algorithme EC, puis encodée en Base64!",
+      "client-publicKey-or-id-tooltip-rpk": "La clé publique ou l'identifiant RPK doit respecter la norme [RFC7250] et être encodé en Base64!",
+      "client-secret-key-tooltip-prk": "La clé secrète RPK doit être au format PKCS_8 (encodage DER, norme [RFC5958]) puis encodée en Base64!",
+      "client-secret-key-tooltip-psk": "La clé PSK doit respecter la norme [RFC4279] et être au format HexDec : 32, 64 ou 128 caractères!",
+      "client-secret-key-tooltip-x509": "La clé secrète X509 doit être au format PKCS_8 (encodage DER, norme [RFC5958]) puis encodée en Base64!"
+    },
+    "make-private-device-title": "Êtes-vous sûr de vouloir rendre l'appareil '{{deviceName}}' privé?",
+    "make-public-device-title": "Êtes-vous sûr de vouloir rendre l'appareil '{{deviceName}}' public?",
+    "unassign-device-from-edge-title": "Êtes-vous sûr de vouloir désattribuer l'appareil '{{deviceName}}'?",
+    "unassign-device-title": "Êtes-vous sûr de vouloir désattribuer l'appareil '{{deviceName}}'?",
+    "unassign-devices-from-edge-title": "Êtes-vous sûr de vouloir désassigner { count, plural, =1 {1 appareil} other {# appareils} }?",
+    "unassign-devices-title": "Êtes-vous sûr de vouloir désattribuer { count, plural, =1 {1 appareil} other {# appareils} }?"
+  },
+  "dynamic-form": {
+    "clear-form-prompt": "Êtes-vous sûr de vouloir supprimer toutes les propriétés du formulaire?",
+    "property": {
+      "not-unique-property-ids-error": "Les identifiants des propriétés doivent être uniques!",
+      "not-unique-select-option-value-error": "Les valeurs des options doivent être uniques!"
+    }
+  },
+  "edge": {
+    "delete-edge-title": "Êtes-vous sûr de vouloir supprimer le Edge '{{edgeName}}'?",
+    "delete-edges-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 Edge} other {# Edge} }?",
+    "install-connect-instructions-edge-created": "Edge créé! Consultez les instructions d'installation et de connexion",
+    "make-private-edge-title": "Êtes-vous sûr de vouloir rendre le Edge '{{edgeName}}' privé?",
+    "make-public-edge-title": "Êtes-vous sûr de vouloir rendre le Edge '{{edgeName}}' public?",
+    "unassign-edge-title": "Êtes-vous sûr de vouloir désassigner le Edge '{{edgeName}}'?",
+    "unassign-edges-title": "Êtes-vous sûr de vouloir désassigner { count, plural, =1 {1 Edge} other {# Edge} }?"
+  },
+  "entity-field": {
+    "email": "Courriel"
+  },
+  "entity-view": {
+    "create-new-alias": "Créer un nouveau!",
+    "create-new-key": "Créer un nouveau!",
+    "delete-entity-view-title": "Voulez-vous vraiment supprimer la vue d’entité '{{entityViewName}}'?",
+    "delete-entity-views-title": "Voulez-vous vraiment supprimer { count, plural, =1 {1 vue d’entité} other {# vues d’entité} }?",
+    "make-private-entity-view-title": "Voulez-vous vraiment rendre la vue d’entité '{{entityViewName}}' privée?",
+    "make-public-entity-view-title": "Voulez-vous vraiment rendre la vue d’entité '{{entityViewName}}' publique?",
+    "unassign-entity-view-from-edge-title": "Voulez-vous vraiment désaffecter la vue d’entité '{{entityViewName}}'?",
+    "unassign-entity-view-title": "Voulez-vous vraiment désaffecter la vue d’entité '{{entityViewName}}'?",
+    "unassign-entity-views-from-edge-title": "Voulez-vous vraiment désaffecter { count, plural, =1 {1 vue d’entité} other {# vues d’entité} }?",
+    "unassign-entity-views-title": "Voulez-vous vraiment désaffecter { count, plural, =1 {1 vue d’entité} other {# vues d’entité} }?"
+  },
+  "entity": {
+    "create-new-alias": "Créer un nouveau!",
+    "create-new-key": "Créer une nouvelle!",
+    "request-sysadmin-text": "Êtes-vous l’administrateur système?",
+    "version-conflict": {
+      "message": "Souhaitez-vous écraser la version existante ou annuler les modifications et charger la dernière version?"
+    }
+  },
+  "error": {
+    "unable-to-connect": "Impossible de se connecter au serveur! Veuillez vérifier votre connexion Internet."
+  },
+  "event": {
+    "clear-request-text": "Êtes-vous sûr de vouloir effacer tous les événements?"
+  },
+  "extension": {
+    "delete-extension-title": "Êtes-vous sûr de vouloir supprimer l'extension '{{extensionId}}'?",
+    "delete-extensions-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 extension} other {# extensions} }?",
+    "drop-file": "Déposez un fichier ou cliquez pour en sélectionner un à téléverser."
+  },
+  "filter": {
+    "create-new-filter": "Créer un nouveau filtre!",
+    "key-value-type-change-title": "Voulez-vous vraiment changer le type de valeur de la clé?"
+  },
+  "gateway": {
+    "create-new-gateway-text": "Êtes-vous sûr de vouloir créer une nouvelle passerelle avec le nom : '{{gatewayName}}'?"
+  },
+  "grid": {
+    "delete-item-title": "Êtes-vous sûr de vouloir supprimer cet élément?",
+    "delete-items-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 élément} other {# éléments} }?"
+  },
+  "image": {
+    "delete-image-title": "Êtes-vous sûr de vouloir supprimer l'image '{{imageTitle}}'?",
+    "delete-images-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 image} other {# images} }?"
+  },
+  "javascript": {
+    "delete-javascript-resource-title": "Êtes-vous sûr de vouloir supprimer la ressource JavaScript '{{resourceTitle}}'?",
+    "delete-javascript-resources-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 ressource JavaScript} other {# ressources JavaScript} }?"
+  },
+  "js-func": {
+    "no-return-error": "La fonction doit retourner une valeur!",
+    "not-unique-module-aliases-error": "Les alias des modules doivent être uniques!",
+    "return-type-mismatch": "La fonction doit retourner une valeur de type '{{type}}'!"
+  },
+  "layout": {
+    "delete-breakpoint-title": "Êtes-vous sûr de vouloir supprimer le point de rupture '{{name}}'?"
+  },
+  "login": {
+    "activation-link-expired-message": "Le lien d’activation de votre profil a expiré. Vous pouvez revenir à la page de connexion pour recevoir un nouvel courriel.",
+    "authenticator-email-success": "Authentificateur Courriel activé avec succès",
+    "authenticator-email-success-description": "La prochaine fois que vous vous connecterez, vous serez invité à saisir le code de sécurité qui sera envoyé à votre adresse courriel",
+    "email": "Courriel",
+    "email-auth-description": "Un code de sécurité a été envoyé à votre adresse courriel à {{contact}}.",
+    "email-auth-placeholder": "Code courriel",
+    "email-description": "Saisissez un courriel à utiliser comme authentificateur.",
+    "email-label": "Courriel",
+    "enable-authenticator-email": "Activer l’authentificateur Courriel",
+    "enable-authenticator-email-description": "Un code de sécurité a été envoyé à votre adresse courriel à ",
+    "expired-password-reset-message": "Vos identifiants ont expiré! Veuillez créer un nouveau mot de passe.",
+    "forgot-password": "Mot de passe oublié?",
+    "invalid-email-format": "Format de courriel invalide.",
+    "passwords-mismatch-error": "Les mots de passe saisis doivent être identiques!",
+    "reset-password-link-expired-message": "Le lien de réinitialisation du mot de passe a expiré. Vous pouvez revenir à la page de connexion pour recevoir un nouvel courriel.",
+    "username": "Nom d'utilisateur (courriel)"
+  },
+  "markdown": {
+    "copied": "Copié!"
+  },
+  "mobile": {
+    "delete-application-title-short": "Êtes-vous sûr de vouloir supprimer l'application '{{name}}'?",
+    "delete-applications-bundle-title": "Êtes-vous sûr de vouloir supprimer le bundle mobile '{{bundleName}}'?"
+  },
+  "notification": {
+    "create-new-template": "Créer un nouveau modèle!",
+    "delete-notification-title": "Êtes-vous sûr de vouloir supprimer la notification?",
+    "delete-notifications-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 notification} other {# notifications} }?",
+    "delete-recipient-title": "Êtes-vous sûr de vouloir supprimer le destinataire '{{recipientName}}'?",
+    "delete-recipients-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 destinataire} other {# destinataires} }?",
+    "delete-request-title": "Êtes-vous sûr de vouloir supprimer la requête?",
+    "delete-requests-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 requête} other {# requêtes} }?",
+    "delete-rule-title": "Êtes-vous sûr de vouloir supprimer la règle '{{ruleName}}'?",
+    "delete-rules-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 règle} other {# règles} }?",
+    "delete-template-title": "Êtes-vous sûr de vouloir supprimer le modèle '{{templateName}}'?",
+    "delete-templates-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 modèle} other {# modèles} }?",
+    "delivery-method": {
+      "email": "Courriel",
+      "email-preview": "Aperçu de la notification courriel"
+    },
+    "settings": {
+      "reset-all-title": "Êtes-vous sûr de vouloir réinitialiser le formulaire?"
+    }
+  },
+  "orbitos": {
+    "error": {
+      "account-not-active": "Ce compte n'est pas encore activé. Utilisez le lien reçu par courriel.",
+      "invalid-credentials": "Adresse courriel ou mot de passe incorrect."
+    },
+    "powered-by": "Propulsé par {{brandName}}"
+  },
+  "ota-update": {
+    "change-ota-setting-title": "Êtes-vous sûr de vouloir modifier les paramètres OTA?",
+    "copied": "Copié!",
+    "delete-ota-update-title": "Êtes-vous sûr de vouloir supprimer la mise à jour OTA '{{title}}'?",
+    "delete-ota-updates-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 mise à jour OTA} other {# mises à jour OTA} }?"
+  },
+  "profile": {
+    "tokenCopiedWarnMessage": "Le jeton JWT est expiré! Veuillez rafraîchir la page."
+  },
+  "queue": {
+    "batch-size-required": "La taille du lot est requise!",
+    "delete-queue-title": "Êtes-vous sûr de vouloir supprimer la file d’attente '{{queueName}}'?",
+    "delete-queues-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 file d’attente} other {# files d’attente} }?",
+    "failure-percentage-required": "Le pourcentage d’échec est requis!",
+    "max-pause-between-retries-required": "Le délai maximal entre les tentatives est requis!",
+    "name-pattern": "Le nom de la file d’attente contient un caractère non autorisé (seuls les caractères ASCII alphanumériques, '.', '_' et '-' sont permis)!",
+    "name-required": "Le nom de la file d’attente est requis!",
+    "name-unique": "Le nom de la file d’attente n’est pas unique!",
+    "partitions-required": "Les partitions sont requises!",
+    "pause-between-retries-required": "Le délai entre les tentatives est requis!",
+    "poll-interval-required": "L’intervalle d’interrogation est requis!",
+    "processing-strategy-type-required": "Le type de stratégie de traitement est requis!",
+    "queue-required": "La file d’attente est requise!",
+    "retries-required": "Le nombre de tentatives est requis!",
+    "submit-strategy-type-required": "Le type de stratégie d’envoi est requis!",
+    "topic-required": "Le sujet de la file d’attente est requis!"
+  },
+  "relation": {
+    "delete-from-relation-title": "Êtes-vous sûr de vouloir supprimer la relation depuis l'entité '{{entityName}}'?",
+    "delete-from-relations-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 relation} other {# relations} }?",
+    "delete-to-relation-title": "Êtes-vous sûr de vouloir supprimer la relation vers l'entité '{{entityName}}'?",
+    "delete-to-relations-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 relation} other {# relations} }?"
+  },
+  "resource": {
+    "delete-resource-title": "Êtes-vous sûr de vouloir supprimer la ressource '{{resourceTitle}}'?",
+    "delete-resources-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 ressource} other {# ressources} }?"
+  },
+  "rpc": {
+    "error": {
+      "failed-to-resolve-target-device": "Échec de résolution de l’appareil cible!",
+      "target-device-is-not-set": "L'appareil cible n'est pas défini!"
+    }
+  },
+  "rule-node-config": {
+    "dynamic-mail-body-type": "Type dynamique de corps de courriel",
+    "email-sender": "Expéditeur de le courriel",
+    "entity-details-email": "Courriel",
+    "key-val": {
+      "unique-key-value-pair-error": "'{{keyText}}' doit être différent de '{{valText}}'!"
+    },
+    "mail-body-type": "Type de corps de courriel",
+    "user-name-pattern": "Courriel de l'utilisateur"
+  },
+  "rulechain": {
+    "delete-rulechain-title": "Êtes-vous sûr de vouloir supprimer la chaîne de règles '{{ruleChainName}}'?",
+    "delete-rulechains-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 chaîne de règles} other {# chaînes de règles} }?",
+    "set-auto-assign-to-edge-title": "Êtes-vous sûr de vouloir attribuer automatiquement la chaîne de règles '{{ruleChainName}}' aux Edge à la création?",
+    "set-edge-template-root-rulechain-title": "Êtes-vous sûr de vouloir définir la chaîne de règles '{{ruleChainName}}' comme racine du modèle Edge?",
+    "set-root-rulechain-title": "Êtes-vous sûr de vouloir définir la chaîne de règles '{{ruleChainName}}' comme racine?",
+    "unassign-rulechain-title": "Êtes-vous sûr de vouloir désattribuer la chaîne de règles '{{ruleChainName}}'?",
+    "unassign-rulechains-from-edge-title": "Êtes-vous sûr de vouloir désattribuer { count, plural, =1 {1 chaîne de règles} other {# chaînes de règles} }?",
+    "unset-auto-assign-to-edge-title": "Êtes-vous sûr de ne pas vouloir attribuer automatiquement la chaîne de règles '{{ruleChainName}}' aux Edge à la création?"
+  },
+  "rulenode": {
+    "create-new-link-label": "Créer une nouvelle étiquette!",
+    "invalid-target-rulechain": "Impossible de résoudre la chaîne de règles cible!"
+  },
+  "scada": {
+    "behavior": {
+      "not-unique-behavior-ids-error": "Les identifiants de comportement doivent être uniques!"
+    },
+    "delete-symbol-title": "Êtes-vous sûr de vouloir supprimer le symbole SCADA '{{imageTitle}}'?",
+    "delete-symbols-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 symbole SCADA} other {# symboles SCADA} }?",
+    "preview-widget-action-text": "Action du widget '{{type}}' exécutée avec succès!",
+    "search-tags": "Rechercher des étiquettes",
+    "tag": {
+      "add-tag": "Ajouter une étiquette",
+      "delete-tag-text": "Voulez-vous vraiment supprimer l'étiquette<br/><b>{{tag}}</b> de l'élément <b>{{elementType}}</b>?",
+      "enter-tag": "Saisir l'étiquette",
+      "no-tags": "Aucune étiquette configurée",
+      "remove-tag": "Supprimer l'étiquette",
+      "tag": "Étiquette",
+      "tag-settings": "Paramètres de l'étiquette",
+      "update-tag": "Mettre à jour l'étiquette"
+    },
+    "tags": "Étiquettes"
+  },
+  "security": {
+    "2fa": {
+      "dialog": {
+        "activation-step-description-email": "Lors de votre prochaine connexion, un code de sécurité vous sera demandé. Il sera envoyé à votre adresse courriel.",
+        "email-step-description": "Saisissez une adresse courriel à utiliser comme méthode d’authentification.",
+        "email-step-label": "Courriel",
+        "enable-email-title": "Activer l’authentification par courriel",
+        "success": "Succès!"
+      },
+      "disable-2fa-provider-title": "Êtes-vous sûr de vouloir désactiver {{name}}?",
+      "provider": {
+        "email": "Courriel",
+        "email-description": "Utilisez un code de sécurité envoyé à votre adresse courriel pour vous authentifier.",
+        "email-hint": "Les codes d'authentification sont envoyés par courriel à {{ info }}"
+      }
+    }
+  },
+  "tenant-profile": {
+    "create-new-tenant-profile": "Créer un nouveau!",
+    "delete-tenant-profile-title": "Êtes-vous sûr de vouloir supprimer le profil de locataire '{{tenantProfileName}}'?",
+    "delete-tenant-profiles-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 profil de locataire} other {# profils de locataire} }?",
+    "max-emails": "Nombre maximum de courriels envoyés",
+    "max-emails-range": "Le nombre maximum de courriels envoyés ne peut pas être négatif",
+    "max-emails-required": "Le nombre maximum de courriels envoyés est requis.",
+    "set-default-tenant-profile-title": "Êtes-vous sûr de vouloir définir le profil de locataire '{{tenantProfileName}}' comme profil par défaut?"
+  },
+  "tenant": {
+    "delete-tenant-title": "Êtes-vous sûr de vouloir supprimer le locataire '{{tenantTitle}}'?",
+    "delete-tenants-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 locataire} other {# locataires} }?"
+  },
+  "user": {
+    "activation-email-sent-message": "Le courriel d'activation a été envoyé avec succès!",
+    "delete-user-title": "Êtes-vous sûr de vouloir supprimer l'utilisateur '{{userEmail}}'?",
+    "delete-users-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 utilisateur} other {# utilisateurs} }?",
+    "disable-account-message": "Le compte utilisateur a été désactivé avec succès!",
+    "email": "Courriel",
+    "email-required": "Le courriel est requis.",
+    "enable-account-message": "Le compte utilisateur a été activé avec succès!",
+    "invalid-email-format": "Format de courriel invalide.",
+    "send-activation-mail": "Envoyer le courriel d'activation"
+  },
+  "version-control": {
+    "remove-other-entities-confirm-text": "Attention! Cela <b>supprimera</b> de manière permanente <b>toutes</b> les entités actuelles<br/>non présentes dans la version que vous souhaitez restaurer.<br/><br/>Veuillez taper <b>\"remove other entities\"</b> pour confirmer."
+  },
+  "widget-config": {
+    "delete-action-text": "Êtes-vous sûr de vouloir supprimer l’action du widget nommée '{{actionName}}'?"
+  },
+  "widget": {
+    "confirm-to-exit-editor-html": "Vous avez des paramètres de widget non enregistrés.<br>Êtes-vous sûr de vouloir quitter cette page?",
+    "delete-widget-title": "Êtes-vous sûr de vouloir supprimer le widget '{{widgetName}}'?",
+    "delete-widgets-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 widget} other {# widgets} }?",
+    "missing-widget-title-error": "Le titre du widget doit être spécifié!",
+    "remove-widget-title": "Êtes-vous sûr de vouloir supprimer le widget '{{widgetTitle}}'?",
+    "unable-to-save-widget-error": "Impossible d’enregistrer le widget! Le widget contient des erreurs!",
+    "widget-template-load-failed-error": "Échec du chargement du modèle de widget!"
+  },
+  "widgets-bundle": {
+    "delete-widgets-bundle-title": "Êtes-vous sûr de vouloir supprimer le bundle de widgets '{{widgetsBundleTitle}}'?",
+    "delete-widgets-bundles-title": "Êtes-vous sûr de vouloir supprimer { count, plural, =1 {1 bundle de widgets} other {# bundles de widgets} }?"
+  },
+  "widgets": {
+    "configured-features": {
+      "email-feature": "Courriel"
+    },
+    "getting-started": {
+      "done-welcome-text": "Vous avez réussi avec brio!"
+    },
+    "input-widgets": {
+      "claim-failed": "Échec de la réclamation de l'appareil!",
+      "claim-not-found": "Appareil introuvable!",
+      "claim-successful": "L'appareil a été réclamé avec succès!"
+    },
+    "persistent-table": {
+      "delete-request-text": "Êtes-vous sûr de vouloir supprimer cette requête?"
+    },
+    "time-series-chart": {
+      "comparison": {
+        "comparison-hint": "La comparaison fonctionne uniquement avec les données historiques!"
+      }
+    },
+    "value-action": {
+      "error": {
+        "target-entity-is-not-set": "L'entité cible n'est pas définie!"
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+# OrbitOS branding: the only file you edit to rebrand the platform.
+# Le seul fichier à modifier pour changer l'image de marque de la plateforme.
+#
+# - name, texts, links, logo and favicon: applied when the server restarts.
+#   nom, textes, liens, logo et favicon : appliqués au redémarrage du serveur.
+# - colors: applied at the next image build (docker compose build).
+#   couleurs : appliquées à la prochaine construction de l'image (docker compose build).
+#
+# Text values have one entry per language. Regional variants (fr_CA, fr_FR,
+# en_CA, en_US) fall back to the base language (fr, en), then to English.
+# Les textes ont une valeur par langue. Les variantes régionales (fr_CA, fr_FR,
+# en_CA, en_US) utilisent la langue de base (fr, en), puis l'anglais.
+
+name: OrbitOS
+
+# Files in this folder. SVG, PNG or ICO, 1 MB maximum each.
+# Fichiers de ce dossier. SVG, PNG ou ICO, 1 Mo maximum chacun.
+logo: logo.svg          # top bar and login page, shown on the primary color
+favicon: favicon.svg    # browser tab icon
+
+colors:
+  primary: "#0B4F6C"
+  secondary: "#1F7A99"
+  accent: "#E8772E"
+
+login:
+  title:
+    en: "Welcome to {brandName}"
+    fr: "Bienvenue dans {brandName}"
+  subtitle:
+    en: "Sign in to manage your devices and data."
+    fr: "Connectez-vous pour gérer vos appareils et vos données."
+
+footer:
+  en: "© {year} The {brandName} Authors"
+  fr: "© {year} {brandName}"
+
+# Leave a link empty ("") to hide it.
+# Laissez un lien vide ("") pour le masquer.
+links:
+  website: ""
+  privacy: ""
+  terms: ""
+  accessibility: ""
+  support: ""
+
+# Link labels shown in the footer.
+# Libellés des liens affichés dans le pied de page.
+linkLabels:
+  privacy:
+    en: "Privacy"
+    fr: "Confidentialité"
+  terms:
+    en: "Terms of use"
+    fr: "Conditions d'utilisation"
+  accessibility:
+    en: "Accessibility"
+    fr: "Accessibilité"
+  support:
+    en: "Support"
+    fr: "Assistance"

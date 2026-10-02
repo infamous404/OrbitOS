@@ -1,5 +1,6 @@
 // SPDX-FileCopyrightText: Copyright The Thingsboard Authors
 // SPDX-License-Identifier: Apache-2.0
+import { getBranding } from '@app/orbitos/branding';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@core/auth/auth.service';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
@@ -27,6 +28,7 @@ export class LoginComponent extends PageComponent implements OnInit {
     password: ['']
   });
   oauth2Clients: Array<OAuth2ClientLoginInfo> = null;
+  brandWebsite = getBranding().links?.website || null;
 
   constructor(private authService: AuthService,
               public fb: UntypedFormBuilder,

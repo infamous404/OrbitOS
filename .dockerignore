@@ -1,0 +1,8 @@
+.git
+**/target
+**/node_modules
+ui-ngx/node
+ui-ngx/.angular
+**/*.log
+.idea
+.vscode

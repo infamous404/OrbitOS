@@ -1,5 +1,6 @@
 // SPDX-FileCopyrightText: Copyright The Thingsboard Authors
 // SPDX-License-Identifier: Apache-2.0
+import { localizeDecimal } from '@app/orbitos/i18n';
 import {
   isDefinedAndNotNull,
   isNotEmptyStr,
@@ -883,7 +884,7 @@ export abstract class ValueFormatProcessor {
     if (this.hideZeroDecimals) {
       formatted = Number(formatted);
     }
-    formatted = formatted.toString();
+    formatted = localizeDecimal(formatted.toString());
     if (this.unitSymbol) {
       formatted += ` ${this.unitSymbol}`;
     }

@@ -1,5 +1,6 @@
 // SPDX-FileCopyrightText: Copyright The Thingsboard Authors
 // SPDX-License-Identifier: Apache-2.0
+import { localizeDecimal } from '@app/orbitos/i18n';
 import _ from 'lodash';
 import { from, isObservable, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { catchError, finalize, share } from 'rxjs/operators';
@@ -146,7 +147,7 @@ export const formatValue = (value: any, dec?: number, units?: string, showZeroDe
     if (!showZeroDecimals) {
       formatted = (Number(formatted));
     }
-    formatted = formatted.toString();
+    formatted = localizeDecimal(formatted.toString());
     if (isNotEmptyStr(units)) {
       formatted += ' ' + units;
     }

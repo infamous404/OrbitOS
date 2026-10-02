@@ -44,6 +44,12 @@ public class IotHubRestClient {
                 .connectTimeout(Duration.ofSeconds(connectTimeoutSec))
                 .readTimeout(Duration.ofSeconds(readTimeoutSec))
                 .build();
+        // OrbitOS: no outbound calls to the IoT Hub marketplace unless an administrator sets iot-hub.base-url.
+        if (baseUrl == null || baseUrl.isBlank()) {
+            restTemplate.getInterceptors().add((request, body, execution) -> {
+                throw new IllegalStateException("IoT Hub is disabled (iot-hub.base-url is empty)");
+            });
+        }
     }
 
     public JsonNode getVersionInfo(String versionId) {

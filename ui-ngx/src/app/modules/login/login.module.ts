@@ -1,5 +1,8 @@
 // SPDX-FileCopyrightText: Copyright The Thingsboard Authors
 // SPDX-License-Identifier: Apache-2.0
+import { OrbitosLanguageSwitcherComponent } from '@app/orbitos/language-switcher.component';
+import { OrbitosLoginHeaderComponent } from '@app/orbitos/brand-login-header.component';
+import { OrbitosLegalLinksComponent } from '@app/orbitos/brand-legal-links.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -26,7 +29,10 @@ import { ForceTwoFactorAuthLoginComponent } from '@modules/login/pages/login/for
   imports: [
     CommonModule,
     SharedModule,
-    LoginRoutingModule
+    LoginRoutingModule,
+    OrbitosLoginHeaderComponent,
+    OrbitosLegalLinksComponent,
+    OrbitosLanguageSwitcherComponent
   ]
 })
 export class LoginModule { }

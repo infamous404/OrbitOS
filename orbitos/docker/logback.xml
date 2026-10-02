@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    SPDX-FileCopyrightText: Copyright The OrbitOS Authors
+    SPDX-License-Identifier: Apache-2.0
+
+    Logs go to the console only (docker logs). Nothing is written to disk or sent anywhere.
+-->
+<!DOCTYPE configuration>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{ISO8601} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="org.thingsboard.server" level="INFO" />
+    <logger name="com.google.common.util.concurrent.AggregateFuture" level="OFF" />
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

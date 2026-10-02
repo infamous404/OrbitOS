@@ -1871,8 +1871,8 @@
     "make-private-dashboard-title": "ダッシュボード'{{dashboardTitle}}'を非公開にしてもよろしいですか？",
     "make-private-dashboard-text": "確認後、ダッシュボードは非公開になり、他の人はアクセスできなくなります。",
     "make-private-dashboard": "ダッシュボードを非公開にする",
-    "socialshare-text": "'{{dashboardTitle}}' powered by ThingsBoard",
-    "socialshare-title": "'{{dashboardTitle}}' powered by ThingsBoard",
+    "socialshare-text": "'{{dashboardTitle}}' powered by {{brandName}}",
+    "socialshare-title": "'{{dashboardTitle}}' powered by {{brandName}}",
     "select-dashboard": "ダッシュボードを選択",
     "no-dashboards-matching": "'{{entity}}'に一致するダッシュボードが見つかりません。",
     "dashboard-required": "ダッシュボードは必須です。",
@@ -6178,7 +6178,7 @@
     "tenant-required": "テナントは必須です",
     "search": "テナントを検索",
     "selected-tenants": "{ count, plural, =1 {テナント 1 件} other {テナント # 件} } を選択",
-    "isolated-tb-rule-engine": "分離された ThingsBoard ルールエンジン キューを使用",
+    "isolated-tb-rule-engine": "分離された {{brandName}} ルールエンジン キューを使用",
     "isolated-tb-rule-engine-details": "各テナントに専用のルールエンジンキューが割り当てられます"
   },
   "tenant-profile": {
@@ -10017,7 +10017,7 @@
     },
     "functions": {
       "title": "機能",
-      "pe-feature-tooltip": "ThingsBoard\nProfessional Edition のみ",
+      "pe-feature-tooltip": "{{brandName}}\nProfessional Edition のみ",
       "switch-to-pe": "PEに切り替え",
       "alarms": "アラーム",
       "dashboards": "ダッシュボード",

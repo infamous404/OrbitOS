@@ -1,0 +1,67 @@
+# SPDX-FileCopyrightText: Copyright The OrbitOS Authors
+# SPDX-License-Identifier: Apache-2.0
+name: OrbitOS CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Branding and licence checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyyaml
+      - name: Branding is applied and no upstream product name is visible
+        run: python orbitos/scripts/rebrand.py --check
+      - name: Only Apache-2.0 code, no Business Source License text
+        run: python orbitos/scripts/upstream_license_check.py --tree
+      - name: Translations complete (missing, untranslated, placeholders, unused OrbitOS keys)
+        run: python orbitos/scripts/i18n_check.py
+      - name: Regional language files (fr_CA, en_CA) up to date
+        run: python orbitos/scripts/i18n_regional.py --check
+
+  build:
+    name: Build, unit tests, smoke test
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: orbitos/docker/Dockerfile
+          tags: orbitos/orbitos:dev
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Unit tests (OrbitOS code)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: orbitos/docker/Dockerfile
+          target: test
+          cache-from: type=gha
+      - name: Smoke test
+        run: bash orbitos/scripts/smoke-test.sh
+      - name: Keep logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-test-logs
+          path: smoke-test-*.log
+          if-no-files-found: ignore

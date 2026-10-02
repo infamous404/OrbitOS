@@ -1,5 +1,6 @@
 // SPDX-FileCopyrightText: Copyright The Thingsboard Authors
 // SPDX-License-Identifier: Apache-2.0
+import { getBranding } from '@app/orbitos/branding';
 import { Component } from '@angular/core';
 
 @Component({
@@ -11,5 +12,6 @@ import { Component } from '@angular/core';
 export class FooterComponent {
 
   year = new Date().getFullYear();
+  brandName = getBranding().name;
 
 }

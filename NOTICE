@@ -1,0 +1,23 @@
+OrbitOS
+Copyright The OrbitOS Authors
+
+This product is a fork of ThingsBoard Community Edition, version 4.3.1.6
+(git tag v4.3.1.6, commit c77335f4a5, released 2026-09-28), which is
+Copyright The ThingsBoard Authors and licensed under the Apache License,
+Version 2.0. Source: https://github.com/thingsboard/thingsboard
+
+Upstream files keep their original copyright headers. Changes made by
+OrbitOS to upstream files are listed in UPSTREAM_PATCHES.md.
+
+"ThingsBoard" is a trademark of its owner. OrbitOS is not affiliated with,
+endorsed by, or sponsored by ThingsBoard, Inc. The name is used here only to
+identify the origin of the code, as required for attribution.
+
+Third-party components reused by OrbitOS (each recorded with its licence):
+
+  - ThingsBoard 4.3.1.6 (Apache-2.0): the whole base platform, see above.
+  - ThingsBoard 4.3.1.5 (Apache-2.0): version-info home widget, restored from
+    this tag after removing the Community Grant feature.
+
+Bundled dependencies of the base platform keep their own licences; see the
+Maven (pom.xml) and npm (ui-ngx/package.json, ui-ngx/yarn.lock) manifests.

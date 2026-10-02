@@ -19,6 +19,9 @@ import { TbDeviceInstallDialogComponent, DeviceInstallDialogData } from './devic
 import { TbIotHubInstalledItemsDialogComponent, IotHubInstalledItemsDialogData } from './iot-hub-installed-items-dialog.component';
 import { IotHubBuiltInService } from './iot-hub-built-in.service';
 import { isBuiltInItem } from './iot-hub-utils';
+import { Store } from '@ngrx/store';
+import { AppState } from '@core/core.state';
+import { getCurrentAuthState } from '@core/auth/auth.selectors';
 
 /**
  * What `openBuiltInOrConfirmInstall` did with a built-in item: 'handled' means nothing is left to do
@@ -34,8 +37,14 @@ export class IotHubActionsService {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private translate: TranslateService,
-    private builtInService: IotHubBuiltInService
+    private builtInService: IotHubBuiltInService,
+    private store: Store<AppState>
   ) {}
+
+  /** OrbitOS: IoT Hub is off unless an administrator configures iot-hub.base-url. */
+  get enabled(): boolean {
+    return !!getCurrentAuthState(this.store)?.iotHubBaseUrl;
+  }
 
   openItemDetail(item: MpItemVersionView, installedItem?: IotHubInstalledItem, installedItemsCount?: number,
                  mode?: IotHubItemDetailDialogMode, showCreator?: boolean, preview?: boolean): Observable<any> {

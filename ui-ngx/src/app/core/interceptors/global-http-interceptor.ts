@@ -1,5 +1,6 @@
 // SPDX-FileCopyrightText: Copyright The Thingsboard Authors
 // SPDX-License-Identifier: Apache-2.0
+import { translateServerMessage } from '@app/orbitos/server-messages';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { Injectable } from '@angular/core';
@@ -185,7 +186,8 @@ export class GlobalHttpInterceptor implements HttpInterceptor {
 
   private showError(error: string, timeout: number = 0) {
     setTimeout(() => {
-      this.store.dispatch(new ActionNotificationShow({message: error, type: 'error'}));
+      // OrbitOS: common server messages in the user's language
+      this.store.dispatch(new ActionNotificationShow({message: translateServerMessage(error, this.translate), type: 'error'}));
     }, timeout);
   }
 }

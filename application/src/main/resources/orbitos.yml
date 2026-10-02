@@ -1,0 +1,29 @@
+#
+# SPDX-FileCopyrightText: Copyright The OrbitOS Authors
+# SPDX-License-Identifier: Apache-2.0
+#
+# OrbitOS defaults that differ from upstream. This file is imported by thingsboard.yml
+# and takes precedence over it. Each value can still be set with the same environment
+# variable as upstream. See UPSTREAM_PATCHES.md for why each value differs.
+
+# No outbound calls: the IoT Hub marketplace is off unless a URL is set.
+iot-hub:
+  base-url: "${IOT_HUB_BASE_URL:}"
+
+# Edge support is off: it adds a gRPC port (7070) and menus for a separate product.
+# Set EDGES_ENABLED=true to turn it on.
+edges:
+  enabled: "${EDGES_ENABLED:false}"
+
+ui:
+  help:
+    # Help pages are served from this server, never fetched from the internet.
+    base-url: "${UI_HELP_BASE_URL:/assets}"
+
+orbitos:
+  i18n:
+    # Language for emails to users who have not chosen one (en_US, en_CA, fr_FR or fr_CA).
+    default-language: "${ORBITOS_DEFAULT_LANGUAGE:en_US}"
+  branding:
+    # Folder holding branding.yml, the logo and the favicon.
+    dir: "${ORBITOS_BRANDING_DIR:/etc/orbitos/branding}"

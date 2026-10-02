@@ -1,0 +1,14 @@
+{
+  "extension.drop-file": "Déposez un fichier ou cliquez pour en sélectionner un à téléverser.",
+  "scada.tags": "Étiquettes",
+  "scada.search-tags": "Rechercher des étiquettes",
+  "scada.tag.tag": "Étiquette",
+  "scada.tag.no-tags": "Aucune étiquette configurée",
+  "scada.tag.delete-tag-text": "Voulez-vous vraiment supprimer l'étiquette<br/><b>{{tag}}</b> de l'élément <b>{{elementType}}</b>?",
+  "scada.tag.update-tag": "Mettre à jour l'étiquette",
+  "scada.tag.enter-tag": "Saisir l'étiquette",
+  "scada.tag.tag-settings": "Paramètres de l'étiquette",
+  "scada.tag.remove-tag": "Supprimer l'étiquette",
+  "scada.tag.add-tag": "Ajouter une étiquette",
+  "orbitos.powered-by": "Propulsé par {{brandName}}"
+}

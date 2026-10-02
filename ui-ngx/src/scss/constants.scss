@@ -21,9 +21,12 @@ $mat-md-lg: "screen and (min-width: 960px) and (max-width: 1819px)";
 
 $primary-hue-3: rgb(207, 216, 220) !default;
 
-$tb-primary-color: #305680;
-$tb-secondary-color: #527dad;
-$tb-hue3-color: #a7c1de;
+// OrbitOS: brand colors are generated from orbitos/branding/branding.yml by orbitos/scripts/rebrand.py.
+@import 'orbitos-brand';
 
-$tb-dark-primary-color: #9fa8da;
-$tb-primary-color-light: #7986cb;
+$tb-primary-color: $orbitos-primary;
+$tb-secondary-color: $orbitos-secondary;
+$tb-hue3-color: $orbitos-hue3;
+
+$tb-dark-primary-color: $orbitos-dark-primary;
+$tb-primary-color-light: $orbitos-primary-light;

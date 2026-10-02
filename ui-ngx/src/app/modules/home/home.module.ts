@@ -1,5 +1,6 @@
 // SPDX-FileCopyrightText: Copyright The Thingsboard Authors
 // SPDX-License-Identifier: Apache-2.0
+import { OrbitosLanguageSwitcherComponent } from '@app/orbitos/language-switcher.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -25,6 +26,7 @@ import { ShowNotificationPopoverComponent } from '@home/components/notification/
       ShowNotificationPopoverComponent
     ],
   imports: [
+    OrbitosLanguageSwitcherComponent,
     CommonModule,
     SharedModule,
     HomeRoutingModule

@@ -751,6 +751,14 @@ const menuFilters = new Map<MenuId, MenuFilter>([
   ],
   [
     MenuId.rulechain_templates, (authState) => authState.edgesSupportEnabled
+  ],
+  // OrbitOS: IoT Hub calls an external marketplace; shown only if an administrator configures iot-hub.base-url.
+  [
+    MenuId.iot_hub, (authState) => !!authState.iotHubBaseUrl
+  ],
+  // OrbitOS: Trendz is a separate commercial product; its settings page is hidden.
+  [
+    MenuId.trendz_settings, () => false
   ]
 ]);
 

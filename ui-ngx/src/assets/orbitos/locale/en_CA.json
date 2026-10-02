@@ -1,0 +1,472 @@
+{
+  "color": {
+    "color": "Colour"
+  },
+  "dashboard": {
+    "background-color": "Background colour",
+    "title-color": "Title colour"
+  },
+  "datakey": {
+    "color": "Colour"
+  },
+  "dynamic-form": {
+    "property": {
+      "type-color": "Colour",
+      "type-color-settings": "Colour settings"
+    }
+  },
+  "layout": {
+    "color": "Colour"
+  },
+  "mobile": {
+    "mobile-center": "Mobile centre"
+  },
+  "notification": {
+    "notification-center": "Notification centre",
+    "theme-color": "Theme colour"
+  },
+  "rule-node-config": {
+    "circle-center-latitude": "Centre latitude",
+    "circle-center-latitude-required": "Centre latitude is required.",
+    "circle-center-longitude": "Centre longitude",
+    "circle-center-longitude-required": "Centre longitude is required.",
+    "fetch-circle-parameter-info-from-metadata-hint": "Metadata field '{{perimeterKeyName}}' should be defined in next format: {\"latitude\":48.196, \"longitude\":24.6532, \"radius\":100.0, \"radiusUnit\":\"METRE\"}",
+    "notify-device-on-delete-hint": "If enabled, force notification to the device about shared attributes removal. If disabled, the notification behaviour is controlled by the 'notifyDevice' parameter from the incoming message metadata. To turn on the notification, the message metadata must contain the 'notifyDevice' parameter set to 'true'. In any other case, the notification will not be triggered to the device.",
+    "notify-device-on-update-hint": "If enabled, force notification to the device about shared attributes update. If disabled, the notification behaviour is controlled by the 'notifyDevice' parameter from the incoming message metadata. To turn off the notification, the message metadata must contain the 'notifyDevice' parameter set to 'false'. Any other case will trigger the notification to the device.",
+    "range-unit-kilometer": "Kilometre",
+    "range-unit-meter": "Metre",
+    "save-attribute": {
+      "advanced-settings-hint": "Be cautious when configuring processing strategies. Certain combinations can lead to unexpected behaviour."
+    },
+    "save-time-series": {
+      "advanced-settings-hint": "Be cautious when configuring processing strategies. Certain combinations can lead to unexpected behaviour."
+    }
+  },
+  "scada": {
+    "behavior": {
+      "add-behavior": "Add behaviour",
+      "behavior": "Behaviour",
+      "behavior-settings": "Behaviour settings",
+      "no-behaviors": "No behaviours configured",
+      "not-unique-behavior-ids-error": "Behaviour Ids must be unique!",
+      "remove-behavior": "Remove behaviour"
+    },
+    "symbol": {
+      "active-border-color": "Active border colour",
+      "alarm-colors": "Alarm colours",
+      "arrow-color": "Arrow colour",
+      "background-color": "Background colour",
+      "border-color": "Border colour",
+      "bottom-fluid-color": "Bottom fluid colour",
+      "button-color": "Button colour",
+      "charging-mode-indicators-color": "Charging mode indicators colour",
+      "closed-color": "Closed colour",
+      "colors": "Colours",
+      "critical-border-color": "Critical border colour",
+      "critical-color": "Critical colour",
+      "critical-scale-color": "Critical scale colour",
+      "current-voltage-color": "Current voltage colour",
+      "default-border-color": "Default border colour",
+      "default-color": "Default colour",
+      "filter-color": "Filter colour",
+      "flow-meter-value-hint": "Double value showing on flow metre display",
+      "fluid-color": "Fluid colour",
+      "heat-pump-color": "Heat pump colour",
+      "hook-color": "Hook colour",
+      "horizontal-fluid-color": "Horizontal fluid colour",
+      "indicator-colors": "Indicator colours",
+      "inverter-fault-indicators-color": "Fault indicators colour",
+      "label-color": "Label colour",
+      "leak-color": "Leak colour",
+      "left-fluid-color": "Left fluid colour",
+      "line-color": "Line colour",
+      "major-ticks-color": "Major ticks colour",
+      "minor-ticks-color": "Minor ticks colour",
+      "opened-color": "Opened colour",
+      "operation-mode-indicators-color": "Operation mode indicators colour",
+      "phase-indicator-color": "Phase indicator colour",
+      "pipe-color": "Pipe colour",
+      "right-fluid-color": "Right fluid colour",
+      "running-color": "Running colour",
+      "sand-filter-color": "Sand filter colour",
+      "scale-color": "Scale colour",
+      "stopped-color": "Stopped colour",
+      "tank-color": "Tank colour",
+      "top-fluid-color": "Top fluid colour",
+      "vertical-fluid-color": "Vertical fluid colour",
+      "warning-border-color": "Warning border colour",
+      "warning-color": "Warning colour",
+      "warning-scale-color": "Warning scale colour"
+    }
+  },
+  "timewindow": {
+    "color": "Colour"
+  },
+  "tooltip": {
+    "background-color": "Background colour"
+  },
+  "unit": {
+    "ampere-per-meter": "Ampere per metre",
+    "ampere-per-square-meter": "Ampere per square metre",
+    "becquerels-per-cubic-meter": "Becquerels per cubic metre",
+    "candela-per-square-meter": "Candela per square metre",
+    "centimeter": "Centimetre",
+    "coulomb-per-cubic-meter": "Coulomb per cubic metre",
+    "coulomb-per-meter": "Coulomb per metre",
+    "coulomb-per-square-meter": "Coulomb per square metre",
+    "coulomb-per-square-meter-per-volt": "Coulomb per square metre per volt",
+    "cubic-centimeter": "Cubic centimetre",
+    "cubic-decimeter-per-second": "Cubic decimetre per second",
+    "cubic-kilometer": "Cubic kilometre",
+    "cubic-meter": "Cubic metre",
+    "cubic-meter-per-kilogram": "Cubic metre per kilogram",
+    "cubic-meters-per-hour": "Cubic metres per hour",
+    "cubic-meters-per-minute": "Cubic metres per minute",
+    "cubic-meters-per-second": "Cubic metres per second",
+    "cubic-millimeter": "Cubic millimetre",
+    "curies-per-liter": "Curies per litre",
+    "decimeter": "Decimetre",
+    "dyne-second-per-square-centimeter": "Dyne second per square centimetre",
+    "farad-per-meter": "Farad per metre",
+    "gauss-per-centimeter": "Gauss per centimetre",
+    "gauss-square-centimeter": "Gauss-square centimetre",
+    "gram-per-cubic-centimeter": "Gram per cubic centimetre",
+    "gram-per-cubic-meter": "Gram per cubic metre",
+    "gray": "Grey",
+    "gy-per-second": "Grey per second",
+    "henry-per-meter": "Henry per metre",
+    "joule-per-cubic-meter": "Joule per cubic metre",
+    "kilogauss-square-centimeter": "Kilogauss-square centimetre",
+    "kilogram-force-per-square-meter": "Kilogram-force per square metre",
+    "kilogram-per-cubic-meter": "Kilogram per cubic metre",
+    "kilometer": "Kilometre",
+    "kilometer-per-hour": "Kilometre per hour",
+    "kilometer-per-hour-squared": "Kilometre per hour squared",
+    "kilometers-per-liter": "Kilometres per litre",
+    "kilonewton-per-square-meter": "Kilonewton per square metre",
+    "kilovolts-per-meter": "Kilovolts per metre",
+    "kilowatt-per-square-centimeter": "Kilowatts per square centimetre",
+    "kilowatt-per-square-meter": "Kilowatts per square metre",
+    "liter": "Litre",
+    "liter-per-minute": "Litre per minute",
+    "liter-per-second": "Litre per second",
+    "liters-per-100-km": "Litres per 100 km",
+    "liters-per-hour": "Litres per hour",
+    "lumen-per-square-meter": "Lumen per square metre",
+    "meter": "Metre",
+    "meter-per-meter": "Metre per metre",
+    "meter-per-minute": "Metre per minute",
+    "meter-per-second": "Metre per second",
+    "meters-per-second-squared": "Metres per second squared",
+    "mg-per-liter": "Milligrams per litre",
+    "microampere-per-square-centimeter": "Microampere per square centimetre",
+    "micrograms-per-cubic-meter": "Micrograms per cubic metre",
+    "microliter": "Microlitre",
+    "micrometer": "Micrometre",
+    "microsiemens-per-centimeter": "Microsiemens per centimetre",
+    "milligram-per-cubic-meter": "Milligram per cubic metre",
+    "milligram-per-milliliter": "Milligram per millilitre",
+    "milligrams-per-deciliter": "Milligrams per decilitre",
+    "milliliter": "Millilitre",
+    "milliliters-per-minute": "Millilitres per minute",
+    "millimeter": "Millimetre",
+    "millimeters-of-mercury": "Millimetres of mercury",
+    "millimeters-per-minute": "Millimetres per minute",
+    "millimeters-per-second": "Millimetres per second",
+    "millisiemens-per-meter": "Millisiemens per metre",
+    "millitesla-square-meters": "Millitesla square metres",
+    "millivolts-per-meter": "Millivolts per metre",
+    "milliwatt-per-square-centimeter": "Milliwatts per square centimetre",
+    "milliwatt-per-square-meter": "Milliwatts per square metre",
+    "mole-per-cubic-meter": "Mole per cubic metre",
+    "nanometer": "Nanometre",
+    "newton-meter": "Newton metre",
+    "newton-per-meter": "Newton per metre",
+    "newton-per-square-meter": "Newton per square metre",
+    "newton-per-square-millimeter": "Newton per square millimetre",
+    "newton-second-per-square-meter": "Newton second per square metre",
+    "pascal-per-square-centimeter": "Pascal per square centimetre",
+    "pascal-per-square-meter": "Pascal per square metre",
+    "siemens-per-meter": "Siemens per metre",
+    "square-centimeter": "Square centimetre",
+    "square-centimeter-per-second": "Square centimetre per second",
+    "square-kilometer": "Square kilometre",
+    "square-meter": "Square metre",
+    "square-meter-per-second": "Square metre per second",
+    "square-millimeter": "Square millimetre",
+    "tesla-meter-per-ampere": "Tesla metre per ampere",
+    "tesla-per-meter": "Tesla per metre",
+    "tesla-square-meters": "Tesla square metres",
+    "volts-per-meter": "Volts per metre",
+    "watt-per-square-centimeter": "Watts per square centimetre",
+    "watt-per-square-meter": "Watts per square metre"
+  },
+  "widget-config": {
+    "background-color": "Background colour",
+    "color": "Colour",
+    "header-button": {
+      "color": "Colour",
+      "colors": "Colours"
+    },
+    "icon-color": "Icon colour",
+    "text-color": "Text colour"
+  },
+  "widgets": {
+    "action-button": {
+      "behavior": "Behaviour"
+    },
+    "aggregated-value-card": {
+      "color": "Colour",
+      "position-center": "Centre"
+    },
+    "background": {
+      "background-type-color": "Colour"
+    },
+    "battery-level": {
+      "battery-level-color": "Battery level colour",
+      "battery-shape-color": "Battery shape colour"
+    },
+    "button": {
+      "color-palette": "Colour palette"
+    },
+    "chart": {
+      "background-color": "Background colour",
+      "bar-alignment-center": "Centre",
+      "border-color": "Border colour",
+      "color": "Colour",
+      "comparison-line-color": "Comparison line colour",
+      "default-font-color": "Default font colour",
+      "grid-lines-color": "Grid lines colour",
+      "labels-font-color": "Labels font colour",
+      "primary-color": "Primary colour",
+      "threshold-color": "Threshold colour",
+      "ticks-color": "Ticks colour"
+    },
+    "color": {
+      "color": "Colour",
+      "color-function": "Colour function",
+      "color-settings": "Colour settings",
+      "copy-color-settings-from": "Copy colour settings from",
+      "gradient-color": "Gradient colour",
+      "gradient-color-min": "Colour",
+      "gradient-end": "Gradient end colour",
+      "gradient-start": "Gradient start colour"
+    },
+    "command-button": {
+      "behavior": "Behaviour"
+    },
+    "dashboard-state": {
+      "default-background-color": "Default background colour"
+    },
+    "functions": {
+      "notification-center": "Notification centre"
+    },
+    "gauge": {
+      "add-bar-color": "Add bar colour",
+      "arrow-and-scale-color": "Arrow and scale default colour",
+      "background-color": "Background colour",
+      "bar-background-color": "Bar background colour - start gradient",
+      "bar-background-color-end": "Bar background colour - end gradient",
+      "bar-color": "Bar colour",
+      "bar-color-settings": "Bar colour settings",
+      "bar-colors": "Bar colours, from lower to upper",
+      "bar-stroke-color": "Bar stroke colour",
+      "border-color": "Border colour",
+      "color": "Colour",
+      "default-color": "Default colour",
+      "fixed-level-colors": "Bar colours using boundary values",
+      "highlight-color": "Colour",
+      "major-ticks-color": "Major ticks colour",
+      "minor-ticks-color": "Minor ticks colour",
+      "needle-circle-color": "Needle circle colour",
+      "needle-color": "Needle colour",
+      "needle-color-end": "Needle colour - end gradient",
+      "needle-color-shadow-up": "Upper half of the needle shadow colour",
+      "needle-color-start": "Needle colour - start gradient",
+      "no-bar-colors": "No bar colours configured",
+      "plate-color": "Plate colour",
+      "progress-bar-color": "Progress bar colour",
+      "progress-bar-color-end": "Progress bar colour - end gradient",
+      "progress-bar-color-start": "Progress bar colour - start gradient",
+      "rect-stroke-color-end": "Rectangle stroke colour - end gradient",
+      "rect-stroke-color-start": "Rectangle stroke colour - start gradient",
+      "scale-color": "Scale colours",
+      "shadow-color": "Shadow colour",
+      "tick-color": "Tick colour",
+      "tick-width-and-color": "Tick width and colour",
+      "use-precise-level-color-values": "Use precise colour levels",
+      "value-box-background-color": "Value box background colour",
+      "value-box-rect-stroke-color": "Value box rectangle stroke colour",
+      "value-box-rect-stroke-color-end": "Value box rectangle stroke colour - end gradient",
+      "value-box-shadow-color": "Value box shadow colour"
+    },
+    "gpio": {
+      "background-color": "Background colour",
+      "color": "Colour"
+    },
+    "input-widgets": {
+      "color": "Colour",
+      "datakey-value-type-color": "Colour"
+    },
+    "knob": {
+      "behavior": "Behaviour"
+    },
+    "label-widget": {
+      "background-color": "Background colour"
+    },
+    "liquid-level-card": {
+      "color-and-font": "Colour and font",
+      "liquid-color": "Liquid colour",
+      "tank-color": "Tank colour",
+      "tooltip-background": "Background colour"
+    },
+    "maps": {
+      "circle-fill-color": "Circle fill colour",
+      "circle-fill-color-function": "Circle fill colour function",
+      "circle-fill-color-opacity": "Circle fill colour opacity",
+      "circle-stroke-color-function": "Circle stroke colour function",
+      "color": "Colour",
+      "color-function": "Colour function",
+      "common": {
+        "default-map-center-position": "Default map centre position"
+      },
+      "data-layer": {
+        "behavior": "Behaviour",
+        "circle": {
+          "place-circle-center-hint": "Circle: click to place circle centre",
+          "place-circle-center-hint-with-entity": "Circle for '{{entityName}}': click to place circle centre"
+        },
+        "color": "Colour",
+        "color-function": "Colour function",
+        "color-range": "Colour range",
+        "color-range-source-key": "Colour range source key",
+        "color-range-source-key-required": "Colour range source key is required",
+        "color-settings": "Colour settings",
+        "marker": {
+          "clustering": {
+            "marker-color-function": "Marker colour function",
+            "use-cluster-marker-color-function": "Use cluster markers colour function"
+          }
+        },
+        "shape": {
+          "color": "Colour",
+          "fill-type-color": "Colour"
+        }
+      },
+      "decorator-custom-color": "Decorator custom colour",
+      "default-map-center-position": "Default map centre position (0,0)",
+      "map-action": {
+        "color": "Colour"
+      },
+      "marker-color-function": "Marker colour function",
+      "overlays": {
+        "overlays-hint": "Configure datasources, appearance, behaviour, editing options, and grouping for map entities"
+      },
+      "path-color": "Path colour",
+      "path-color-function": "Path colour function",
+      "point-color": "Point colour",
+      "point-color-function": "Point colour function",
+      "polygon-color": "Polygon colour",
+      "polygon-color-function": "Polygon colour function",
+      "polygon-stroke-color-function": "Polygon stroke colour function",
+      "stroke-color": "Stroke colour",
+      "tooltip-background-color": "Tooltip background colour",
+      "tooltip-font-color": "Tooltip font colour",
+      "tooltips": {
+        "startCircle": "Circle for '{{entityName}}': click to place circle centre"
+      },
+      "use-circle-fill-color-function": "Use circle fill colour function",
+      "use-circle-stroke-color-function": "Use circle stroke colour function",
+      "use-color-function": "Use colour function",
+      "use-default-map-center-position": "Use default map centre position",
+      "use-path-color-function": "Use path colour function",
+      "use-path-decorator-custom-color": "Use path decorator custom colour",
+      "use-point-color-function": "Use point colour function",
+      "use-polygon-color-function": "Use polygon colour function",
+      "use-polygon-stroke-color-function": "Use polygon stroke colour function"
+    },
+    "notification": {
+      "counter-color": "Colour"
+    },
+    "power-button": {
+      "behavior": "Behaviour",
+      "disabled-colors": "Disabled colours",
+      "power-off-colors": "Power 'Off' colours",
+      "power-on-colors": "Power 'On' colours"
+    },
+    "progress-bar": {
+      "bar-color": "Bar colour"
+    },
+    "radar-chart": {
+      "color": "Colour"
+    },
+    "range-chart": {
+      "out-of-range-color": "Out of range colour",
+      "range-colors": "Range colours"
+    },
+    "rpc": {
+      "button-background-color": "Button background colour",
+      "button-primary": "Primary colour",
+      "button-text-color": "Button text colour",
+      "led-color": "LED colour",
+      "slider-color": "Slider colour"
+    },
+    "segmented-button": {
+      "color-styles": "Colour styles"
+    },
+    "signal-strength": {
+      "active-bars-color": "Active signal bars colour",
+      "inactive-bars-color": "Inactive signal bars colour"
+    },
+    "single-switch": {
+      "behavior": "Behaviour",
+      "layout-centered": "Centred",
+      "switch-color": "Switch colour",
+      "tumbler-color": "Tumbler colour"
+    },
+    "slider": {
+      "behavior": "Behaviour",
+      "colors": "Colours"
+    },
+    "status-widget": {
+      "behavior": "Behaviour",
+      "color-palette": "Colour palette",
+      "disabled-color-palette": "Disabled colour palette",
+      "layout-center": "Centre",
+      "primary-color-hint": "Colour of icon and label",
+      "secondary-color-hint": "Colour of status"
+    },
+    "time-series-chart": {
+      "comparison": {
+        "comparison-data-color": "Comparison data colour"
+      },
+      "grid": {
+        "background-color": "Background colour"
+      },
+      "threshold": {
+        "line-color": "Line colour"
+      }
+    },
+    "toggle-button": {
+      "behavior": "Behaviour"
+    },
+    "value-card": {
+      "layout-centered": "Centred"
+    },
+    "value-stepper": {
+      "behavior": "Behaviour",
+      "button-on-colors": "Power 'On' colours",
+      "color-palette": "Colour palette",
+      "disabled-colors": "Disabled colours"
+    },
+    "widget-font": {
+      "color": "Colour",
+      "shadow-color": "Shadow colour"
+    },
+    "wind-speed-direction": {
+      "arrow-color": "Arrow colour",
+      "center-value": "Centre value",
+      "ticks-color": "Ticks colour"
+    }
+  }
+}

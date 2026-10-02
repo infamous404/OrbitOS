@@ -1196,8 +1196,8 @@
         "make-private-dashboard-title": "Weet je zeker dat je het dashboard '{{dashboardTitle}}' privé wilt maken?",
         "make-private-dashboard-text": "Na de bevestiging wordt het dashboard privé gemaakt en is het niet toegankelijk voor anderen.",
         "make-private-dashboard": "Dashboard privé maken",
-        "socialshare-text": "'{{dashboardTitle}}' mogelijk gemaakt door ThingsBoard",
-        "socialshare-title": "'{{dashboardTitle}}' mogelijk gemaakt door ThingsBoard",
+        "socialshare-text": "'{{dashboardTitle}}' mogelijk gemaakt door {{brandName}}",
+        "socialshare-title": "'{{dashboardTitle}}' mogelijk gemaakt door {{brandName}}",
         "select-dashboard": "Selecteer dashboard",
         "no-dashboards-matching": "Er zijn geen dashboards gevonden die overeenkomen met '{{entity}}'.",
         "dashboard-required": "Dashboard is vereist.",
@@ -2076,7 +2076,7 @@
         "cloud-endpoint": "Cloud-eindpunt",
         "cloud-endpoint-required": "Cloud Endpoint is vereist.",
         "cloud-endpoint-max-length": "Cloud-eindpunt moet kleiner zijn dan 256 tekens",
-        "cloud-endpoint-hint": "Edge vereist HTTP(s)-toegang tot Cloud (ThingsBoard PE) om de licentiesleutel te verifiëren. Geef de cloud-URL op waarmee Edge verbinding kan maken.",
+        "cloud-endpoint-hint": "Edge vereist HTTP(s)-toegang tot Cloud ({{brandName}} PE) om de licentiesleutel te verifiëren. Geef de cloud-URL op waarmee Edge verbinding kan maken.",
         "description": "Omschrijving",
         "details": "Details",
         "events": "Events",
@@ -5009,7 +5009,7 @@
         "allow-customer-white-labeling": "White labeling van klanten toestaan",
         "search": "Tenants zoeken",
         "selected-tenants": "{ count, plural, =1 {1 tenant} other {# tenants} } geselecteerd",
-        "isolated-tb-rule-engine": "Verwerking in geïsoleerde ThingsBoard Rule Engine-container",
+        "isolated-tb-rule-engine": "Verwerking in geïsoleerde {{brandName}} Rule Engine-container",
         "isolated-tb-rule-engine-details": "Vereist afzonderlijke microservice(s) per geïsoleerde tenant"
     },
     "tenant-profile": {
@@ -7010,7 +7010,7 @@
         },
         "functions": {
             "title": "Functies",
-            "pe-feature-tooltip": "Alleen op ThingsBoard\nProfessionele editie",
+            "pe-feature-tooltip": "Alleen op {{brandName}}\nProfessionele editie",
             "switch-to-pe": "Overschakelen naar PE",
             "alarms": "Alarmen",
             "dashboards": "Dashboards",

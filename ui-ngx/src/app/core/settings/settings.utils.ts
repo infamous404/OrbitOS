@@ -1,5 +1,6 @@
 // SPDX-FileCopyrightText: Copyright The Thingsboard Authors
 // SPDX-License-Identifier: Apache-2.0
+import { onLanguageApplied, storedLanguage } from '@app/orbitos/i18n';
 import { environment as env } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 import _moment from 'moment';
@@ -14,7 +15,7 @@ export function updateUserLang(translate: TranslateService, document: Document, 
     console.log(`User lang: ${targetLang}`);
   }
   if (!targetLang) {
-    targetLang = translate.getBrowserCultureLang();
+    targetLang = storedLanguage() || translate.getBrowserCultureLang();
     if (!env.production) {
       console.log(`Fallback to browser lang: ${targetLang}`);
     }
@@ -25,6 +26,8 @@ export function updateUserLang(translate: TranslateService, document: Document, 
   }
   document.documentElement.lang = detectedSupportedLang.replace('_', '-');
   _moment.locale([detectedSupportedLang]);
+  // OrbitOS: remember the language; reload once if date and number formats must change.
+  onLanguageApplied(detectedSupportedLang);
   return translate.use(detectedSupportedLang);
 }
 

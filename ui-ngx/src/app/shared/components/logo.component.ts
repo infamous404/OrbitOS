@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { UrlTree } from '@angular/router';
 import { getCurrentAuthState } from '@core/auth/auth.selectors';
 import { UrlHolder } from '@shared/pipe/image.pipe';
+import { brandLogoUrl } from '@app/orbitos/branding';
 
 @Component({
     selector: 'tb-logo',
@@ -17,7 +18,7 @@ import { UrlHolder } from '@shared/pipe/image.pipe';
 export class LogoComponent implements OnInit {
 
   @Input()
-  src: string | UrlHolder = 'assets/logo_title_white.svg';
+  src: string | UrlHolder = brandLogoUrl();
 
   @Input()
   link: string | UrlTree;

@@ -40,3 +40,6 @@ rebuild-docker.sh
 .claude
 .planning
 docs/superpowers/
+# OrbitOS
+orbitos/docker/.env
+smoke-test-*.log

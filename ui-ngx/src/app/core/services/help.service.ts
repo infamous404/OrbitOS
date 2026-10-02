@@ -1,9 +1,12 @@
 // SPDX-FileCopyrightText: Copyright The Thingsboard Authors
 // SPDX-License-Identifier: Apache-2.0
+import { environment as env } from '@env/environment';
+import { baseLanguage } from '@app/orbitos/i18n';
 import { Injectable } from '@angular/core';
+import { getBranding } from '@app/orbitos/branding';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { docPlatformPrefix, helpBaseUrl as siteBaseUrl } from '@shared/models/constants';
 import { UiSettingsService } from '@core/http/ui-settings.service';
@@ -36,8 +39,10 @@ export class HelpService {
       return of(this.helpCache[lang][key]);
     } else {
       return this.loadHelpContent(lang, key).pipe(
+        // OrbitOS: a regional language (fr_CA) uses its base language's help (fr_FR) before the default.
+        catchError((e) => baseLanguage(lang) !== lang ? this.loadHelpContent(baseLanguage(lang), key) : throwError(() => e)),
         catchError(() => {
-          const defaultLang = this.translate.getDefaultLang();
+          const defaultLang = this.translate.getDefaultLang() || env.defaultLang;
           if (lang !== defaultLang) {
             return this.loadHelpContent(defaultLang, key).pipe(
               catchError(() => {
@@ -83,7 +88,8 @@ export class HelpService {
     return this.http.get(`${helpBaseUrl}/help/${lang}/${key}.md`, {responseType: 'text'} ).pipe(
       map((content) => {
         return {
-          content,
+          // OrbitOS: help pages use {{brandName}} instead of a fixed product name.
+          content: content.replace(/\{\{\s?brandName\s?\}\}/g, getBranding().name),
           helpBaseUrl
         };
       })
