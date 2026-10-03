@@ -19,9 +19,9 @@ logo: logo.svg          # top bar and login page, shown on the primary color
 favicon: favicon.svg    # browser tab icon
 
 colors:
-  primary: "#0B4F6C"
-  secondary: "#1F7A99"
-  accent: "#E8772E"
+  primary: "#0F2347"
+  secondary: "#1D5BFF"
+  accent: "#0891B2"
 
 login:
   title:

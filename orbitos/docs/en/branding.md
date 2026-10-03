@@ -9,6 +9,7 @@ Everything about the brand lives in one folder: `orbitos/branding/`.
 | `branding.yml` | Name, colors, login texts, footer, legal links |
 | `logo.svg` | Logo in the top bar and on the login page (light logo, shown on the main color) |
 | `favicon.svg` | Small icon in the browser tab |
+| `extra/` | Other versions of the OrbitOS logo, not used by the app: for light backgrounds, stacked (README), icon only, PNG copies |
 
 You never need to edit code.
 

@@ -5,7 +5,8 @@ not run), **NOT DONE**, **DEFERRED** (cut on purpose by the owner's scope freeze
 simple, fast setup, lightweight where possible).
 
 Item-by-item evidence is in the phase reports: [Phase 1](PHASE1_STATUS.md) · [Phase 2](PHASE2_STATUS.md) ·
-[Phase 3](PHASE3_STATUS.md) · [Phase 4](PHASE4_STATUS.md) · [Phase 5](PHASE5_STATUS.md) · [Phase 6](PHASE6_STATUS.md).
+[Phase 3](PHASE3_STATUS.md) · [Phase 4](PHASE4_STATUS.md) · [Phase 5](PHASE5_STATUS.md) · [Phase 6](PHASE6_STATUS.md) ·
+[After version 1](POST_V1_STATUS.md) (logo, look, language fix, CoAP and OPC UA checks).
 
 This is not legal advice. A qualified Canadian privacy lawyer or privacy officer should review
 OrbitOS and how you use it (Law 25, PIPEDA, GDPR, CCPA, Bill 96) before production use.
@@ -32,7 +33,7 @@ home, offline by default, privacy and security tools, and your own brand.
 | Goal | Status | Notes |
 |---|---|---|
 | Apache-2.0 only; every upstream patch licence-checked | VERIFIED | `upstream_license_check.py` refuses BUSL code (tested on the real v4.4 commit) |
-| No upstream trademarks in the UI and user docs | VERIFIED | Attribution only in LICENSE, NOTICE, README. Upstream developer files not shipped to users (`docker/README.md`, `msa/**/README.md`, `TEST_FAST.md`) still name it: NOT DONE |
+| No upstream trademarks in the UI and user docs | VERIFIED | Attribution only in LICENSE, NOTICE, README. Upstream developer READMEs replaced by OrbitOS notes. Edge install instructions still name it (only shown if Edge is turned on; off by default): NOT DONE |
 | Configurable brand | VERIFIED | `orbitos/branding/branding.yml` or `ORBITOS_BRAND_NAME` |
 | No telemetry, no calls home | VERIFIED | Update checker, Community Grant, IoT Hub, remote help, GitHub badge, email images, vendor mobile-app card, paid-edition upsell: all removed or off. Gateway add-on: update checks and DNS change removed |
 | Works local and offline | VERIFIED | Browser policy allows only this server; maps and other hosts opt-in |
@@ -43,9 +44,9 @@ home, offline by default, privacy and security tools, and your own brand.
 | Secure defaults | VERIFIED | Generated secrets, no exposed database, forced change of the generated admin password, 12-character passwords, lockout, two-factor available |
 | Tamper-evident audit log | VERIFIED | Changed and deleted entries detected |
 | Privacy tools (Law 25, PIPEDA) | VERIFIED | Export and erasure of an account; retention defaults |
-| Device protocols | VERIFIED: MQTT both ways, HTTP, WebSocket API | CoAP UNVERIFIED; LoRaWAN documented only |
-| Encrypted MQTT, industrial protocols (gateway add-on) | VERIFIED: MQTT over TLS; Modbus through the gateway (simulated meter) | OPC UA, BACnet UNVERIFIED (no devices) |
-| WCAG 2.1 AA | PARTLY | OrbitOS screens checked for contrast and labels; no full audit of upstream screens: NOT DONE |
+| Device protocols | VERIFIED: MQTT both ways, HTTP, CoAP, WebSocket API | LoRaWAN documented only |
+| Encrypted MQTT, industrial protocols (gateway add-on) | VERIFIED: MQTT over TLS; Modbus and OPC UA through the gateway (simulated machines) | BACnet UNVERIFIED (no simulator) |
+| WCAG 2.1 AA | PARTLY | OrbitOS screens checked; automated contrast check of the main upstream screens, problems found fixed. Full audit (screen reader, every dialog): NOT DONE |
 | Bilingual docs: quick start, install, admin, developer, devices, APIs, privacy | VERIFIED (written) | Also in the app at `/docs` |
 
 ## Deferred by the scope freeze

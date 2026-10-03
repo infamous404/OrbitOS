@@ -1,6 +1,7 @@
 {
   "orbitos": {
     "powered-by": "Powered by {{brandName}}",
+    "show-password": "Show or hide the password",
     "language": "Language",
     "error": {
       "invalid-credentials": "Invalid email or password.",

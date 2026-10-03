@@ -51,6 +51,9 @@ rendorment, et pour les services qui poussent des données (un « webhook entran
 `coap://HOTE:5683/api/v1/JETON/telemetry`, même JSON. Exemple avec libcoap :
 `coap-client -m post coap://HOTE/api/v1/JETON/telemetry -e '{"temperature": 21.5}'`
 
+Pas d'outil CoAP ? Ce dépôt en contient un petit (Python 3, rien à installer) :
+`python orbitos/scripts/coap_device.py --host HOTE --token JETON --values '{"temperature": 21.5}'`
+
 ## MQTT chiffré (TLS)
 
 Activez-le dans `.env`, puis `docker compose up -d` :
@@ -124,3 +127,8 @@ appareil. Le Modbus série (RS-485) demande de donner le port série au conteneu
 
 La passerelle peut aussi fonctionner sur un petit ordinateur près des machines (elle se connecte
 à OrbitOS par MQTT, port 1883 ou 8883) : utilisez la même image et les mêmes réglages (`host`, `port`, `accessToken`).
+
+**Exemple OPC UA :** `orbitos/gateway/opcua_simulator.py` est une machine OPC UA simulée, et la
+vérification OPC UA facultative du script de test (`ORBITOS_TEST_OPCUA=1 bash orbitos/scripts/smoke-test.sh`)
+montre un fichier de connecteur complet qui fonctionne (`opcua.json`). Format de l'adresse du serveur
+OPC UA : `opc.tcp://MACHINE:4840/...`.

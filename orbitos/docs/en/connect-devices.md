@@ -51,6 +51,9 @@ other services that push data (an "incoming webhook": point them at this address
 `coap://HOST:5683/api/v1/TOKEN/telemetry`, same JSON. Example with libcoap:
 `coap-client -m post coap://HOST/api/v1/TOKEN/telemetry -e '{"temperature": 21.5}'`
 
+No CoAP tool? This repository has a small one (Python 3, nothing to install):
+`python orbitos/scripts/coap_device.py --host HOST --token TOKEN --values '{"temperature": 21.5}'`
+
 ## Encrypted MQTT (TLS)
 
 Turn it on in `.env`, then `docker compose up -d`:
@@ -123,3 +126,8 @@ container (`devices:` in a `compose.override.yaml`).
 
 The gateway can also run on a small computer next to the machines (it connects to OrbitOS by
 MQTT, port 1883 or 8883): use the same image and settings (`host`, `port`, `accessToken`).
+
+**OPC UA example:** `orbitos/gateway/opcua_simulator.py` is a simulated OPC UA machine, and the
+optional OPC UA check of the test script (`ORBITOS_TEST_OPCUA=1 bash orbitos/scripts/smoke-test.sh`)
+shows a complete working connector file (`opcua.json`). OPC UA server address format:
+`opc.tcp://MACHINE:4840/...`.

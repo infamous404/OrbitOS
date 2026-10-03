@@ -8,7 +8,7 @@ Use the repository's **Security** tab, then **Report a vulnerability** (GitHub p
 Include: what is affected, steps to reproduce, and the impact you expect.
 We aim to reply within 5 business days.
 
-Vulnerabilities in the ThingsBoard code that OrbitOS is based on: report them to OrbitOS too.
+Vulnerabilities in the upstream code that OrbitOS is based on (see NOTICE): report them to OrbitOS too.
 We fix them in OrbitOS ourselves; see [UPSTREAM_PATCHES.md](UPSTREAM_PATCHES.md), section 4.
 
 ## Supported versions
@@ -23,7 +23,7 @@ Utilisez l'onglet **Security** du dépôt, puis **Report a vulnerability** (sign
 Indiquez : ce qui est touché, les étapes pour reproduire le problème et l'impact attendu.
 Nous visons une réponse en 5 jours ouvrables.
 
-Vulnérabilités dans le code ThingsBoard sur lequel OrbitOS est basée : signalez-les aussi à OrbitOS.
+Vulnérabilités dans le code amont sur lequel OrbitOS est basée (voir NOTICE) : signalez-les aussi à OrbitOS.
 Nous les corrigeons nous-mêmes dans OrbitOS ; voir [UPSTREAM_PATCHES.md](UPSTREAM_PATCHES.md), section 4.
 
 ## Versions prises en charge

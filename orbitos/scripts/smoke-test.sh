@@ -19,6 +19,7 @@ cleanup() {
   $COMPOSE logs orbitos > smoke-test-orbitos.log 2>&1 || true
   $COMPOSE logs gateway > smoke-test-gateway.log 2>&1 || true
   if [ -n "$BACKUP" ]; then rm -f "backups/$BACKUP"; fi
+  docker rm -f orbitos-smoke-opcua > /dev/null 2>&1 || true
   if [ "${KEEP_RUNNING:-}" = "1" ]; then echo "Left running: $BASE (stop: $COMPOSE down -v)"; return; fi
   $COMPOSE down -v > /dev/null 2>&1 || true
   rm -rf .smoke-gateway smoke-test-mqtt.crt
@@ -257,6 +258,17 @@ code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -d '{}' "$BASE/api/v1/not-
 [ "$code" = "401" ] || [ "$code" = "404" ] || fail "unknown device token accepted ($code)"
 pass "REST API -> platform -> MQTT device -> answer back (two-way command); unknown token refused"
 
+"$PY" orbitos/scripts/coap_device.py --port "$ORBITOS_COAP_PORT" --token "$device_token" \
+  --values '{"temperature":20.75,"via":"coap"}' > /dev/null || fail "CoAP publish"
+"$PY" orbitos/scripts/coap_device.py --port "$ORBITOS_COAP_PORT" --token not-a-device-token > /dev/null 2>&1 \
+  && fail "CoAP accepted an unknown device token"
+sleep 1
+curl -fsS -H "X-Authorization: Bearer $token" \
+  "$BASE/api/plugins/telemetry/DEVICE/$device_id/values/timeseries?keys=temperature,via" \
+  | json 'assert d["via"][0]["value"] == "coap" and d["temperature"][0]["value"] in ("20.75", 20.75), d' \
+  || fail "CoAP value not readable through the REST API"
+pass "CoAP device (UDP) -> platform -> REST API; unknown token refused"
+
 curl -fsS "$BASE/v3/api-docs/api" > smoke-test-api.json || fail "API reference"
 "$PY" -c "import json,re; s=open('smoke-test-api.json',encoding='utf-8').read(); d=json.loads(s); assert d['info']['title']=='OrbitOS REST API', d['info']; assert len(d['paths'])>300; n=len(re.findall('ThingsBoard',s)); assert n==0, n" \
   || fail "API reference not rebranded"
@@ -301,6 +313,53 @@ if $COMPOSE logs gateway 2>&1 | grep -qiE 'pip install|Installing collected|upda
   fail "gateway downloaded something or checked for updates"
 fi
 pass "IoT Gateway add-on: Modbus meter -> gateway -> platform; no downloads, no update checks"
+
+# ---- optional: OPC UA through the gateway (ORBITOS_TEST_OPCUA=1). Needs internet once: the OPC UA
+# library (asyncua, LGPL) is not bundled, so the simulator and the gateway connector download it. ----
+if [ "${ORBITOS_TEST_OPCUA:-}" = "1" ]; then
+  net=$(docker inspect -f '{{range $k, $v := .NetworkSettings.Networks}}{{$k}}{{end}}' "$($COMPOSE ps -q orbitos)")
+  docker rm -f orbitos-smoke-opcua > /dev/null 2>&1 || true
+  MSYS_NO_PATHCONV=1 docker create --name orbitos-smoke-opcua --network "$net" --network-alias opcua-simulator \
+    --entrypoint sh localhost/orbitos-gateway:3.8.5 -c 'pip install -q asyncua==1.1.5 && python /tmp/opcua_simulator.py' > /dev/null
+  MSYS_NO_PATHCONV=1 docker cp orbitos/gateway/opcua_simulator.py orbitos-smoke-opcua:/tmp/opcua_simulator.py > /dev/null
+  docker start orbitos-smoke-opcua > /dev/null
+  "$PY" - <<'EOF'
+import json
+path = ".smoke-gateway/"
+gw = json.load(open(path + "tb_gateway.json", encoding="utf-8"))
+gw["connectors"].append({"type": "opcua", "name": "OPC UA demo", "configuration": "opcua.json"})
+json.dump(gw, open(path + "tb_gateway.json", "w", encoding="utf-8"), indent=2)
+conf = {
+  "server": {"url": "opc.tcp://opcua-simulator:4840/freeopcua/server/", "timeoutInMillis": 5000,
+             "scanPeriodInMillis": 3600000, "pollPeriodInMillis": 2000, "enableSubscriptions": False,
+             "sessionTimeoutInMillis": 120000, "showMap": False, "security": "None",
+             "identity": {"type": "anonymous"}},
+  "mapping": [{
+    "deviceNodeSource": "path", "deviceNodePattern": "Root\\.Objects\\.MyObject",
+    "deviceInfo": {"deviceNameExpression": "OPC UA demo machine", "deviceNameExpressionSource": "constant",
+                   "deviceProfileExpression": "default", "deviceProfileExpressionSource": "constant"},
+    "attributes": [], "timeseries": [
+      {"key": "temperature", "type": "path", "value": "${Temperature}"},
+      {"key": "humidity", "type": "path", "value": "${Humidity}"}],
+    "rpc_methods": [], "attributes_updates": []}]
+}
+json.dump(conf, open(path + "opcua.json", "w", encoding="utf-8"), indent=2)
+EOF
+  $COMPOSE restart gateway > /dev/null 2>&1
+  machine=""
+  for _ in $(seq 1 60); do
+    machine=$(curl -fsS -H "X-Authorization: Bearer $token" "$BASE/api/tenant/devices?deviceName=OPC%20UA%20demo%20machine" 2>/dev/null \
+      | json 'print(d["id"]["id"])' 2>/dev/null) && break
+    sleep 3
+  done
+  [ -n "$machine" ] || fail "OPC UA device not created by the gateway (see: docker logs orbitos-smoke-opcua)"
+  sleep 6
+  curl -fsS -H "X-Authorization: Bearer $token" "$BASE/api/plugins/telemetry/DEVICE/$machine/values/timeseries?keys=temperature,humidity" \
+    | json 'assert 17 <= float(d["temperature"][0]["value"]) <= 25 and 39 <= float(d["humidity"][0]["value"]) <= 51, d' \
+    || fail "OPC UA values not received"
+  docker rm -f orbitos-smoke-opcua > /dev/null 2>&1 || true
+  pass "IoT Gateway add-on: OPC UA machine (simulated) -> gateway -> platform"
+fi
 
 # ---- Phase 4: tamper-evident audit log (last: it damages the log on purpose) ----
 psql() { $COMPOSE exec -T postgres psql -U orbitos -d orbitos -tA -c "$1"; }

@@ -77,22 +77,28 @@ export class OrbitosLanguageSwitcherComponent {
       return;
     }
     storeLanguage(lang);
-    // Also replace the language remembered from the last signed-in user (upstream settings),
-    // which otherwise wins on the login and setup pages after a sign-out.
-    this.store.dispatch(new ActionSettingsChangeLanguage({userLang: lang}));
     if (getCurrentAuthState(this.store)?.isAuthenticated) {
+      // Save to the profile first: applying the language can reload the page at once, and after
+      // a reload the profile language wins.
       this.http.get<any>('/api/auth/user').subscribe({
         next: user => {
           user.additionalInfo = {...(user.additionalInfo || {}), lang};
           this.http.post('/api/user', user).subscribe({
-            next: () => window.location.reload(),
-            error: () => window.location.reload()
+            next: () => this.apply(lang),
+            error: () => this.apply(lang)
           });
         },
-        error: () => window.location.reload()
+        error: () => this.apply(lang)
       });
     } else {
-      window.location.reload();
+      this.apply(lang);
     }
+  }
+
+  private apply(lang: string) {
+    // Also replaces the language remembered from the last signed-in user (upstream settings),
+    // which otherwise wins on the login and setup pages after a sign-out.
+    this.store.dispatch(new ActionSettingsChangeLanguage({userLang: lang}));
+    window.location.reload();
   }
 }

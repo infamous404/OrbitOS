@@ -1,5 +1,25 @@
 # Changelog / Journal des modifications
 
+## Unreleased: after version 1 (logo, look, fixes)
+
+### Changed / Modifications
+- New OrbitOS logo (vector, sharp at any size) and colors: deep navy, blue and cyan. PNG copies in `orbitos/branding/extra/`.
+  / Nouveau logo OrbitOS (vectoriel, net à toute taille) et couleurs : bleu nuit, bleu et cyan. Copies PNG dans `orbitos/branding/extra/`.
+- Subtle "cyber" look: dark side menu with a faint grid, cyan active marker, glow lines, dark sign-in page with a grid, clear keyboard focus.
+  / Style « cyber » discret : menu latéral sombre avec une grille légère, repère cyan, lignes lumineuses, page de connexion sombre, focus clavier bien visible.
+- Server log: OrbitOS banner and messages; clearer message after an unfinished installation (gives the exact command).
+  / Journal du serveur : bannière et messages OrbitOS; message plus clair après une installation inachevée (donne la commande exacte).
+
+### Fixed / Corrections
+- Language menu after sign-in: the choice was replaced by the old one when the page reloaded.
+  / Menu de langue après la connexion : le choix était remplacé par l'ancien au rechargement de la page.
+- Browser console error on the sign-in, setup and docs pages (logo link).
+  / Erreur dans la console du navigateur sur les pages de connexion, de configuration et d'aide (lien du logo).
+
+### Added / Ajouts
+- CoAP test device (`orbitos/scripts/coap_device.py`) and CoAP check in the end-to-end test; optional OPC UA check with a simulated machine (`ORBITOS_TEST_OPCUA=1`).
+  / Appareil CoAP de test et vérification CoAP dans le test complet; vérification OPC UA facultative avec une machine simulée.
+
 ## Unreleased: Phase 6 (docs, add-ons, version 1)
 
 ### Added / Ajouts

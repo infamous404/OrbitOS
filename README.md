@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="orbitos/branding/extra/logo-stacked-dark.svg">
+    <img src="orbitos/branding/extra/logo-stacked-light.svg" alt="OrbitOS" width="240">
+  </picture>
+</p>
+
 # OrbitOS
 
 *[Version française](README.fr.md)*

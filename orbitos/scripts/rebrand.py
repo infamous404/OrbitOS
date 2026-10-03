@@ -186,9 +186,9 @@ def palette_scss(name, values, overrides=None):
 
 
 def generate_scss(colors):
-    primary_hex = colors.get("primary", "#0B4F6C")
+    primary_hex = colors.get("primary", "#0F2347")
     secondary_hex = colors.get("secondary", primary_hex)
-    accent_hex = colors.get("accent", "#E8772E")
+    accent_hex = colors.get("accent", "#0891B2")
     primary = shades(primary_hex)
     accent = shades(accent_hex)
     secondary = hex_to_rgb(secondary_hex)

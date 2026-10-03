@@ -99,7 +99,7 @@
 			<table style="box-sizing: border-box; border: 1px solid #e9e9e9; border-radius: 3px; margin: 0px; height: 367px; background-color: #ffffff; width: 600px; max-width: 600px !important;" width="600" cellspacing="0" cellpadding="0">
 				<tbody>
 				<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-					<td class="content-block" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #348eda; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0px; padding: 0px; height: 110px;" valign="top"><div style="background: #0B4F6C; color: #ffffff; font-size: 22px; font-weight: 600; padding: 30px 32px; text-align: left;">${brandName}</div></td>
+					<td class="content-block" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #348eda; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0px; padding: 0px; height: 110px;" valign="top"><div style="background: #0F2347; color: #ffffff; font-size: 22px; font-weight: 600; padding: 30px 32px; text-align: left;">${brandName}</div></td>
 				</tr>
 				<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 16px; margin: 0;">
 					<td class="content-block" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #000000; box-sizing: border-box; font-size: 16px; margin: 0px; padding: 0px 32px; height: 66px; vertical-align: middle;" valign="middle"><strong>Avertissement :</strong> une fonctionnalité de votre compte ${brandName} pourrait bientôt être désactivée</td>

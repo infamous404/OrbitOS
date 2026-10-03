@@ -41,7 +41,7 @@ public final class DatabaseState {
                 try (ResultSet admins = statement.executeQuery("SELECT count(*) FROM tb_user WHERE authority = 'SYS_ADMIN'")) {
                     admins.next();
                     if (admins.getLong(1) == 0) {
-                        System.out.println("Database: an earlier installation did not finish. Remove the database volume and start again.");
+                        System.out.println("Database: an earlier installation did not finish. To start again from an empty database, run: docker compose down -v  then: docker compose up -d  (this deletes the unfinished database only).");
                         System.exit(PARTIAL);
                     }
                 }

@@ -9,6 +9,7 @@ Tout ce qui touche l'image de marque se trouve dans un seul dossier : `orbitos/b
 | `branding.yml` | Nom, couleurs, textes de connexion, pied de page, liens légaux |
 | `logo.svg` | Logo de la barre du haut et de la page de connexion (logo clair, affiché sur la couleur principale) |
 | `favicon.svg` | Petite icône dans l'onglet du navigateur |
+| `extra/` | Autres versions du logo OrbitOS, non utilisées par l'application : pour fond clair, empilée (README), icône seule, copies PNG |
 
 Vous n'avez jamais à modifier le code.
 

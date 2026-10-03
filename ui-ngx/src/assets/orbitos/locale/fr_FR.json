@@ -218,6 +218,7 @@
   },
   "orbitos": {
     "powered-by": "Propulsé par {{brandName}}",
+    "show-password": "Afficher ou masquer le mot de passe",
     "language": "Langue",
     "error": {
       "invalid-credentials": "Adresse e-mail ou mot de passe incorrect.",
