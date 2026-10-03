@@ -1,5 +1,21 @@
 # Changelog / Journal des modifications
 
+## Unreleased: Phase 6 (docs, add-ons, version 1)
+
+### Added / Ajouts
+- Optional IoT Gateway add-on (`--profile gateway`): Modbus, OPC UA, BACnet and more; no calls home; simulated Modbus meter to try it.
+  / Module facultatif IoT Gateway : Modbus, OPC UA, BACnet et plus; aucun appel vers l'extérieur; compteur Modbus simulé pour l'essayer.
+- Encrypted MQTT on port 8883 (`ORBITOS_MQTT_TLS=true`), certificate created offline on first start.
+  / MQTT chiffré sur le port 8883, certificat créé hors ligne au premier démarrage.
+- In-app documentation at `/docs` (EN/FR, offline); help links open it instead of the upstream website.
+  / Documentation intégrée à `/docs` (FR/EN, hors ligne); les liens d'aide l'ouvrent au lieu du site d'origine.
+- Guides: quick start, administrator guide, developer guide, docs index. 20 help pages translated to French.
+  / Guides : démarrage rapide, guide de l'administrateur, guide du développeur, index. 20 pages d'aide traduites en français.
+
+### Removed / Retraits
+- Paid-edition upsell on the platform administrator's home page; vendor mobile-app QR card and store links.
+  / Publicité pour l'édition payante sur l'accueil de l'administrateur; carte QR et liens vers l'application mobile du fournisseur.
+
 ## Unreleased: Phase 5 (interoperability, trimmed)
 
 ### Added / Ajouts

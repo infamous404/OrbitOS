@@ -14,7 +14,9 @@ import org.thingsboard.server.common.data.security.model.mfa.provider.BackupCode
 import org.thingsboard.server.common.data.security.model.mfa.provider.TotpTwoFaProviderConfig;
 import org.thingsboard.server.common.data.tenant.profile.DefaultTenantProfileConfiguration;
 import org.thingsboard.server.common.data.tenant.profile.TenantProfileData;
+import org.thingsboard.server.dao.mobile.QrCodeSettingService;
 import org.thingsboard.server.dao.settings.SecuritySettingsService;
+import org.thingsboard.server.common.data.mobile.qrCodeSettings.QrCodeSettings;
 import org.thingsboard.server.dao.tenant.TenantProfileService;
 import org.thingsboard.server.orbitos.branding.BrandingService;
 import org.thingsboard.server.service.security.auth.mfa.config.TwoFaConfigManager;
@@ -28,6 +30,7 @@ import java.util.List;
  *   <li>Two-factor sign-in available to everyone: authenticator app (TOTP) and backup codes.
  *       Not forced on anyone (Security settings > Two-factor authentication).</li>
  *   <li>Passwords: at least 12 characters; account locked after 10 failed sign-ins.</li>
+ *   <li>No advertising of the upstream vendor's mobile app on the home page.</li>
  *   <li>Retention in the default organization profile: telemetry and alarms 365 days,
  *       remote-command (RPC) records 30 days. Audit log and event retention are server settings
  *       (orbitos.yml).</li>
@@ -48,19 +51,23 @@ public class SecureDefaults {
     private final SecuritySettingsService securitySettingsService;
     private final TenantProfileService tenantProfileService;
     private final BrandingService brandingService;
+    private final QrCodeSettingService qrCodeSettingService;
 
     public SecureDefaults(TwoFaConfigManager twoFaConfigManager, SecuritySettingsService securitySettingsService,
-                          TenantProfileService tenantProfileService, BrandingService brandingService) {
+                          TenantProfileService tenantProfileService, BrandingService brandingService,
+                          QrCodeSettingService qrCodeSettingService) {
         this.twoFaConfigManager = twoFaConfigManager;
         this.securitySettingsService = securitySettingsService;
         this.tenantProfileService = tenantProfileService;
         this.brandingService = brandingService;
+        this.qrCodeSettingService = qrCodeSettingService;
     }
 
     public void apply() throws Exception {
         applyTwoFactor();
         applyPasswordPolicy();
         applyRetention();
+        hideUpstreamMobileApp();
         log.info("Secure defaults applied: two-factor sign-in available, {}-character passwords, {}-day telemetry retention",
                 MIN_PASSWORD_LENGTH, TELEMETRY_DAYS);
     }
@@ -92,6 +99,24 @@ public class SecureDefaults {
             settings.setMaxFailedLoginAttempts(MAX_FAILED_SIGN_INS);
         }
         securitySettingsService.saveSecuritySettings(settings);
+    }
+
+    /**
+     * The home page advertised the upstream vendor's own mobile app (QR code and store links). OrbitOS has no
+     * mobile app of its own yet: hide the card; the home page then shows "Getting started" instead.
+     */
+    private void hideUpstreamMobileApp() {
+        try {
+            QrCodeSettings settings = qrCodeSettingService.findQrCodeSettings(TenantId.SYS_TENANT_ID);
+            settings.setTenantId(TenantId.SYS_TENANT_ID); // defaults come without an owner
+            settings.getQrCodeConfig().setShowOnHomePage(false);
+            settings.setAndroidEnabled(false);
+            settings.setIosEnabled(false);
+            qrCodeSettingService.saveQrCodeSettings(TenantId.SYS_TENANT_ID, settings);
+        } catch (Exception e) {
+            // Cosmetic only: never block the setup because of it.
+            log.warn("Mobile app card left on the home page: {}", e.getMessage());
+        }
     }
 
     private void applyRetention() {

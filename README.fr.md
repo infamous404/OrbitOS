@@ -7,7 +7,7 @@ branchez vos appareils, recueillez leurs données, consultez-les dans des tablea
 réagissez grâce à des règles. Elle fonctionne en français et en anglais, roule entièrement sur
 votre ordinateur ou votre serveur, et n'envoie jamais de données ni de statistiques d'utilisation à qui que ce soit.
 
-> **État : début du développement (phase 3 sur 6).** Pas encore prête pour la production. Voir [CHANGELOG.md](CHANGELOG.md).
+> **État : candidate à la version 1.** Les six phases sont terminées; voir [le rapport final](orbitos/docs/status/FINAL_STATUS.md). Faites-la examiner par un avocat ou un responsable de la protection des renseignements personnels avant un usage en production. Voir [CHANGELOG.md](CHANGELOG.md).
 
 ## Ce qui la distingue
 
@@ -18,7 +18,9 @@ votre ordinateur ou votre serveur, et n'envoie jamais de données ni de statisti
   légaux viennent d'un seul fichier : [`orbitos/branding/branding.yml`](orbitos/branding/branding.yml).
   Voir le [guide de l'image de marque](orbitos/docs/fr/branding.md).
 - **Bilingue.** Le français (Canada et France) et l'anglais sont traités à égalité : écrans, courriels, dates.
-- **Simple à faire rouler.** Une seule commande, environ 2 Go de mémoire, aucun mot de passe par défaut, fonctionne hors ligne.
+- **Simple à faire rouler.** Une seule commande, environ 1,3 Go de mémoire, aucun mot de passe par défaut, fonctionne hors ligne.
+- **Privée et sécurisée par défaut.** Authentification à deux facteurs, journal d'audit vérifiable, durées de conservation, exportation et effacement des renseignements personnels (Loi 25, LPRPDE).
+- **Appareils.** MQTT (aussi chiffré), HTTP, CoAP; Modbus, OPC UA et BACnet par un module de passerelle facultatif.
 - **Licence ouverte.** Licence Apache 2.0, pour toujours. Voir [Licence](#licence).
 
 ## Démarrage rapide
@@ -34,7 +36,7 @@ la page de configuration crée votre compte, votre organisation et un appareil d
 tableau de bord. Le code de configuration demandé se trouve dans le journal du serveur
 (`docker compose logs orbitos`).
 
-Guides : [installation, sauvegardes, mises à jour, HTTPS](orbitos/docs/fr/install.md) · [connecter des appareils](orbitos/docs/fr/connect-devices.md) · [API et webhooks](orbitos/docs/fr/api.md) · [confidentialité et sécurité](orbitos/docs/fr/privacy-security.md).
+Guides ([tous](orbitos/docs/fr/index.md), aussi dans l'application à `/docs`) : [démarrage rapide](orbitos/docs/fr/quick-start.md) · [installation, sauvegardes, mises à jour, HTTPS](orbitos/docs/fr/install.md) · [connecter des appareils](orbitos/docs/fr/connect-devices.md) · [API et webhooks](orbitos/docs/fr/api.md) · [confidentialité et sécurité](orbitos/docs/fr/privacy-security.md).
 
 ## Licence
 

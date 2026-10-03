@@ -1,0 +1,118 @@
+// SPDX-FileCopyrightText: Copyright The OrbitOS Authors
+// SPDX-License-Identifier: Apache-2.0
+$accent-line: #22d3ee;
+$accent-text: #0e7490; // 5.4:1 on white
+
+:host {
+  display: flex;
+  flex: 1;
+  min-height: 100vh;
+}
+
+.orbitos-docs {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.orbitos-docs-header {
+  padding: 8px 24px;
+  background: var(--mat-sys-primary, #0b4f6c);
+  color: #fff;
+  box-shadow: inset 0 -1px 0 rgba($accent-line, 0.55);
+  a { color: #fff; text-decoration: none; }
+}
+
+.orbitos-docs-logo { max-height: 36px; }
+.orbitos-docs-label {
+  font-family: 'Roboto Mono', Consolas, monospace;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.orbitos-docs-body {
+  flex: 1;
+  @media (max-width: 760px) {
+    flex-direction: column;
+  }
+}
+
+.orbitos-docs-nav {
+  flex: 0 0 230px;
+  padding: 20px 8px 20px 16px;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  a {
+    padding: 8px 12px;
+    border-radius: 4px;
+    color: rgba(0, 0, 0, 0.78);
+    text-decoration: none;
+    font-size: 14px;
+    border-left: 2px solid transparent;
+    &:hover { background: rgba(14, 116, 144, 0.06); }
+    &.active {
+      color: $accent-text;
+      font-weight: 500;
+      border-left-color: $accent-line;
+      background: rgba(14, 116, 144, 0.08);
+    }
+  }
+  @media (max-width: 760px) {
+    flex: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+}
+
+.orbitos-docs-content {
+  flex: 1;
+  min-width: 0;
+  padding: 24px 32px 48px;
+  max-width: 900px;
+}
+
+.orbitos-docs-note {
+  border-left: 3px solid $accent-line;
+  background: rgba(14, 116, 144, 0.06);
+  padding: 8px 12px;
+  margin: 0 0 16px;
+}
+
+.orbitos-docs-article {
+  font-size: 15px;
+  line-height: 1.6;
+  ::ng-deep {
+    h1 { font-size: 28px; line-height: 36px; margin: 0 0 16px; }
+    h2 { font-size: 21px; margin: 32px 0 8px; padding-bottom: 4px; border-bottom: 1px solid rgba($accent-line, 0.45); }
+    h3 { font-size: 17px; margin: 24px 0 8px; }
+    a { color: $accent-text; }
+    code {
+      font-family: 'Roboto Mono', Consolas, monospace;
+      font-size: 13px;
+      background: rgba(14, 116, 144, 0.08);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    pre {
+      background: #0b1220;
+      color: #e2e8f0;
+      border-left: 2px solid $accent-line;
+      border-radius: 4px;
+      padding: 12px 14px;
+      overflow-x: auto;
+      code { background: none; color: inherit; padding: 0; }
+    }
+    table { border-collapse: collapse; margin: 12px 0; display: block; overflow-x: auto; }
+    th, td { border: 1px solid rgba(0, 0, 0, 0.12); padding: 6px 10px; text-align: left; vertical-align: top; }
+    th { background: rgba(14, 116, 144, 0.06); }
+    blockquote { margin: 12px 0; padding: 4px 14px; border-left: 3px solid $accent-line; color: rgba(0, 0, 0, 0.7); }
+  }
+}

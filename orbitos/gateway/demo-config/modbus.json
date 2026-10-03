@@ -1,0 +1,62 @@
+{
+  "master": {
+    "slaves": [
+      {
+        "host": "modbus-simulator",
+        "port": 5020,
+        "type": "tcp",
+        "method": "socket",
+        "unitId": 1,
+        "deviceName": "Modbus demo meter",
+        "deviceType": "modbus-meter",
+        "timeout": 35,
+        "byteOrder": "BIG",
+        "wordOrder": "BIG",
+        "retries": 3,
+        "retryOnEmpty": true,
+        "retryOnInvalid": true,
+        "pollPeriod": 2000,
+        "connectAttemptTimeMs": 5000,
+        "connectAttemptCount": 5,
+        "waitAfterFailedAttemptsMs": 30000,
+        "attributes": [],
+        "timeseries": [
+          {
+            "tag": "temperature",
+            "type": "16uint",
+            "functionCode": 3,
+            "objectsCount": 1,
+            "address": 0,
+            "divider": 10
+          },
+          {
+            "tag": "humidity",
+            "type": "16uint",
+            "functionCode": 3,
+            "objectsCount": 1,
+            "address": 1,
+            "divider": 10
+          },
+          {
+            "tag": "voltage",
+            "type": "16uint",
+            "functionCode": 3,
+            "objectsCount": 1,
+            "address": 2,
+            "divider": 10
+          },
+          {
+            "tag": "power",
+            "type": "16uint",
+            "functionCode": 3,
+            "objectsCount": 1,
+            "address": 3,
+            "divider": 10
+          }
+        ],
+        "attributeUpdates": [],
+        "rpc": []
+      }
+    ]
+  }
+}

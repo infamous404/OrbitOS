@@ -1,67 +1,27 @@
 ---
-name: "\U0001F41E Bug report"
-about: Create a report to help us improve
-title: "Your title here"
-labels: ['bug', 'unconfirmed']
-assignees: Ultrazombie
-
+name: "Bug report / Signaler un bogue"
+about: Something does not work as described / Quelque chose ne fonctionne pas comme prévu
+title: ""
+labels: ['bug']
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**What happened / Ce qui s'est passé**
 
-**Your Server Environment**
-<!-- 🔅🔅🔅🔅🔅🔅🔅 Choose one of the following or write your own 🔅🔅🔅🔅🔅🔅🔅-->
-* [Live Demo](https://demo.thingsboard.io)
-* [ThingsBoard Cloud](https://thingsboard.cloud)
-* own setup
-  * Deployment: monolith or microservices
-  * Deployment type: deb, rpm, exe, docker-compose, k8s, ami
-  * ThingsBoard Version
-  * Community or Professional Edition
-  * OS Name and Version
+**What you expected / Ce qui était attendu**
 
-**Your Client Environment**
-<!-- 🔅🔅🔅🔅🔅🔅🔅 Choose one of the following or write your own 🔅🔅🔅🔅🔅🔅🔅-->
-**Desktop (please complete the following information):**
+**Steps to reproduce / Étapes pour reproduire**
+1.
+2.
 
-* OS: [e.g. iOS]
-* Browser [e.g. chrome, safari]
-* Version [e.g. 22]
+**Environment / Environnement**
+* OrbitOS version (Settings > About, or `git log -1`):
+* Install: docker compose / other:
+* Add-ons: gateway, https, MQTT TLS:
+* Browser and language:
 
-**Smartphone (please complete the following information):**
-* Device: [e.g. iPhone6]
-* OS: [e.g. iOS8.1]
-* Browser [e.g. stock browser, safari]
-* Version [e.g. 22]
+**Logs** (remove passwords, tokens and personal data / retirez mots de passe, jetons et renseignements personnels)
+```
+docker compose logs --tail=200 orbitos
+```
 
-**Your Device**
-
-* Connectivity
-  * MQTT
-  * HTTP
-  * CoAP
-  * Gateway
-  * Integration: (Specify name) 
-* Device vendor and model
-
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
-
-**Expected behavior**
-A clear and concise description of what you expected to happen.
-
-**Screenshots**
-If applicable, please add screenshots to help explain your problem.
-
-**Additional context**
-Please feel free to add any other context about the problem here.
-
-________________________________________________________________
-**Disclaimer** 
-
-We appreciate your contribution whether it is a bug report, feature request, or pull request with improvement (hopefully). Please comply with the [Community ethics policy](https://docs.github.com/en/site-policy/acceptable-use-policies/github-acceptable-use-policies), and do not expect us to answer your requests immediately. Also, do not treat *GitHub issues* as a support channel. 
+Security problem? Do not open an issue: see SECURITY.md. / Problème de sécurité? N'ouvrez pas de billet : voir SECURITY.md.

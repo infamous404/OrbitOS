@@ -6,7 +6,7 @@ OrbitOS is an open-source IoT platform for Canada and beyond: connect devices, c
 see it on dashboards and act on it with rules. It works in English and French, runs fully on your
 own computer or server, and never sends data or usage information to anyone.
 
-> **Status: early development (Phase 3 of 6).** Not ready for production yet. See [CHANGELOG.md](CHANGELOG.md).
+> **Status: version 1 candidate.** All six phases done; see [the final status report](orbitos/docs/status/FINAL_STATUS.md). Have a privacy lawyer or officer review it before production use. See [CHANGELOG.md](CHANGELOG.md).
 
 ## What makes it different
 
@@ -16,7 +16,9 @@ own computer or server, and never sends data or usage information to anyone.
   [`orbitos/branding/branding.yml`](orbitos/branding/branding.yml). See the
   [branding guide](orbitos/docs/en/branding.md).
 - **Bilingual.** English and French (Canada and France) are first-class: screens, emails, dates.
-- **Simple to run.** One command, about 2 GB of RAM, no default passwords, works offline.
+- **Simple to run.** One command, about 1.3 GB of RAM, no default passwords, works offline.
+- **Private and secure by default.** Two-factor sign-in, tamper-evident audit log, retention limits, privacy export and erasure (Law 25, PIPEDA).
+- **Devices.** MQTT (also encrypted), HTTP, CoAP; Modbus, OPC UA and BACnet through an optional gateway add-on.
 - **Open licence.** Apache License 2.0, forever. See [Licence](#licence).
 
 ## Quick start
@@ -31,7 +33,7 @@ The first start builds OrbitOS (15 to 30 minutes). Then open **http://localhost:
 page creates your account, your organization and a sample device with a dashboard. The setup code
 it asks for is in the server log (`docker compose logs orbitos`).
 
-Guides: [install, backups, upgrades, HTTPS](orbitos/docs/en/install.md) · [connect devices](orbitos/docs/en/connect-devices.md) · [APIs and webhooks](orbitos/docs/en/api.md) · [privacy and security](orbitos/docs/en/privacy-security.md).
+Guides ([all of them](orbitos/docs/en/index.md), also in the app at `/docs`): [quick start](orbitos/docs/en/quick-start.md) · [install, backups, upgrades, HTTPS](orbitos/docs/en/install.md) · [connect devices](orbitos/docs/en/connect-devices.md) · [APIs and webhooks](orbitos/docs/en/api.md) · [privacy and security](orbitos/docs/en/privacy-security.md).
 
 ## Licence
 

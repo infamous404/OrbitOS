@@ -9,16 +9,19 @@
 set -euo pipefail
 
 export ORBITOS_HTTP_PORT=18080 ORBITOS_MQTT_PORT=11883 ORBITOS_COAP_PORT=15683 ORBITOS_BIND=127.0.0.1
-COMPOSE="docker compose -p orbitos-smoke"
+export ORBITOS_MQTT_TLS=true ORBITOS_MQTTS_PORT=18883 ORBITOS_GATEWAY_CONFIG=./.smoke-gateway
+COMPOSE="docker compose -p orbitos-smoke --profile gateway --profile gateway-demo"
 BASE=http://127.0.0.1:$ORBITOS_HTTP_PORT
 PASSWORD="smoke-$(head -c 24 /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c 20)"
 BACKUP=""
 
 cleanup() {
   $COMPOSE logs orbitos > smoke-test-orbitos.log 2>&1 || true
+  $COMPOSE logs gateway > smoke-test-gateway.log 2>&1 || true
   if [ -n "$BACKUP" ]; then rm -f "backups/$BACKUP"; fi
   if [ "${KEEP_RUNNING:-}" = "1" ]; then echo "Left running: $BASE (stop: $COMPOSE down -v)"; return; fi
   $COMPOSE down -v > /dev/null 2>&1 || true
+  rm -rf .smoke-gateway smoke-test-mqtt.crt
 }
 trap cleanup EXIT
 
@@ -47,7 +50,7 @@ login() {
 }
 
 echo "Starting a fresh install (docker compose up) ..."
-$COMPOSE up -d --no-build > smoke-test-up.log 2>&1 || { cat smoke-test-up.log; fail "compose up"; }
+$COMPOSE up -d --no-build orbitos > smoke-test-up.log 2>&1 || { cat smoke-test-up.log; fail "compose up"; }
 wait_healthy
 pass "one-command start: database created, server healthy"
 
@@ -259,6 +262,45 @@ curl -fsS "$BASE/v3/api-docs/api" > smoke-test-api.json || fail "API reference"
   || fail "API reference not rebranded"
 rm -f smoke-test-api.json
 pass "API reference: $(curl -fsS "$BASE/v3/api-docs/api" | json 'print(len(d["paths"]))') endpoints, rebranded"
+
+# ---- Phase 6: encrypted MQTT (TLS, port 8883) ----
+$COMPOSE cp orbitos:/var/lib/orbitos/tls/mqtt-server.crt smoke-test-mqtt.crt > /dev/null 2>&1 || fail "MQTT TLS certificate not created"
+"$PY" orbitos/scripts/mqtt_device.py --port "$ORBITOS_MQTTS_PORT" --tls --cafile smoke-test-mqtt.crt --token "$device_token" \
+  --once --values '{"tlsprobe":7}' > /dev/null || fail "MQTT over TLS"
+if "$PY" orbitos/scripts/mqtt_device.py --port "$ORBITOS_MQTTS_PORT" --tls --token "$device_token" --once > /dev/null 2>&1; then
+  fail "MQTT over TLS accepted without trusting the certificate"
+fi
+sleep 2
+curl -fsS -H "X-Authorization: Bearer $token" "$BASE/api/plugins/telemetry/DEVICE/$device_id/values/timeseries?keys=tlsprobe" \
+  | json 'assert d["tlsprobe"][0]["value"] in ("7", 7), d' || fail "TLS value not stored"
+pass "encrypted MQTT (TLS 8883): certificate created offline, value stored, untrusted certificate refused"
+
+# ---- Phase 6: IoT Gateway add-on with the simulated Modbus meter ----
+docker image inspect localhost/orbitos-gateway:3.8.5 > /dev/null 2>&1 || $COMPOSE build gateway > /dev/null
+MSYS_NO_PATHCONV=1 docker run --rm --entrypoint grep localhost/orbitos-gateway:3.8.5 -q "OrbitOS: no calls home" \
+  /thingsboard_gateway/tb_utility/tb_updater.py || fail "gateway update check not disabled"
+gateway_id=$(curl -fsS -H "X-Authorization: Bearer $token" -H 'Content-Type: application/json' \
+  -d '{"name":"Gateway 1","additionalInfo":{"gateway":true}}' "$BASE/api/device" | json 'print(d["id"]["id"])') || fail "create gateway"
+ORBITOS_GATEWAY_TOKEN=$(curl -fsS -H "X-Authorization: Bearer $token" "$BASE/api/device/$gateway_id/credentials" \
+  | json 'print(d["credentialsId"])')
+export ORBITOS_GATEWAY_TOKEN
+rm -rf .smoke-gateway && mkdir -p .smoke-gateway && cp orbitos/gateway/demo-config/* .smoke-gateway/
+$COMPOSE up -d --no-build --no-deps gateway modbus-simulator > smoke-test-up.log 2>&1 || { cat smoke-test-up.log; fail "gateway start"; }
+meter=""
+for _ in $(seq 1 30); do
+  meter=$(curl -fsS -H "X-Authorization: Bearer $token" "$BASE/api/tenant/devices?deviceName=Modbus%20demo%20meter" 2>/dev/null \
+    | json 'print(d["id"]["id"])' 2>/dev/null) && break
+  sleep 3
+done
+[ -n "$meter" ] || fail "Modbus device not created by the gateway"
+sleep 5
+curl -fsS -H "X-Authorization: Bearer $token" "$BASE/api/plugins/telemetry/DEVICE/$meter/values/timeseries?keys=temperature,voltage" \
+  | json 'assert 15 <= float(d["temperature"][0]["value"]) <= 30 and 220 <= float(d["voltage"][0]["value"]) <= 240, d' \
+  || fail "Modbus values not received"
+if $COMPOSE logs gateway 2>&1 | grep -qiE 'pip install|Installing collected|updates\.thingsboard'; then
+  fail "gateway downloaded something or checked for updates"
+fi
+pass "IoT Gateway add-on: Modbus meter -> gateway -> platform; no downloads, no update checks"
 
 # ---- Phase 4: tamper-evident audit log (last: it damages the log on purpose) ----
 psql() { $COMPOSE exec -T postgres psql -U orbitos -d orbitos -tA -c "$1"; }

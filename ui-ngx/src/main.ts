@@ -6,6 +6,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from '@app/app.module';
 import { environment } from '@env/environment';
 import { loadBranding } from '@app/orbitos/branding';
+import { installDocLinkRedirect } from '@app/orbitos/doc-links';
 
 import $ from 'jquery';
 
@@ -15,6 +16,9 @@ import $ from 'jquery';
 if (environment.production) {
   enableProdMode();
 }
+
+// OrbitOS: help links open the OrbitOS guides on this server instead of the upstream website.
+installDocLinkRedirect();
 
 // OrbitOS: apply runtime branding (name, logo, favicon) before the app starts.
 loadBranding().finally(() =>

@@ -44,3 +44,6 @@ docs/superpowers/
 .env
 backups/
 smoke-test-*.log
+gateway-config/
+.smoke-gateway/
+.smoke-tmp-*

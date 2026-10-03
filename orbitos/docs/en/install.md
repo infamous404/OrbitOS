@@ -65,6 +65,15 @@ All settings are optional. Copy `.env.example` to `.env`, edit it, then run `doc
 | `ORBITOS_ONLINE_MAPS` | `false` | `true` lets map widgets load free online map tiles. |
 | `ORBITOS_ALLOWED_HOSTS` | (empty) | Other web hosts the interface may load data from. |
 | `ORBITOS_JAVA_OPTS` | `-Xms256m -Xmx1g` | Server memory. |
+| `ORBITOS_MQTT_TLS`, `ORBITOS_MQTTS_PORT` | `false`, 8883 | Encrypted MQTT; see [Connect devices](connect-devices.md). |
+| `ORBITOS_GATEWAY_TOKEN` | (empty) | Token of the IoT Gateway add-on; see [Connect devices](connect-devices.md#gateway). |
+| `ORBITOS_IMAGE` | (built from source) | A published image to use instead of building. |
+
+## Use a published image
+
+If your organization publishes OrbitOS images (see the developer guide), you can skip the build:
+set `ORBITOS_IMAGE=ghcr.io/<owner>/orbitos:<version>` in `.env`, then run
+`docker compose pull orbitos` and `docker compose up -d --no-build`. Start-up then takes about 3 minutes.
 
 ## Secure defaults
 

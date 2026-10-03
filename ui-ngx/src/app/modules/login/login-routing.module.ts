@@ -17,6 +17,7 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from '@core/auth/auth.service';
 import { UserPasswordPolicy } from '@shared/models/settings.models';
 import { OrbitosSetupComponent } from '@app/orbitos/setup/setup.component';
+import { OrbitosDocsPageComponent } from '@app/orbitos/docs/docs-page.component';
 
 const passwordPolicyResolver: ResolveFn<UserPasswordPolicy> = (route: ActivatedRouteSnapshot,
    state: RouterStateSnapshot,
@@ -30,6 +31,9 @@ const passwordPolicyResolver: ResolveFn<UserPasswordPolicy> = (route: ActivatedR
 };
 
 const routes: Routes = [
+  // OrbitOS: guides served by this server (open to everyone, signed in or not).
+  { path: 'docs', component: OrbitosDocsPageComponent, data: {title: 'orbitos.docs.title'} },
+  { path: 'docs/:page', component: OrbitosDocsPageComponent, data: {title: 'orbitos.docs.title'} },
   // OrbitOS: first-run setup page (only works until the first account exists).
   {
     path: 'setup',

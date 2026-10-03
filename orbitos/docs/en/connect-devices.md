@@ -51,10 +51,28 @@ other services that push data (an "incoming webhook": point them at this address
 `coap://HOST:5683/api/v1/TOKEN/telemetry`, same JSON. Example with libcoap:
 `coap-client -m post coap://HOST/api/v1/TOKEN/telemetry -e '{"temperature": 21.5}'`
 
-## Encryption
+## Encrypted MQTT (TLS)
 
-MQTT and CoAP above are not encrypted. Use them on a network you trust, or through a VPN.
-MQTT over TLS (port 8883) is not set up yet. HTTP can go through the HTTPS option in the install guide.
+Turn it on in `.env`, then `docker compose up -d`:
+
+```
+ORBITOS_MQTT_TLS=true
+ORBITOS_DOMAIN=iot.example.ca      # the name or IP address devices use to reach the server
+```
+
+On first start, OrbitOS creates a certificate for that name (offline, valid about 2 years) and
+listens on port **8883** (plain MQTT on 1883 keeps working). Devices must trust that certificate:
+
+```bash
+docker compose cp orbitos:/var/lib/orbitos/tls/mqtt-server.crt .
+python orbitos/scripts/mqtt_device.py --host iot.example.ca --tls --cafile mqtt-server.crt --token TOKEN
+```
+
+With `mosquitto_pub`: add `-p 8883 --cafile mqtt-server.crt`. To use a certificate from a public
+authority instead, set `MQTT_SSL_CREDENTIALS_TYPE=PEM`, `MQTT_SSL_PEM_CERT` and `MQTT_SSL_PEM_KEY`
+(paths inside the container) in a `compose.override.yaml` that mounts your files.
+
+CoAP is not encrypted. HTTP can go through the HTTPS option in the install guide.
 
 ## LoRaWAN (long-range battery sensors)
 
@@ -75,16 +93,33 @@ OrbitOS and forwards decoded measurements to OrbitOS's HTTP device API.
 The decoded values then appear on the device like any other telemetry.
 Status: documented, **not tested** with real LoRaWAN hardware in this project.
 
+<!-- #gateway -->
 ## Modbus, OPC UA, BACnet and other industrial protocols
 
-Machines, energy meters and building systems often speak Modbus (or OPC UA, BACnet...). The free
-**IoT Gateway** (Apache-2.0, from the upstream project, see `NOTICE`) runs on a small computer near
-the machines, reads them, and sends the values to OrbitOS by MQTT.
+Machines, energy meters and building systems often speak Modbus, OPC UA or BACnet. OrbitOS has an
+optional **IoT Gateway** add-on (Apache-2.0, from the upstream project, see `NOTICE`) that reads
+them and sends the values to OrbitOS. The OrbitOS version of the gateway makes no calls home and
+needs no internet connection for Modbus and BACnet (their libraries are included). The OPC UA library
+(asyncua, LGPL-3.0) is not bundled: the OPC UA connector downloads it once, on first use.
 
-1. In OrbitOS, create a device for the gateway and turn on **Is gateway**. Copy its token.
-2. Install the IoT Gateway (Python package or Docker image; see its documentation) and set, in its
-   main configuration: host `HOST`, port `1883`, the gateway token.
-3. Turn on the Modbus connector and describe each machine: address, polling period, and which
-   registers become which values. Each machine appears in OrbitOS as its own device, created automatically.
+**Try it with a simulated meter (no hardware):**
 
-Status: documented, **not tested** with real Modbus hardware in this project.
+1. In OrbitOS, create a device named "Gateway 1", turn on **Is gateway**, and copy its token.
+2. In `.env`: `ORBITOS_GATEWAY_TOKEN=<the token>`.
+3. Copy the demo configuration, then start:
+   ```bash
+   mkdir gateway-config
+   cp orbitos/gateway/demo-config/* gateway-config/
+   docker compose --profile gateway --profile gateway-demo up -d
+   ```
+4. Within a minute, a device "Modbus demo meter" appears with temperature, humidity, voltage and power.
+
+**With real machines:** start with `docker compose --profile gateway up -d` (no demo). Edit the
+files in `gateway-config/`: list your connectors in `tb_gateway.json` (`"connectors"`), and describe
+each machine in the connector file (for Modbus, `modbus.json`: address, polling period, which
+registers become which values). Restart with `docker compose restart gateway`. Each machine
+appears in OrbitOS as its own device. Serial Modbus (RS-485) needs the serial port passed to the
+container (`devices:` in a `compose.override.yaml`).
+
+The gateway can also run on a small computer next to the machines (it connects to OrbitOS by
+MQTT, port 1883 or 8883): use the same image and settings (`host`, `port`, `accessToken`).

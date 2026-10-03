@@ -11,13 +11,34 @@ OrbitOS to upstream files are listed in UPSTREAM_PATCHES.md.
 
 "ThingsBoard" is a trademark of its owner. OrbitOS is not affiliated with,
 endorsed by, or sponsored by ThingsBoard, Inc. The name is used here only to
-identify the origin of the code, as required for attribution.
+identify the origin of the code, as required for attribution. Upstream
+components mentioned in the documentation by a neutral name:
+  - "IoT Gateway" = ThingsBoard IoT Gateway
+  - "Edge" = ThingsBoard Edge
+  - the ChirpStack integration "for this platform family" = ChirpStack's
+    ThingsBoard integration
 
 Third-party components reused by OrbitOS (each recorded with its licence):
 
   - ThingsBoard 4.3.1.6 (Apache-2.0): the whole base platform, see above.
   - ThingsBoard 4.3.1.5 (Apache-2.0): version-info home widget, restored from
     this tag after removing the Community Grant feature.
+  - ThingsBoard IoT Gateway 3.8.5 (Apache-2.0), Docker image
+    thingsboard/tb-gateway:3.8.5 (digest pinned in orbitos/gateway/Dockerfile):
+    base of the optional gateway add-on. OrbitOS patches it at build time
+    (update checks off, no run-time package downloads), see
+    orbitos/gateway/patch_gateway.py. The base image contains Python packages
+    under their own licences.
+  - Python packages added to the gateway image: pymodbus 3.9.2
+    (BSD-3-Clause), pyserial and pyserial-asyncio (BSD-3-Clause), bacpypes3
+    (MIT). Not bundled: asyncua (LGPL-3.0), installed by the OPC UA connector
+    on first use.
+
+Software used, not modified, when you run the provided Docker Compose file
+(pulled from Docker Hub, not part of this source tree):
+
+  - PostgreSQL 16 (PostgreSQL License), image postgres:16.
+  - Caddy 2 (Apache-2.0), image caddy:2, only with the "https" profile.
 
 Bundled dependencies of the base platform keep their own licences; see the
 Maven (pom.xml) and npm (ui-ngx/package.json, ui-ngx/yarn.lock) manifests.

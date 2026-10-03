@@ -45,6 +45,8 @@ COPY --from=build /out/orbitos.jar /usr/share/orbitos/bin/orbitos.jar
 COPY --from=build /out/data /usr/share/orbitos/data
 COPY orbitos/docker/logback.xml /usr/share/orbitos/conf/logback.xml
 COPY orbitos/branding/ /etc/orbitos/branding/
+COPY orbitos/docs/en/ /usr/share/orbitos/docs/en/
+COPY orbitos/docs/fr/ /usr/share/orbitos/docs/fr/
 COPY --chmod=755 orbitos/docker/entrypoint.sh /usr/bin/orbitos-entrypoint
 USER orbitos
 # Local state (calculated-field state store). Mount a volume here to keep it across restarts.

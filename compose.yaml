@@ -68,6 +68,10 @@ services:
       ORBITOS_ONLINE_MAPS: ${ORBITOS_ONLINE_MAPS:-false}
       ORBITOS_ALLOWED_HOSTS: ${ORBITOS_ALLOWED_HOSTS:-}
       JAVA_OPTS: ${ORBITOS_JAVA_OPTS:--Xms256m -Xmx1g -XX:+UseG1GC}
+      # Encrypted MQTT on port 8883 (ORBITOS_MQTT_TLS=true). A certificate for ORBITOS_DOMAIN is
+      # created on first start; see orbitos/docs/en/connect-devices.md to use your own.
+      MQTT_SSL_ENABLED: ${ORBITOS_MQTT_TLS:-false}
+      ORBITOS_DOMAIN: ${ORBITOS_DOMAIN:-localhost}
     volumes:
       - orbitos-data:/var/lib/orbitos
       - secrets:/run/orbitos-secrets:ro
@@ -76,6 +80,7 @@ services:
       - "${ORBITOS_BIND:-127.0.0.1}:${ORBITOS_HTTP_PORT:-8080}:8080"
       - "${ORBITOS_BIND:-127.0.0.1}:${ORBITOS_MQTT_PORT:-1883}:1883"
       - "${ORBITOS_BIND:-127.0.0.1}:${ORBITOS_COAP_PORT:-5683}:5683/udp"
+      - "${ORBITOS_BIND:-127.0.0.1}:${ORBITOS_MQTTS_PORT:-8883}:8883"
     healthcheck:
       # Must answer "UP" (during the first install, port 8080 only answers with redirects).
       test: ["CMD-SHELL", "curl -fsS http://localhost:8080/api/noauth/orbitos/health | grep -q UP"]
@@ -86,6 +91,35 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+
+  # Optional IoT Gateway (Modbus, OPC UA, BACnet...):  docker compose --profile gateway up -d
+  # Needs ORBITOS_GATEWAY_TOKEN in .env. Configuration files: gateway-config/ (created on first start).
+  # Try it with a simulated Modbus meter:  docker compose --profile gateway --profile gateway-demo up -d
+  # See orbitos/docs/en/connect-devices.md.
+  gateway:
+    image: localhost/orbitos-gateway:3.8.5
+    build:
+      context: .
+      dockerfile: orbitos/gateway/Dockerfile
+    profiles: ["gateway"]
+    restart: unless-stopped
+    environment:
+      host: orbitos
+      port: "1883"
+      accessToken: ${ORBITOS_GATEWAY_TOKEN:-}
+    volumes:
+      - ${ORBITOS_GATEWAY_CONFIG:-./gateway-config}:/thingsboard_gateway/config
+      - gateway-extensions:/thingsboard_gateway/extensions
+      - gateway-logs:/thingsboard_gateway/logs
+    depends_on:
+      orbitos:
+        condition: service_healthy
+
+  modbus-simulator:
+    image: localhost/orbitos-gateway:3.8.5
+    profiles: ["gateway-demo"]
+    restart: unless-stopped
+    entrypoint: ["python", "/orbitos/modbus_simulator.py", "--port", "5020"]
 
   # Optional HTTPS in front of OrbitOS:  docker compose --profile https up -d
   # Local certificate by default (no internet). See orbitos/docs/en/install.md.
@@ -134,6 +168,8 @@ services:
         condition: service_healthy
 
 volumes:
+  gateway-extensions:
+  gateway-logs:
   secrets:
   postgres-data:
   orbitos-data:

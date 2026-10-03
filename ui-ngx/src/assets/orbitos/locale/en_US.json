@@ -91,6 +91,31 @@
       "erase-text": "The account, its sign-in data, preferences and notifications are deleted. Audit log entries are kept for security, with the name replaced by a pseudonym. This cannot be undone.",
       "erase-confirm": "Erase",
       "erased": "Account erased"
+    },
+    "functions": {
+      "languages": "English and French",
+      "two-factor": "Two-factor sign-in",
+      "audit-integrity": "Tamper-evident audit log",
+      "privacy-requests": "Privacy requests",
+      "offline": "Works offline",
+      "white-labeling": "Your own brand"
+    },
+    "docs": {
+      "title": "Documentation",
+      "back": "Back to the app",
+      "not-written": "This topic has no dedicated guide yet. Here are the available guides.",
+      "pages": {
+        "index": "All guides",
+        "quick-start": "Quick start",
+        "install": "Install, back up, upgrade",
+        "admin-guide": "Administrator guide",
+        "connect-devices": "Connect devices",
+        "api": "APIs and webhooks",
+        "privacy-security": "Privacy and security",
+        "branding": "Your brand",
+        "add-a-language": "Add a language",
+        "developer-guide": "Developer guide"
+      }
     }
   },
   "language": {

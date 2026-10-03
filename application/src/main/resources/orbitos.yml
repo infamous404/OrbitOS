@@ -65,3 +65,8 @@ swagger:
   license:
     url: "${SWAGGER_LICENSE_URL:https://www.apache.org/licenses/LICENSE-2.0}"
   group_name: "${SWAGGER_GROUP_NAME:api}"
+
+# No links to the upstream vendor's mobile app in app stores (OrbitOS has no mobile app yet).
+mobileApp:
+  googlePlayLink: "${TB_MOBILE_APP_GOOGLE_PLAY_LINK:}"
+  appStoreLink: "${TB_MOBILE_APP_APP_STORE_LINK:}"

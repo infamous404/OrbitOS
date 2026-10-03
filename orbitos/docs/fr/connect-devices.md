@@ -51,11 +51,29 @@ rendorment, et pour les services qui poussent des données (un « webhook entran
 `coap://HOTE:5683/api/v1/JETON/telemetry`, même JSON. Exemple avec libcoap :
 `coap-client -m post coap://HOTE/api/v1/JETON/telemetry -e '{"temperature": 21.5}'`
 
-## Chiffrement
+## MQTT chiffré (TLS)
 
-Le MQTT et le CoAP ci-dessus ne sont pas chiffrés. Utilisez-les sur un réseau de confiance ou par
-un RPV. Le MQTT sur TLS (port 8883) n'est pas encore configuré. Le HTTP peut passer par l'option
-HTTPS du guide d'installation.
+Activez-le dans `.env`, puis `docker compose up -d` :
+
+```
+ORBITOS_MQTT_TLS=true
+ORBITOS_DOMAIN=iot.exemple.ca      # le nom ou l'adresse IP que les appareils utilisent pour joindre le serveur
+```
+
+Au premier démarrage, OrbitOS crée un certificat pour ce nom (hors ligne, valide environ 2 ans) et
+écoute sur le port **8883** (le MQTT non chiffré sur 1883 continue de fonctionner). Les appareils
+doivent faire confiance à ce certificat :
+
+```bash
+docker compose cp orbitos:/var/lib/orbitos/tls/mqtt-server.crt .
+python orbitos/scripts/mqtt_device.py --host iot.exemple.ca --tls --cafile mqtt-server.crt --token JETON
+```
+
+Avec `mosquitto_pub` : ajoutez `-p 8883 --cafile mqtt-server.crt`. Pour utiliser plutôt un
+certificat d'une autorité publique, indiquez `MQTT_SSL_CREDENTIALS_TYPE=PEM`, `MQTT_SSL_PEM_CERT` et
+`MQTT_SSL_PEM_KEY` (chemins dans le conteneur) dans un fichier `compose.override.yaml` qui monte vos fichiers.
+
+Le CoAP n'est pas chiffré. Le HTTP peut passer par l'option HTTPS du guide d'installation.
 
 ## LoRaWAN (capteurs à pile longue portée)
 
@@ -76,16 +94,33 @@ habituel; il fonctionne à côté d'OrbitOS et transmet les mesures décodées �
 Les valeurs décodées apparaissent alors sur l'appareil comme toute autre télémesure.
 État : documenté, **non testé** avec du vrai matériel LoRaWAN dans ce projet.
 
+<!-- #gateway -->
 ## Modbus, OPC UA, BACnet et autres protocoles industriels
 
-Les machines, compteurs d'énergie et systèmes de bâtiment parlent souvent Modbus (ou OPC UA,
-BACnet...). La **IoT Gateway** libre (Apache-2.0, du projet d'origine, voir `NOTICE`) fonctionne sur
-un petit ordinateur près des machines, les lit et envoie les valeurs à OrbitOS par MQTT.
+Les machines, compteurs d'énergie et systèmes de bâtiment parlent souvent Modbus, OPC UA ou
+BACnet. OrbitOS offre un module facultatif, la **IoT Gateway** (Apache-2.0, du projet d'origine,
+voir `NOTICE`), qui les lit et envoie les valeurs à OrbitOS. La version OrbitOS de la passerelle
+n'appelle personne et n'a pas besoin d'Internet pour Modbus et BACnet (leurs bibliothèques sont incluses). La
+bibliothèque OPC UA (asyncua, LGPL-3.0) n'est pas incluse : le connecteur OPC UA la télécharge une fois, à la première utilisation.
 
-1. Dans OrbitOS, créez un appareil pour la passerelle et cochez **Est une passerelle**. Copiez son jeton.
-2. Installez la IoT Gateway (paquet Python ou image Docker; voir sa documentation) et indiquez,
-   dans sa configuration principale : hôte `HOTE`, port `1883`, le jeton de la passerelle.
-3. Activez le connecteur Modbus et décrivez chaque machine : adresse, période de lecture, et quels
-   registres deviennent quelles valeurs. Chaque machine apparaît dans OrbitOS comme un appareil, créé automatiquement.
+**Essayer avec un compteur simulé (sans matériel) :**
 
-État : documenté, **non testé** avec du vrai matériel Modbus dans ce projet.
+1. Dans OrbitOS, créez un appareil nommé « Passerelle 1 », cochez **Est une passerelle** et copiez son jeton.
+2. Dans `.env` : `ORBITOS_GATEWAY_TOKEN=<le jeton>`.
+3. Copiez la configuration de démonstration, puis démarrez :
+   ```bash
+   mkdir gateway-config
+   cp orbitos/gateway/demo-config/* gateway-config/
+   docker compose --profile gateway --profile gateway-demo up -d
+   ```
+4. En moins d'une minute, un appareil « Modbus demo meter » apparaît avec température, humidité, tension et puissance.
+
+**Avec de vraies machines :** démarrez avec `docker compose --profile gateway up -d` (sans
+démonstration). Modifiez les fichiers de `gateway-config/` : listez vos connecteurs dans
+`tb_gateway.json` (`"connectors"`) et décrivez chaque machine dans le fichier du connecteur (pour
+Modbus, `modbus.json` : adresse, période de lecture, quels registres deviennent quelles valeurs).
+Redémarrez avec `docker compose restart gateway`. Chaque machine apparaît dans OrbitOS comme un
+appareil. Le Modbus série (RS-485) demande de donner le port série au conteneur (`devices:` dans un `compose.override.yaml`).
+
+La passerelle peut aussi fonctionner sur un petit ordinateur près des machines (elle se connecte
+à OrbitOS par MQTT, port 1883 ou 8883) : utilisez la même image et les mêmes réglages (`host`, `port`, `accessToken`).

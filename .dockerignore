@@ -8,3 +8,5 @@ ui-ngx/.angular
 .vscode
 backups
 .env
+gateway-config
+.smoke-gateway

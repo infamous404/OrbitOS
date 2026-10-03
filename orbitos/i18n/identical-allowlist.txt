@@ -598,3 +598,4 @@ widgets.widget-font.font-style-normal
 widgets.widget-font.font-style-oblique
 widgets.widget-font.font-weight-normal
 orbitos.doc-links.api
+orbitos.docs.title

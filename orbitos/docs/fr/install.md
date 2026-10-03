@@ -66,6 +66,16 @@ Tous les paramètres sont facultatifs. Copiez `.env.example` en `.env`, modifiez
 | `ORBITOS_ONLINE_MAPS` | `false` | `true` permet aux widgets de carte de charger des fonds de carte en ligne gratuits. |
 | `ORBITOS_ALLOWED_HOSTS` | (vide) | Autres hôtes Web dont l'interface peut charger des données. |
 | `ORBITOS_JAVA_OPTS` | `-Xms256m -Xmx1g` | Mémoire du serveur. |
+| `ORBITOS_MQTT_TLS`, `ORBITOS_MQTTS_PORT` | `false`, 8883 | MQTT chiffré; voir [Connecter des appareils](connect-devices.md). |
+| `ORBITOS_GATEWAY_TOKEN` | (vide) | Jeton du module IoT Gateway; voir [Connecter des appareils](connect-devices.md#gateway). |
+| `ORBITOS_IMAGE` | (construite à partir du code) | Une image publiée à utiliser au lieu de construire. |
+
+## Utiliser une image publiée
+
+Si votre organisation publie des images d'OrbitOS (voir le guide du développeur), vous pouvez
+éviter la construction : indiquez `ORBITOS_IMAGE=ghcr.io/<propriétaire>/orbitos:<version>` dans
+`.env`, puis lancez `docker compose pull orbitos` et `docker compose up -d --no-build`. Le
+démarrage prend alors environ 3 minutes.
 
 ## Sécurité par défaut
 

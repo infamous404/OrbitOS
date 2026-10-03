@@ -308,6 +308,31 @@
       "erase-text": "Le compte, ses données de connexion, ses préférences et ses notifications sont supprimés. Les entrées du journal d'audit sont conservées pour la sécurité, avec le nom remplacé par un pseudonyme. Cette action est irréversible.",
       "erase-confirm": "Effacer",
       "erased": "Compte effacé"
+    },
+    "functions": {
+      "languages": "Français et anglais",
+      "two-factor": "Authentification à deux facteurs",
+      "audit-integrity": "Journal d'audit vérifiable",
+      "privacy-requests": "Demandes de confidentialité",
+      "offline": "Fonctionne hors ligne",
+      "white-labeling": "Votre propre marque"
+    },
+    "docs": {
+      "title": "Documentation",
+      "back": "Retour à l'application",
+      "not-written": "Ce sujet n'a pas encore de guide. Voici les guides disponibles.",
+      "pages": {
+        "index": "Tous les guides",
+        "quick-start": "Démarrage rapide",
+        "install": "Installer, sauvegarder, mettre à jour",
+        "admin-guide": "Guide de l'administrateur",
+        "connect-devices": "Connecter des appareils",
+        "api": "API et webhooks",
+        "privacy-security": "Confidentialité et sécurité",
+        "branding": "Votre image de marque",
+        "add-a-language": "Ajouter une langue",
+        "developer-guide": "Guide du développeur"
+      }
     }
   }
 }

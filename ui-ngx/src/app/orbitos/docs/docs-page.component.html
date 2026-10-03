@@ -1,0 +1,35 @@
+<!--
+  SPDX-FileCopyrightText: Copyright The OrbitOS Authors
+  SPDX-License-Identifier: Apache-2.0
+-->
+<div class="orbitos-docs mat-app-background">
+  <header class="orbitos-docs-header flex items-center justify-between">
+    <a routerLink="/docs" class="orbitos-docs-brand flex items-center gap-3" [attr.aria-label]="'orbitos.docs.title' | translate">
+      <tb-logo class="orbitos-docs-logo"></tb-logo>
+      <span class="orbitos-docs-label">{{ 'orbitos.docs.title' | translate }}</span>
+    </a>
+    <div class="flex items-center gap-2">
+      <orbitos-language-switcher></orbitos-language-switcher>
+      <a mat-button href="/">{{ 'orbitos.docs.back' | translate }}</a>
+    </div>
+  </header>
+  <div class="orbitos-docs-body flex">
+    <nav class="orbitos-docs-nav" [attr.aria-label]="'orbitos.docs.title' | translate">
+      @for (p of pages; track p) {
+        <a [routerLink]="['/docs', p]" [class.active]="p === page" [attr.aria-current]="p === page ? 'page' : null">
+          {{ titles[p] | translate }}
+        </a>
+      }
+    </nav>
+    <main class="orbitos-docs-content">
+      @if (missing) {
+        <p class="orbitos-docs-note" role="note">{{ 'orbitos.docs.not-written' | translate }}</p>
+      }
+      @if (html) {
+        <article class="orbitos-docs-article" [innerHTML]="html"></article>
+      } @else {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      }
+    </main>
+  </div>
+</div>

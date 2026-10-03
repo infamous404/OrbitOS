@@ -11,14 +11,16 @@ Examples:
   python orbitos/scripts/mqtt_device.py --token YOUR_DEVICE_TOKEN
   python orbitos/scripts/mqtt_device.py --token T --once --values '{"temperature": 21.5}'
   python orbitos/scripts/mqtt_device.py --host 192.168.1.20 --token T --interval 10 --duration 60
+  python orbitos/scripts/mqtt_device.py --token T --tls --cafile mqtt-server.crt
 
 The device token is on the device's page (Copy access token) or on the last setup step.
-MQTT 3.1.1, QoS 0, no TLS (use it on your own network, or behind a TLS tunnel).
+MQTT 3.1.1, QoS 0. Plain on port 1883, or encrypted with --tls on port 8883.
 """
 import argparse
 import json
 import random
 import socket
+import ssl
 import struct
 import sys
 import time
@@ -48,8 +50,10 @@ def _packet(first_byte, body):
 
 
 class MqttDevice:
-    def __init__(self, host, port, token, client_id=None, keepalive=60):
+    def __init__(self, host, port, token, client_id=None, keepalive=60, tls_context=None):
         self.sock = socket.create_connection((host, port), timeout=10)
+        if tls_context is not None:
+            self.sock = tls_context.wrap_socket(self.sock, server_hostname=host)
         self.keepalive = keepalive
         self.last_sent = time.time()
         client_id = client_id or "orbitos-demo-%06d" % random.randint(0, 999999)
@@ -141,7 +145,9 @@ def answer(request_id, request, device):
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--host", default="localhost")
-    parser.add_argument("--port", type=int, default=1883)
+    parser.add_argument("--port", type=int, help="1883, or 8883 with --tls")
+    parser.add_argument("--tls", action="store_true", help="encrypted MQTT (server started with ORBITOS_MQTT_TLS=true)")
+    parser.add_argument("--cafile", help="certificate to trust with --tls (for example mqtt-server.crt from the server)")
     parser.add_argument("--token", required=True, help="device access token")
     parser.add_argument("--interval", type=float, default=5.0, help="seconds between values (0 = send none)")
     parser.add_argument("--duration", type=float, default=0, help="stop after this many seconds (0 = run until Ctrl+C)")
@@ -150,12 +156,14 @@ def main():
     args = parser.parse_args()
 
     fixed = json.loads(args.values) if args.values else None
+    port = args.port or (8883 if args.tls else 1883)
+    tls_context = ssl.create_default_context(cafile=args.cafile) if args.tls else None
     try:
-        device = MqttDevice(args.host, args.port, args.token)
+        device = MqttDevice(args.host, port, args.token, tls_context=tls_context)
     except (OSError, ConnectionError) as e:
-        print("Cannot connect to %s:%s: %s" % (args.host, args.port, e), file=sys.stderr)
+        print("Cannot connect to %s:%s: %s" % (args.host, port, e), file=sys.stderr)
         return 1
-    print("Connected to %s:%s" % (args.host, args.port), flush=True)
+    print("Connected to %s:%s%s" % (args.host, port, " (TLS)" if args.tls else ""), flush=True)
     try:
         if args.once:
             device.publish(TELEMETRY_TOPIC, fixed or next_values({}))
