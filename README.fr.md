@@ -34,7 +34,7 @@ la page de configuration crée votre compte, votre organisation et un appareil d
 tableau de bord. Le code de configuration demandé se trouve dans le journal du serveur
 (`docker compose logs orbitos`).
 
-Guide complet, sauvegardes, mises à jour et HTTPS : [orbitos/docs/fr/install.md](orbitos/docs/fr/install.md).
+Guides : [installation, sauvegardes, mises à jour, HTTPS](orbitos/docs/fr/install.md) · [connecter des appareils](orbitos/docs/fr/connect-devices.md) · [API et webhooks](orbitos/docs/fr/api.md) · [confidentialité et sécurité](orbitos/docs/fr/privacy-security.md).
 
 ## Licence
 

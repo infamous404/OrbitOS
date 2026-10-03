@@ -52,3 +52,16 @@ sql:
       events_ttl: "${SQL_TTL_EVENTS_EVENTS_TTL:2592000}"           # rule engine events: 30 days
     audit_logs:
       ttl: "${SQL_TTL_AUDIT_LOGS_SECS:31536000}"                   # audit log: 365 days
+
+# API reference page (/swagger-ui.html): no vendor contact or links. The brand name is applied by
+# org.thingsboard.server.orbitos.branding.OpenApiBranding.
+swagger:
+  title: "${SWAGGER_TITLE:REST API}"
+  description: "${SWAGGER_DESCRIPTION:REST API reference}"
+  contact:
+    name: "${SWAGGER_CONTACT_NAME:}"
+    url: "${SWAGGER_CONTACT_URL:}"
+    email: "${SWAGGER_CONTACT_EMAIL:}"
+  license:
+    url: "${SWAGGER_LICENSE_URL:https://www.apache.org/licenses/LICENSE-2.0}"
+  group_name: "${SWAGGER_GROUP_NAME:api}"

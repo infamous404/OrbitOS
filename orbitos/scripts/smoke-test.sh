@@ -233,6 +233,33 @@ curl -fsS -H "X-Authorization: Bearer $token" \
   | json 'assert d["temperature"][0]["value"] in ("21.5", 21.5), d' || fail "restore did not bring back the backed-up value"
 pass "restore brings back the data as it was at backup time"
 
+# ---- Phase 5: real protocol end to end (MQTT), both directions ----
+"$PY" orbitos/scripts/mqtt_device.py --port "$ORBITOS_MQTT_PORT" --token "$device_token" --once \
+  --values '{"temperature":19.25,"via":"mqtt"}' > /dev/null || fail "MQTT publish"
+sleep 2
+curl -fsS -H "X-Authorization: Bearer $token" \
+  "$BASE/api/plugins/telemetry/DEVICE/$device_id/values/timeseries?keys=temperature,via" \
+  | json 'assert d["via"][0]["value"] == "mqtt" and d["temperature"][0]["value"] in ("19.25", 19.25), d' \
+  || fail "MQTT value not readable through the REST API"
+pass "MQTT device -> platform -> REST API"
+
+"$PY" orbitos/scripts/mqtt_device.py --port "$ORBITOS_MQTT_PORT" --token "$device_token" --interval 0 --duration 15 > /dev/null &
+device_pid=$!
+sleep 3
+curl -fsS -H "X-Authorization: Bearer $token" -H 'Content-Type: application/json' \
+  -d '{"method":"getStatus","params":{"probe":42},"timeout":10000}' "$BASE/api/plugins/rpc/twoway/$device_id" \
+  | json 'assert d["ok"] is True and d["received"] == {"probe": 42}, d' || fail "command to the MQTT device"
+wait "$device_pid" || true
+code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -d '{}' "$BASE/api/v1/not-a-device-token/telemetry")
+[ "$code" = "401" ] || [ "$code" = "404" ] || fail "unknown device token accepted ($code)"
+pass "REST API -> platform -> MQTT device -> answer back (two-way command); unknown token refused"
+
+curl -fsS "$BASE/v3/api-docs/api" > smoke-test-api.json || fail "API reference"
+"$PY" -c "import json,re; s=open('smoke-test-api.json',encoding='utf-8').read(); d=json.loads(s); assert d['info']['title']=='OrbitOS REST API', d['info']; assert len(d['paths'])>300; n=len(re.findall('ThingsBoard',s)); assert n==0, n" \
+  || fail "API reference not rebranded"
+rm -f smoke-test-api.json
+pass "API reference: $(curl -fsS "$BASE/v3/api-docs/api" | json 'print(len(d["paths"]))') endpoints, rebranded"
+
 # ---- Phase 4: tamper-evident audit log (last: it damages the log on purpose) ----
 psql() { $COMPOSE exec -T postgres psql -U orbitos -d orbitos -tA -c "$1"; }
 systoken=$(login "$SYSADMIN_EMAIL" "$SYSADMIN_PASSWORD") || fail "platform admin login after restore"

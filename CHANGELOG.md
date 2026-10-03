@@ -1,5 +1,15 @@
 # Changelog / Journal des modifications
 
+## Unreleased: Phase 5 (interoperability, trimmed)
+
+### Added / Ajouts
+- MQTT verified end to end in both directions (values in, commands out and answered); dependency-free device simulator `orbitos/scripts/mqtt_device.py`.
+  / MQTT vérifié de bout en bout dans les deux sens; simulateur d'appareil sans dépendance `orbitos/scripts/mqtt_device.py`.
+- Guides: connect devices (MQTT, HTTP, CoAP, LoRaWAN with ChirpStack, Modbus/OPC UA/BACnet with the IoT Gateway), REST and WebSocket APIs, webhooks.
+  / Guides : connecter des appareils, API REST et WebSocket, webhooks.
+- API reference page rebranded, no vendor contact; licence link points to the Apache licence.
+  / Page de référence de l'API à notre image, sans contact du fournisseur d'origine.
+
 ## Unreleased: Phase 4 essentials (privacy and security)
 
 ### Added / Ajouts

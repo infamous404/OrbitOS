@@ -171,6 +171,13 @@ Default changes without upstream edits (in `orbitos.yml`): `audit-log.sink.type=
 (authenticator app, backup codes), 12-character passwords, lockout after 10 failures, organization
 profile retention 365/365/30 days. The installer and upgrader run with `audit-log.sink.type=none`.
 
+### 5.6 Interoperability (Phase 5)
+
+No upstream file changed. The API reference page is rebranded at runtime by
+`org.thingsboard.server.orbitos.branding.OpenApiBranding` (same name rule as `rebrand.py`), and its
+title, contact and licence link come from `swagger.*` defaults in `orbitos.yml`. Upstream pointed the
+licence link at its `master` branch, which is no longer Apache-2.0; it now points to the Apache licence text.
+
 ## 6. Upstream merge log
 
 | Date | Upstream ref | Commits | Licence check | Notes |

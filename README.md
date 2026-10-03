@@ -31,7 +31,7 @@ The first start builds OrbitOS (15 to 30 minutes). Then open **http://localhost:
 page creates your account, your organization and a sample device with a dashboard. The setup code
 it asks for is in the server log (`docker compose logs orbitos`).
 
-Full guide, backups, upgrades and HTTPS: [orbitos/docs/en/install.md](orbitos/docs/en/install.md).
+Guides: [install, backups, upgrades, HTTPS](orbitos/docs/en/install.md) · [connect devices](orbitos/docs/en/connect-devices.md) · [APIs and webhooks](orbitos/docs/en/api.md) · [privacy and security](orbitos/docs/en/privacy-security.md).
 
 ## Licence
 
