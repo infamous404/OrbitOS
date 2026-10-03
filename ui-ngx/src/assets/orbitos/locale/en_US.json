@@ -47,7 +47,7 @@
       "password-hint": "At least {{min}} characters. A short sentence is easy to remember.",
       "confirm": "Confirm the password",
       "sysadmin-title": "Platform administrator (advanced)",
-      "sysadmin-hint": "A second account, for platform settings and organizations. It uses the same password, which you can change later. The default address cannot receive messages: enter a real one if you want password-reset emails.",
+      "sysadmin-hint": "A second account, for platform settings and organizations. It gets its own random password, shown at the end; it must be changed at the first sign-in. The default address cannot receive messages: enter a real one if you want password-reset emails.",
       "sysadmin-email": "Platform administrator email",
       "device-title": "First device",
       "device-intro": "Create a sample device and a dashboard to check that everything works. You can delete them later.",
@@ -78,7 +78,19 @@
         "already-done": "This server is already set up. Sign in instead.",
         "failed": "Setup failed and nothing was saved. Check the server log and try again.",
         "test-value": "The test value was not received. Check that the server is running."
-      }
+      },
+      "sysadmin-ready": "Platform administrator",
+      "sysadmin-once": "Save this password now, for example in a password manager: it is shown only once. You will choose a new one at the first sign-in.",
+      "copy-password": "Copy the password"
+    },
+    "privacy": {
+      "export": "Export personal data",
+      "exported": "Personal data exported",
+      "erase": "Erase this account",
+      "erase-title": "Erase the account {{email}}?",
+      "erase-text": "The account, its sign-in data, preferences and notifications are deleted. Audit log entries are kept for security, with the name replaced by a pseudonym. This cannot be undone.",
+      "erase-confirm": "Erase",
+      "erased": "Account erased"
     }
   },
   "language": {
@@ -86,5 +98,8 @@
       "en_CA": "English (Canada)",
       "fr_CA": "français (Canada)"
     }
+  },
+  "login": {
+    "expired-password-reset-message": "Please choose a new password: your current one has expired or was generated for your first sign-in."
   }
 }

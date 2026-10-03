@@ -52,7 +52,9 @@ services:
         condition: service_completed_successfully
 
   orbitos:
-    image: localhost/orbitos:${ORBITOS_VERSION:-dev}
+    # Built from source by default. To use a published image instead, set ORBITOS_IMAGE in .env
+    # (for example ghcr.io/<owner>/orbitos:1.0.0) and start with: docker compose up -d --no-build
+    image: ${ORBITOS_IMAGE:-localhost/orbitos:dev}
     build:
       context: .
       dockerfile: orbitos/docker/Dockerfile

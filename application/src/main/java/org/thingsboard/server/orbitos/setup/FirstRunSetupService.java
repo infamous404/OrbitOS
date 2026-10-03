@@ -25,6 +25,7 @@ import org.thingsboard.server.dao.device.DeviceService;
 import org.thingsboard.server.dao.service.DataValidator;
 import org.thingsboard.server.dao.user.UserService;
 import org.thingsboard.server.orbitos.i18n.PlatformLanguage;
+import org.thingsboard.server.orbitos.security.ForcedPasswordChange;
 import org.thingsboard.server.service.entitiy.tenant.TbTenantService;
 
 import java.io.IOException;
@@ -65,6 +66,7 @@ public class FirstRunSetupService {
     private final DashboardService dashboardService;
     private final PlatformLanguage platformLanguage;
     private final PasswordEncoder passwordEncoder;
+    private final SecureDefaults secureDefaults;
 
     private volatile Boolean required;
     private String setupCode;
@@ -73,7 +75,7 @@ public class FirstRunSetupService {
     public FirstRunSetupService(UserService userService, TbTenantService tenantService, DeviceService deviceService,
                                 DeviceProfileService deviceProfileService, DeviceCredentialsService deviceCredentialsService,
                                 DashboardService dashboardService, PlatformLanguage platformLanguage,
-                                PasswordEncoder passwordEncoder) {
+                                PasswordEncoder passwordEncoder, SecureDefaults secureDefaults) {
         this.userService = userService;
         this.tenantService = tenantService;
         this.deviceService = deviceService;
@@ -82,6 +84,17 @@ public class FirstRunSetupService {
         this.dashboardService = dashboardService;
         this.platformLanguage = platformLanguage;
         this.passwordEncoder = passwordEncoder;
+        this.secureDefaults = secureDefaults;
+    }
+
+    /** 20 letters and digits (about 115 bits), without look-alike characters. */
+    static String randomPassword() {
+        String alphabet = CODE_ALPHABET + "abcdefghijkmnpqrstuvwxyz";
+        StringBuilder sb = new StringBuilder(20);
+        for (int i = 0; i < 20; i++) {
+            sb.append(alphabet.charAt(RANDOM.nextInt(alphabet.length())));
+        }
+        return sb.toString();
     }
 
     public static String randomSecret(int length) {
@@ -144,29 +157,30 @@ public class FirstRunSetupService {
         User sysadmin = userService.findUserByEmail(TenantId.SYS_TENANT_ID, PENDING_SYSADMIN_EMAIL);
         Tenant tenant = null;
         try {
-            // The language comes first: the organization's default data is created in it.
+            // The language and the secure defaults come first: the organization is created with them.
             platformLanguage.set(language);
+            secureDefaults.apply();
 
             tenant = new Tenant();
             tenant.setTitle(organization);
             tenant = tenantService.save(tenant);
             createUser(Authority.TENANT_ADMIN, tenant.getId(), email, password, language);
 
-            SetupResult result = new SetupResult(null, null, null);
-            if (!deviceName.isEmpty()) {
-                result = createFirstDevice(tenant.getId(), deviceName, language);
-            }
+            FirstDevice device = !deviceName.isEmpty() ? createFirstDevice(tenant.getId(), deviceName, language) : null;
 
-            // Last step: giving the system administrator its real login ends the setup.
+            // Last step: giving the system administrator its real login ends the setup. It gets its own
+            // random password, shown once on the setup page and to be replaced at the first sign-in.
+            String sysadminPassword = randomPassword();
             sysadmin.setEmail(sysadminEmail);
             setLanguage(sysadmin, language);
             sysadmin = userService.saveUser(TenantId.SYS_TENANT_ID, sysadmin);
-            setPassword(sysadmin, password);
+            setPassword(sysadmin, sysadminPassword, true);
 
             required = false;
             setupCode = null;
             log.info("First-run setup completed: organization '{}' created", organization);
-            return result;
+            return new SetupResult(device != null ? device.deviceId() : null, device != null ? device.accessToken() : null,
+                    device != null ? device.dashboardId() : null, sysadminEmail, sysadminPassword);
         } catch (SetupException e) {
             rollback(tenant);
             throw e;
@@ -205,7 +219,7 @@ public class FirstRunSetupService {
                 ================================================================""", shown);
     }
 
-    private SetupResult createFirstDevice(TenantId tenantId, String deviceName, String language) throws IOException {
+    private FirstDevice createFirstDevice(TenantId tenantId, String deviceName, String language) throws IOException {
         Device device = new Device();
         device.setTenantId(tenantId);
         device.setName(deviceName);
@@ -235,7 +249,7 @@ public class FirstRunSetupService {
         dashboard.setTitle(template.get("title").asText());
         dashboard.setConfiguration(template.get("configuration"));
         dashboard = dashboardService.saveDashboard(dashboard);
-        return new SetupResult(device.getId().getId().toString(), token, dashboard.getId().getId().toString());
+        return new FirstDevice(device.getId().getId().toString(), token, dashboard.getId().getId().toString());
     }
 
     private void createUser(Authority authority, TenantId tenantId, String email, String password, String language) {
@@ -245,14 +259,17 @@ public class FirstRunSetupService {
         user.setEmail(email);
         setLanguage(user, language);
         user = userService.saveUser(tenantId, user);
-        setPassword(user, password);
+        setPassword(user, password, false);
     }
 
-    private void setPassword(User user, String password) {
+    private void setPassword(User user, String password, boolean mustChange) {
         UserCredentials credentials = userService.findUserCredentialsByUserId(TenantId.SYS_TENANT_ID, user.getId());
         credentials.setPassword(passwordEncoder.encode(password));
         credentials.setEnabled(true);
         credentials.setActivateToken(null);
+        if (mustChange) {
+            ForcedPasswordChange.mark(credentials);
+        }
         userService.saveUserCredentials(TenantId.SYS_TENANT_ID, credentials);
     }
 
@@ -288,7 +305,12 @@ public class FirstRunSetupService {
                                String password, String sysadminEmail, String deviceName) {
     }
 
-    public record SetupResult(String deviceId, String accessToken, String dashboardId) {
+    /** The platform administrator's password is only ever sent here, once. */
+    public record SetupResult(String deviceId, String accessToken, String dashboardId,
+                              String sysadminEmail, String sysadminPassword) {
+    }
+
+    record FirstDevice(String deviceId, String accessToken, String dashboardId) {
     }
 
     /** The message is a stable error code; the setup page shows the translated text. */

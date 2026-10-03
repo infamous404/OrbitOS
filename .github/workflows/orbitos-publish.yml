@@ -1,0 +1,123 @@
+# SPDX-FileCopyrightText: Copyright The OrbitOS Authors
+# SPDX-License-Identifier: Apache-2.0
+#
+# Publishes the OrbitOS image to the GitHub Container Registry (ghcr.io).
+#
+# OFF BY DEFAULT. Nothing is published until a maintainer does BOTH:
+#   1. sets the repository variable ORBITOS_PUBLISH to "true"
+#      (Settings > Secrets and variables > Actions > Variables), and
+#   2. pushes a version tag such as v1.0.0, or starts this workflow by hand.
+#
+# What it does: runs the same checks, unit tests and smoke test as CI, then builds and pushes
+#   ghcr.io/<owner>/orbitos:<version> and :latest, with an SBOM, a build provenance attestation
+#   and a keyless cosign signature, so anyone can check where the image came from.
+name: OrbitOS publish (GHCR)
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag for the image, e.g. 1.0.0'
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: orbitos-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Test, build and publish
+    if: vars.ORBITOS_PUBLISH == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    permissions:
+      contents: read
+      packages: write        # push to ghcr.io
+      id-token: write        # keyless signing and provenance
+      attestations: write
+    env:
+      IMAGE: ghcr.io/${{ github.repository_owner }}/orbitos
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyyaml
+      - name: Licence check (only Apache-2.0 code)
+        run: python orbitos/scripts/upstream_license_check.py --tree
+      - name: Branding and translations
+        run: |
+          python orbitos/scripts/rebrand.py --check
+          python orbitos/scripts/i18n_check.py
+          python orbitos/scripts/i18n_regional.py --check
+
+      - name: Version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then v="${{ github.event.inputs.version }}"; else v="${GITHUB_REF_NAME#v}"; fi
+          echo "$v" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$' || { echo "Invalid version: $v"; exit 1; }
+          image=$(echo "$IMAGE" | tr '[:upper:]' '[:lower:]')
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+          echo "image=$image" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-buildx-action@v3
+      - name: Unit tests
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: orbitos/docker/Dockerfile
+          target: test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Build image for the smoke test
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: orbitos/docker/Dockerfile
+          tags: localhost/orbitos:dev
+          load: true
+          cache-from: type=gha
+      - name: Smoke test (fresh install end to end)
+        run: bash orbitos/scripts/smoke-test.sh
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: orbitos/docker/Dockerfile
+          push: true
+          tags: |
+            ${{ steps.version.outputs.image }}:${{ steps.version.outputs.version }}
+            ${{ steps.version.outputs.image }}:latest
+          labels: |
+            org.opencontainers.image.title=OrbitOS
+            org.opencontainers.image.version=${{ steps.version.outputs.version }}
+            org.opencontainers.image.licenses=Apache-2.0
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+          sbom: true
+          provenance: mode=max
+          cache-from: type=gha
+
+      - name: Build provenance attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-name: ${{ steps.version.outputs.image }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+
+      - uses: sigstore/cosign-installer@v3
+      - name: Sign the image (keyless)
+        run: cosign sign --yes "${{ steps.version.outputs.image }}@${{ steps.push.outputs.digest }}"

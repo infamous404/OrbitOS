@@ -238,7 +238,6 @@
     "email-label": "Courriel",
     "enable-authenticator-email": "Activer l’authentificateur Courriel",
     "enable-authenticator-email-description": "Un code de sécurité a été envoyé à votre adresse courriel à ",
-    "expired-password-reset-message": "Vos identifiants ont expiré! Veuillez créer un nouveau mot de passe.",
     "forgot-password": "Mot de passe oublié?",
     "invalid-email-format": "Format de courriel invalide.",
     "passwords-mismatch-error": "Les mots de passe saisis doivent être identiques!",

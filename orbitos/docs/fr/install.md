@@ -47,8 +47,11 @@ La ligne `orbitos` indique `healthy` quand le serveur et la base de données fon
 | Administrateur de l'organisation | Appareils, tableaux de bord, règles, utilisateurs : le travail de tous les jours | votre adresse courriel |
 | Administrateur de la plateforme | Organisations, paramètres de la plateforme (serveur de courriel, sécurité) | `sysadmin@local.invalid` (ou l'adresse choisie) |
 
-Les deux comptes commencent avec le mot de passe choisi. Changez celui de l'administrateur de
-la plateforme après la première connexion si d'autres personnes utiliseront la plateforme.
+Votre compte utilise le mot de passe choisi. L'administrateur de la plateforme reçoit son propre
+mot de passe aléatoire, affiché **une seule fois** à la fin de la configuration (enregistrez-le
+dans un gestionnaire de mots de passe); il doit être changé à sa première connexion. Voir les
+[contrôles de confidentialité et de sécurité](privacy-security.md) pour l'authentification à deux
+facteurs, le journal d'audit, la conservation et les demandes d'accès ou d'effacement.
 
 ## Paramètres
 

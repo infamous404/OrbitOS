@@ -35,3 +35,20 @@ orbitos:
     online-maps: "${ORBITOS_ONLINE_MAPS:false}"
     # Other hosts the web interface may load data from, separated by spaces or commas.
     allowed-hosts: "${ORBITOS_ALLOWED_HOSTS:}"
+
+# Tamper-evident audit log: every entry is added to a hash chain (see orbitos/docs/en/privacy-security.md).
+# Set AUDIT_LOG_SINK_TYPE=none to turn it off, or elasticsearch for the upstream external sink.
+audit-log:
+  sink:
+    type: "${AUDIT_LOG_SINK_TYPE:orbitos-chain}"
+
+# Retention (privacy by design: keep data only as long as needed). Values in seconds; 0 = keep forever.
+# Telemetry and alarm retention per organization are in the organization profile (365 days by default).
+sql:
+  ttl:
+    ts:
+      ts_key_value_ttl: "${SQL_TTL_TS_TS_KEY_VALUE_TTL:31536000}"   # telemetry fallback: 365 days
+    events:
+      events_ttl: "${SQL_TTL_EVENTS_EVENTS_TTL:2592000}"           # rule engine events: 30 days
+    audit_logs:
+      ttl: "${SQL_TTL_AUDIT_LOGS_SECS:31536000}"                   # audit log: 365 days

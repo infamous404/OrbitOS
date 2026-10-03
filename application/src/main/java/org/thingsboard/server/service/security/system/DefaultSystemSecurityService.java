@@ -44,6 +44,7 @@ import org.thingsboard.server.dao.user.UserService;
 import org.thingsboard.server.dao.user.UserServiceImpl;
 import org.thingsboard.server.service.security.auth.rest.RestAuthenticationDetails;
 import org.thingsboard.server.service.security.exception.UserPasswordExpiredException;
+import org.thingsboard.server.orbitos.security.ForcedPasswordChange;
 import org.thingsboard.server.service.security.model.SecurityUser;
 import org.thingsboard.server.utils.MiscUtils;
 import ua_parser.Client;
@@ -84,6 +85,12 @@ public class DefaultSystemSecurityService implements SystemSecurityService {
         }
 
         userService.resetFailedLoginAttempts(tenantId, userCredentials.getUserId());
+
+        // OrbitOS: a password chosen by the platform (first-run setup) must be replaced at the first sign-in.
+        if (ForcedPasswordChange.isPending(userCredentials)) {
+            userCredentials = userService.requestExpiredPasswordReset(tenantId, userCredentials.getId());
+            throw new UserPasswordExpiredException("Password must be changed at first sign-in", userCredentials.getResetToken());
+        }
 
         SecuritySettings securitySettings = securitySettingsService.getSecuritySettings();
         if (isPositiveInteger(securitySettings.getPasswordPolicy().getPasswordExpirationPeriodDays())) {

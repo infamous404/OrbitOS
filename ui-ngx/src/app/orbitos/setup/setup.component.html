@@ -157,6 +157,16 @@
               </button>
             </details>
           }
+          <div class="orbitos-setup-admin" role="note">
+            <p class="orbitos-setup-label">{{ 'orbitos.setup.sysadmin-ready' | translate }}</p>
+            <p class="orbitos-setup-hint">{{ 'orbitos.setup.sysadmin-once' | translate }}</p>
+            <code class="orbitos-mono orbitos-setup-token">{{ result.sysadminEmail }}
+{{ result.sysadminPassword }}</code>
+            <button mat-button type="button" (click)="copyPassword()">
+              <mat-icon>content_copy</mat-icon>
+              {{ (passwordCopied ? 'orbitos.setup.copied' : 'orbitos.setup.copy-password') | translate }}
+            </button>
+          </div>
           <div class="orbitos-setup-actions flex justify-end">
             <button mat-flat-button color="accent" type="button" (click)="signIn()" [disabled]="busy">
               {{ (result.dashboardId ? 'orbitos.setup.open-dashboard' : 'orbitos.setup.sign-in') | translate }}

@@ -74,7 +74,8 @@
   "login": {
     "email": "E-mail",
     "email-label": "E-mail",
-    "sign-in": "Se connecter"
+    "sign-in": "Se connecter",
+    "expired-password-reset-message": "Veuillez choisir un nouveau mot de passe : l'actuel a expiré ou a été généré pour votre première connexion."
   },
   "notification": {
     "delivery-method": {
@@ -263,7 +264,7 @@
       "password-hint": "Au moins {{min}} caractères. Une courte phrase est facile à retenir.",
       "confirm": "Confirmez le mot de passe",
       "sysadmin-title": "Administrateur de la plateforme (avancé)",
-      "sysadmin-hint": "Un second compte, pour les paramètres de la plateforme et les organisations. Il utilise le même mot de passe, modifiable plus tard. L'adresse par défaut ne peut pas recevoir de messages : entrez une vraie adresse pour recevoir les messages de réinitialisation du mot de passe.",
+      "sysadmin-hint": "Un second compte, pour les paramètres de la plateforme et les organisations. Il reçoit son propre mot de passe aléatoire, affiché à la fin, qui doit être changé à la première connexion. L'adresse par défaut ne peut pas recevoir de messages : entrez une vraie adresse pour recevoir les messages de réinitialisation du mot de passe.",
       "sysadmin-email": "Adresse e-mail de l'administrateur de la plateforme",
       "device-title": "Premier appareil",
       "device-intro": "Créez un appareil et un tableau de bord d'exemple pour vérifier que tout fonctionne. Vous pourrez les supprimer ensuite.",
@@ -294,7 +295,19 @@
         "already-done": "Ce serveur est déjà configuré. Connectez-vous.",
         "failed": "La configuration a échoué et rien n'a été enregistré. Consultez le journal du serveur et réessayez.",
         "test-value": "La valeur de test n'a pas été reçue. Vérifiez que le serveur fonctionne."
-      }
+      },
+      "sysadmin-ready": "Administrateur de la plateforme",
+      "sysadmin-once": "Enregistrez ce mot de passe maintenant, par exemple dans un gestionnaire de mots de passe : il n'est affiché qu'une seule fois. Vous en choisirez un nouveau à la première connexion.",
+      "copy-password": "Copier le mot de passe"
+    },
+    "privacy": {
+      "export": "Exporter les renseignements personnels",
+      "exported": "Renseignements personnels exportés",
+      "erase": "Effacer ce compte",
+      "erase-title": "Effacer le compte {{email}}?",
+      "erase-text": "Le compte, ses données de connexion, ses préférences et ses notifications sont supprimés. Les entrées du journal d'audit sont conservées pour la sécurité, avec le nom remplacé par un pseudonyme. Cette action est irréversible.",
+      "erase-confirm": "Effacer",
+      "erased": "Compte effacé"
     }
   }
 }

@@ -1,5 +1,21 @@
 # Changelog / Journal des modifications
 
+## Unreleased: Phase 4 essentials (privacy and security)
+
+### Added / Ajouts
+- Platform administrator: random password shown once at setup, forced change at first sign-in.
+  / Administrateur de la plateforme : mot de passe aléatoire affiché une seule fois, changement obligatoire à la première connexion.
+- Two-factor sign-in available by default (authenticator app, backup codes); 12-character passwords; lockout after 10 failures.
+  / Authentification à deux facteurs offerte par défaut (application, codes de secours); mots de passe de 12 caractères; verrouillage après 10 échecs.
+- Tamper-evident audit log (SHA-256 hash chain) with `docker compose run --rm orbitos verify-audit`.
+  / Journal d'audit à inviolabilité vérifiable (chaîne d'empreintes SHA-256), vérifiable avec `verify-audit`.
+- Retention defaults: telemetry and alarms 365 days, audit log 365 days, events 30 days, RPC 30 days.
+  / Durées de conservation par défaut : télémesures et alarmes 365 jours, journal d'audit 365 jours, événements 30 jours, RPC 30 jours.
+- Privacy requests: export personal data (JSON) and erase an account (audit names pseudonymized).
+  / Demandes relatives aux renseignements personnels : exportation (JSON) et effacement d'un compte (noms pseudonymisés dans le journal d'audit).
+- GHCR publish workflow, off until a maintainer enables it (`ORBITOS_PUBLISH=true`); signed images with SBOM and provenance.
+  / Flux de publication GHCR, désactivé tant qu'un responsable ne l'active pas; images signées avec SBOM et provenance.
+
 ## Unreleased: Phase 3 (easy, safe, offline-first setup)
 
 ### Added / Ajouts

@@ -76,15 +76,65 @@ pass "wrong code and short password refused"
 device_token=$(json 'print(d["accessToken"])' < smoke-test-body.json)
 dashboard_id=$(json 'print(d["dashboardId"])' < smoke-test-body.json)
 device_id=$(json 'print(d["deviceId"])' < smoke-test-body.json)
+SYSADMIN_EMAIL=$(json 'print(d["sysadminEmail"])' < smoke-test-body.json)
+SYSADMIN_FIRST=$(json 'print(d["sysadminPassword"])' < smoke-test-body.json)
+[ "$SYSADMIN_FIRST" != "$PASSWORD" ] && [ ${#SYSADMIN_FIRST} -ge 20 ] || fail "platform admin password not generated"
 pass "setup completed (organization, accounts, device, dashboard)"
+pass "platform admin got its own generated password (${#SYSADMIN_FIRST} characters)"
 
 curl -fsS "$BASE/api/noauth/orbitos/setup" | json 'assert d["required"] is False, d' || fail "setup still required"
 [ "$(post /api/noauth/orbitos/setup "$(request "$setup_code" "$PASSWORD")")" = "409" ] || fail "setup can run twice"
 pass "setup page closed after use"
 
 token=$(login admin@example.com "$PASSWORD") || fail "organization admin login"
-systoken=$(login sysadmin@local.invalid "$PASSWORD") || fail "platform admin login"
-pass "both accounts sign in"
+pass "organization admin signs in"
+
+# ---- Phase 4: forced password change at first sign-in ----
+code=$(post /api/auth/login "{\"username\":\"$SYSADMIN_EMAIL\",\"password\":\"$PASSWORD\"}")
+[ "$code" = "401" ] || fail "platform admin accepts the organization admin's password ($code)"
+code=$(post /api/auth/login "{\"username\":\"$SYSADMIN_EMAIL\",\"password\":\"$SYSADMIN_FIRST\"}")
+[ "$code" = "401" ] || fail "generated password works without a change ($code)"
+reset_token=$(json 'assert d["errorCode"] == 15, d; print(d["resetToken"])' < smoke-test-body.json) || fail "no forced change"
+[ "$(post /api/noauth/resetPassword "{\"resetToken\":\"$reset_token\",\"password\":\"too-short\"}")" = "400" ] \
+  || fail "new password shorter than 12 characters accepted"
+SYSADMIN_PASSWORD="new-$PASSWORD"
+[ "$(post /api/noauth/resetPassword "{\"resetToken\":\"$reset_token\",\"password\":\"$SYSADMIN_PASSWORD\"}")" = "200" ] \
+  || { cat smoke-test-body.json; fail "password change"; }
+systoken=$(login "$SYSADMIN_EMAIL" "$SYSADMIN_PASSWORD") || fail "platform admin login with the new password"
+[ "$(post /api/auth/login "{\"username\":\"$SYSADMIN_EMAIL\",\"password\":\"$SYSADMIN_FIRST\"}")" = "401" ] \
+  || fail "generated password still works after the change"
+pass "platform admin must change the generated password at first sign-in (12+ characters)"
+
+# ---- Phase 4: secure defaults (password policy, retention) ----
+curl -fsS -H "X-Authorization: Bearer $systoken" "$BASE/api/admin/securitySettings" \
+  | json 'p=d["passwordPolicy"]; assert p["minimumLength"] >= 12, p; assert d["maxFailedLoginAttempts"] == 10, d' \
+  || fail "password policy"
+profile_id=$(curl -fsS -H "X-Authorization: Bearer $systoken" "$BASE/api/tenantProfileInfo/default" | json 'print(d["id"]["id"])')
+curl -fsS -H "X-Authorization: Bearer $systoken" "$BASE/api/tenantProfile/$profile_id" \
+  | json 'c=d["profileData"]["configuration"]; assert (c["defaultStorageTtlDays"], c["alarmsTtlDays"], c["rpcTtlDays"]) == (365, 365, 30), c' \
+  || fail "retention defaults"
+pass "secure defaults: 12-character passwords, lockout after 10 failures, retention 365/365/30 days"
+
+# ---- Phase 4: two-factor sign-in (authenticator app) ----
+totp() {
+  "$PY" -c "import sys,hmac,hashlib,struct,time,base64; s=sys.argv[1]; k=base64.b32decode(s+'='*(-len(s)%8)); h=hmac.new(k,struct.pack('>Q',int(time.time())//30),hashlib.sha1).digest(); o=h[-1]&15; print('%06d'%((struct.unpack('>I',h[o:o+4])[0]&0x7fffffff)%1000000))" "$1"
+}
+curl -fsS -H "X-Authorization: Bearer $token" "$BASE/api/2fa/providers" | json 'assert "TOTP" in str(d), d' \
+  || fail "authenticator app not offered"
+curl -fsS -X POST -H "X-Authorization: Bearer $token" "$BASE/api/2fa/account/config/generate?providerType=TOTP" > smoke-test-totp.json \
+  || fail "authenticator setup"
+secret=$("$PY" -c "import json,urllib.parse; d=json.load(open('smoke-test-totp.json')); print(urllib.parse.parse_qs(urllib.parse.urlparse(d['authUrl']).query)['secret'][0])")
+curl -fsS -H "X-Authorization: Bearer $token" -H 'Content-Type: application/json' -d @smoke-test-totp.json \
+  "$BASE/api/2fa/account/config?verificationCode=$(totp "$secret")" > /dev/null || fail "enable authenticator"
+pre=$(curl -fsS -H 'Content-Type: application/json' -d "{\"username\":\"admin@example.com\",\"password\":\"$PASSWORD\"}" \
+  "$BASE/api/auth/login" | json 'assert d.get("scope") == "PRE_VERIFICATION_TOKEN", d; print(d["token"])') \
+  || fail "password alone still gives full access"
+sleep 31  # next 30-second code, so the same code is never used twice
+token=$(curl -fsS -X POST -H "X-Authorization: Bearer $pre" \
+  "$BASE/api/auth/2fa/verification/check?providerType=TOTP&verificationCode=$(totp "$secret")" | json 'print(d["token"])') \
+  || fail "sign-in with the authenticator code"
+rm -f smoke-test-totp.json
+pass "two-factor sign-in: password, then authenticator code"
 
 # ---- device, dashboard, French default data ----
 curl -fsS -H 'Content-Type: application/json' -d '{"temperature":21.5,"humidity":40}' \
@@ -109,6 +159,36 @@ pass "default rule chain and notifications in French"
 curl -fsS -H "X-Authorization: Bearer $token" "$BASE/api/auth/user" \
   | json 'assert d["additionalInfo"]["lang"] == "fr_CA", d["additionalInfo"]' || fail "user language"
 pass "account language saved (fr_CA)"
+
+# ---- Phase 4: privacy requests (export, erase) ----
+customer_id=$(curl -fsS -H "X-Authorization: Bearer $token" -H 'Content-Type: application/json' \
+  -d '{"title":"Client test"}' "$BASE/api/customer" | json 'print(d["id"]["id"])') || fail "create customer"
+person_id=$(curl -fsS -H "X-Authorization: Bearer $token" -H 'Content-Type: application/json' \
+  -d "{\"email\":\"person@example.com\",\"firstName\":\"Pat\",\"authority\":\"CUSTOMER_USER\",\"customerId\":{\"id\":\"$customer_id\",\"entityType\":\"CUSTOMER\"}}" \
+  "$BASE/api/user?sendActivationMail=false" | json 'print(d["id"]["id"])') || fail "create customer user"
+sleep 2
+curl -fsS -H "X-Authorization: Bearer $token" "$BASE/api/orbitos/privacy/users/$person_id/export" \
+  | json 'assert d["account"]["email"] == "person@example.com"; assert d["customer"]["title"] == "Client test"; assert len(d["actionsAboutThisAccount"]) >= 1, d.keys()' \
+  || fail "privacy export"
+pass "privacy export: account, customer and audit entries in one JSON file"
+
+sysadmin_id=$(curl -fsS -H "X-Authorization: Bearer $systoken" "$BASE/api/auth/user" | json 'print(d["id"]["id"])')
+code=$(curl -s -o /dev/null -w '%{http_code}' -H "X-Authorization: Bearer $token" "$BASE/api/orbitos/privacy/users/$sysadmin_id/export")
+[ "$code" = "404" ] || fail "organization admin can export the platform admin ($code)"
+me_id=$(curl -fsS -H "X-Authorization: Bearer $token" "$BASE/api/auth/user" | json 'print(d["id"]["id"])')
+code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H "X-Authorization: Bearer $token" "$BASE/api/orbitos/privacy/users/$me_id/erase")
+[ "$code" = "403" ] || fail "an admin can erase their own account ($code)"
+pass "privacy tools limited to the admin's own organization; no self-erasure"
+
+curl -fsS -X POST -H "X-Authorization: Bearer $token" "$BASE/api/orbitos/privacy/users/$person_id/erase" \
+  | json 'assert d["pseudonym"].startswith("erased-user-"), d' || fail "privacy erase"
+code=$(curl -s -o /dev/null -w '%{http_code}' -H "X-Authorization: Bearer $token" "$BASE/api/user/$person_id")
+[ "$code" = "404" ] || fail "erased account still exists ($code)"
+sleep 3
+left=$($COMPOSE exec -T postgres psql -U orbitos -d orbitos -tA \
+  -c "SELECT count(*) FROM audit_log WHERE user_name = 'person@example.com' OR entity_name = 'person@example.com'")
+[ "$left" = "0" ] || fail "email still in $left audit entries (names)"
+pass "privacy erasure: account deleted, email replaced by a pseudonym in the audit log"
 
 # ---- branding, offline, call-home ----
 curl -fsS "$BASE/api/noauth/branding" | json 'assert d["name"] == "OrbitOS", d' || fail "branding"
@@ -144,11 +224,37 @@ $COMPOSE stop orbitos > /dev/null 2>&1
 $COMPOSE run --rm restore "$BACKUP" > smoke-test-restore.log 2>&1 || { cat smoke-test-restore.log; fail "restore"; }
 $COMPOSE start orbitos > /dev/null 2>&1
 wait_healthy
-token=$(login admin@example.com "$PASSWORD") || fail "login after restore"
+pre=$(login admin@example.com "$PASSWORD") || fail "login after restore"
+token=$(curl -fsS -X POST -H "X-Authorization: Bearer $pre" \
+  "$BASE/api/auth/2fa/verification/check?providerType=TOTP&verificationCode=$(totp "$secret")" | json 'print(d["token"])') \
+  || fail "two-factor login after restore"
 curl -fsS -H "X-Authorization: Bearer $token" \
   "$BASE/api/plugins/telemetry/DEVICE/$device_id/values/timeseries?keys=temperature" \
   | json 'assert d["temperature"][0]["value"] in ("21.5", 21.5), d' || fail "restore did not bring back the backed-up value"
 pass "restore brings back the data as it was at backup time"
 
-rm -f smoke-test-body.json
+# ---- Phase 4: tamper-evident audit log (last: it damages the log on purpose) ----
+psql() { $COMPOSE exec -T postgres psql -U orbitos -d orbitos -tA -c "$1"; }
+systoken=$(login "$SYSADMIN_EMAIL" "$SYSADMIN_PASSWORD") || fail "platform admin login after restore"
+sleep 2
+curl -fsS -H "X-Authorization: Bearer $systoken" "$BASE/api/orbitos/audit/verify" \
+  | json 'assert d["status"] == "intact" and d["checked"] > 0, d' || fail "audit chain not intact (API)"
+$COMPOSE run --rm orbitos verify-audit > smoke-test-audit.log 2>&1 || { cat smoke-test-audit.log; fail "audit chain not intact (command)"; }
+pass "audit log intact: $(grep -oE '"checked" : [0-9]+' smoke-test-audit.log) entries"
+
+victim=$(psql "SELECT audit_log_id FROM orbitos_audit_chain ORDER BY seq LIMIT 1 OFFSET 3")
+psql "UPDATE audit_log SET action_status = 'FAILURE' WHERE id = '$victim'" > /dev/null
+set +e
+$COMPOSE run --rm orbitos verify-audit > smoke-test-audit.log 2>&1
+status=$?
+set -e
+[ "$status" = "3" ] && grep -q '"changed"' smoke-test-audit.log && grep -q "$victim" smoke-test-audit.log \
+  || { cat smoke-test-audit.log; fail "changed audit entry not detected"; }
+psql "DELETE FROM audit_log WHERE id = (SELECT audit_log_id FROM orbitos_audit_chain ORDER BY seq LIMIT 1 OFFSET 5)" > /dev/null
+curl -fsS -H "X-Authorization: Bearer $systoken" "$BASE/api/orbitos/audit/verify" \
+  | json 'kinds={p["kind"] for p in d["problems"]}; assert d["status"] == "broken" and {"changed", "deleted"} <= kinds, d' \
+  || fail "deleted audit entry not detected"
+pass "audit log tampering detected (changed entry, deleted entry)"
+
+rm -f smoke-test-body.json smoke-test-audit.log
 echo "All smoke tests passed."

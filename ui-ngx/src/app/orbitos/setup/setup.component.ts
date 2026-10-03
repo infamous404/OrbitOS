@@ -15,6 +15,8 @@ interface SetupResult {
   deviceId: string | null;
   accessToken: string | null;
   dashboardId: string | null;
+  sysadminEmail: string;
+  sysadminPassword: string;
 }
 
 /** Error codes sent by the server, and the text shown for each. */
@@ -70,6 +72,7 @@ export class OrbitosSetupComponent implements OnInit {
   result: SetupResult | null = null;
   testSent = false;
   copied = false;
+  passwordCopied = false;
 
   readonly codeForm = this.fb.group({
     setupCode: ['', [Validators.required, Validators.minLength(12)]]
@@ -186,6 +189,13 @@ export class OrbitosSetupComponent implements OnInit {
   copyCommand() {
     navigator.clipboard?.writeText(this.curlCommand).then(() => {
       this.copied = true;
+      this.cd.markForCheck();
+    });
+  }
+
+  copyPassword() {
+    navigator.clipboard?.writeText(this.result?.sysadminPassword ?? '').then(() => {
+      this.passwordCopied = true;
       this.cd.markForCheck();
     });
   }

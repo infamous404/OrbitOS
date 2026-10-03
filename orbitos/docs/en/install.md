@@ -47,8 +47,10 @@ The `orbitos` line says `healthy` when the server and the database work.
 | Organization administrator | Devices, dashboards, rules, users: daily work | your email |
 | Platform administrator | Organizations, platform settings (mail server, security) | `sysadmin@local.invalid` (or the address you chose) |
 
-Both start with the password you chose. Change the platform administrator's password after
-the first sign-in if other people will use the platform.
+Your account uses the password you chose. The platform administrator gets its own random
+password, shown **once** at the end of setup (save it in a password manager); it must be changed
+at its first sign-in. See [privacy and security controls](privacy-security.md) for two-factor
+sign-in, the audit log, retention and privacy requests.
 
 ## Settings
 

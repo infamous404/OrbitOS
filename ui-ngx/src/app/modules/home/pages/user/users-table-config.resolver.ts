@@ -1,5 +1,6 @@
 // SPDX-FileCopyrightText: Copyright The Thingsboard Authors
 // SPDX-License-Identifier: Apache-2.0
+import { OrbitosPrivacyService } from '@app/orbitos/privacy.service';
 import { Injectable } from '@angular/core';
 
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
@@ -60,7 +61,8 @@ export class UsersTableConfigResolver  {
               private translate: TranslateService,
               private datePipe: DatePipe,
               private router: Router,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private privacy: OrbitosPrivacyService) {
 
     this.config.entityType = EntityType.USER;
     this.config.entityComponent = UserComponent;
@@ -138,6 +140,8 @@ export class UsersTableConfigResolver  {
         }
       );
     }
+    // OrbitOS: privacy requests (export / erase one account).
+    this.config.cellActionDescriptors.push(...this.privacy.cellActions(() => this.config.updateData()));
   }
 
   saveUser(user: User): Observable<User> {
