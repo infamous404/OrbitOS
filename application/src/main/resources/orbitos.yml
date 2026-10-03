@@ -27,3 +27,11 @@ orbitos:
   branding:
     # Folder holding branding.yml, the logo and the favicon.
     dir: "${ORBITOS_BRANDING_DIR:/etc/orbitos/branding}"
+    # Product name shown everywhere; empty = the name in branding.yml.
+    name: "${ORBITOS_BRAND_NAME:}"
+  offline:
+    # The web interface may only load data from this server. true = also allow the free
+    # map tile servers (OpenStreetMap, Esri, CARTO): the browser then contacts them.
+    online-maps: "${ORBITOS_ONLINE_MAPS:false}"
+    # Other hosts the web interface may load data from, separated by spaces or commas.
+    allowed-hosts: "${ORBITOS_ALLOWED_HOSTS:}"

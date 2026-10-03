@@ -6,3 +6,5 @@ ui-ngx/.angular
 **/*.log
 .idea
 .vscode
+backups
+.env

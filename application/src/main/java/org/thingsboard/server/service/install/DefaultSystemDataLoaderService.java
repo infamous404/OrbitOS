@@ -101,6 +101,7 @@ import org.thingsboard.server.dao.tenant.TenantProfileService;
 import org.thingsboard.server.dao.tenant.TenantService;
 import org.thingsboard.server.dao.timeseries.TimeseriesService;
 import org.thingsboard.server.dao.user.UserService;
+import org.thingsboard.server.orbitos.setup.FirstRunSetupService;
 import org.thingsboard.server.service.security.auth.jwt.settings.JwtSettingsService;
 
 import java.nio.charset.StandardCharsets;
@@ -185,7 +186,9 @@ public class DefaultSystemDataLoaderService implements SystemDataLoaderService {
 
     @Override
     public void createSysAdmin() {
-        createUser(Authority.SYS_ADMIN, null, null, "sysadmin@thingsboard.org", "sysadmin");
+        // OrbitOS: no default password. The account stays locked (unknown random password)
+        // until the first-run setup page sets a real email and password.
+        createUser(Authority.SYS_ADMIN, null, null, FirstRunSetupService.PENDING_SYSADMIN_EMAIL, FirstRunSetupService.randomSecret(32));
     }
 
     @Override

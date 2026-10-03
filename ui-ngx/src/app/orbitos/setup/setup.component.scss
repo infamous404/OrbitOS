@@ -1,0 +1,134 @@
+// SPDX-FileCopyrightText: Copyright The OrbitOS Authors
+// SPDX-License-Identifier: Apache-2.0
+//
+// Small "cyber" details: a cyan scan line, a step counter and monospace for codes.
+// The card uses the brand's dark primary color (like the login page); every text color
+// below keeps at least 4.5:1 contrast on it (checked on the default #0b4f6c: 5.1 to 6.2).
+
+$accent-line: #22d3ee;
+$accent-text: #67e8f9;
+$muted-text: rgba(255, 255, 255, 0.78);
+
+:host {
+  display: flex;
+  flex: 1;
+}
+
+.orbitos-setup-card {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 92vh;
+  overflow-y: auto;
+  margin: 16px;
+}
+
+.orbitos-setup-top {
+  margin-bottom: 12px;
+  .login-logo { max-width: 180px; }
+}
+
+.orbitos-setup-heading {
+  margin-bottom: 12px;
+  h1 {
+    font-size: 22px;
+    line-height: 30px;
+    font-weight: 500;
+    margin: 2px 0 8px;
+  }
+}
+
+.orbitos-setup-step {
+  font-family: 'Roboto Mono', Consolas, monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: $accent-text;
+}
+
+.orbitos-setup-scanline {
+  height: 1px;
+  background: linear-gradient(90deg, $accent-line, rgba($accent-line, 0.15) 70%, transparent);
+  box-shadow: 0 0 6px rgba($accent-line, 0.6);
+}
+
+.orbitos-mono {
+  font-family: 'Roboto Mono', Consolas, monospace;
+}
+
+.orbitos-code-input {
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.orbitos-setup-text {
+  font-size: 15px;
+  line-height: 22px;
+  margin: 4px 0 16px;
+}
+
+.orbitos-setup-hint {
+  font-size: 13px;
+  line-height: 19px;
+  color: $muted-text;
+  margin: 0 0 12px;
+  code {
+    display: inline-block;
+    margin-top: 4px;
+    background: rgba(0, 0, 0, 0.3);
+    color: $accent-text;
+    border-radius: 3px;
+    padding: 2px 6px;
+  }
+}
+
+.orbitos-setup-label {
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+
+.orbitos-setup-token, .orbitos-setup-command {
+  display: block;
+  background: #0b1220;
+  color: $accent-text; // > 10:1 on this panel
+  border-left: 2px solid $accent-line;
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-size: 13px;
+  word-break: break-all;
+  white-space: pre-wrap;
+  margin: 0 0 8px;
+}
+
+.orbitos-setup-ok {
+  color: #6ee7b7;
+  font-size: 13px;
+}
+
+.orbitos-setup-error {
+  color: #ffb4ab;
+  font-size: 14px;
+  margin: 4px 0 12px;
+}
+
+.orbitos-setup-details {
+  margin: 4px 0 12px;
+  summary {
+    cursor: pointer;
+    color: $accent-text;
+    font-size: 14px;
+    padding: 6px 0;
+  }
+}
+
+.orbitos-setup-device-name {
+  margin-top: 12px;
+}
+
+.orbitos-setup-test {
+  margin: 4px 0 8px;
+}
+
+.orbitos-setup-actions {
+  margin-top: 12px;
+}

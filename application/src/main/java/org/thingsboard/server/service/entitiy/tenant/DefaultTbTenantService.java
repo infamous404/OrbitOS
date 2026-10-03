@@ -10,6 +10,7 @@ import org.thingsboard.server.common.data.id.TenantId;
 import org.thingsboard.server.dao.tenant.TbTenantProfileCache;
 import org.thingsboard.server.dao.tenant.TenantProfileService;
 import org.thingsboard.server.dao.tenant.TenantService;
+import org.thingsboard.server.orbitos.i18n.DefaultDataTranslator;
 import org.thingsboard.server.queue.util.TbCoreComponent;
 import org.thingsboard.server.service.entitiy.AbstractTbEntityService;
 import org.thingsboard.server.service.entitiy.queue.TbQueueService;
@@ -30,6 +31,7 @@ public class DefaultTbTenantService extends AbstractTbEntityService implements T
     private final TbQueueService tbQueueService;
     private final TenantProfileService tenantProfileService;
     private final EntitiesVersionControlService versionControlService;
+    private final DefaultDataTranslator defaultDataTranslator;
 
     @Override
     public Tenant save(Tenant tenant) throws Exception {
@@ -44,6 +46,10 @@ public class DefaultTbTenantService extends AbstractTbEntityService implements T
             }
         });
         tenantProfileCache.evict(savedTenant.getId());
+        if (created) {
+            // OrbitOS: default notification settings in the platform default language.
+            defaultDataTranslator.translateNewTenant(savedTenant.getId());
+        }
 
         TenantProfile oldTenantProfile = oldTenant != null ? tenantProfileService.findTenantProfileById(TenantId.SYS_TENANT_ID, oldTenant.getTenantProfileId()) : null;
         TenantProfile newTenantProfile = tenantProfileService.findTenantProfileById(TenantId.SYS_TENANT_ID, savedTenant.getTenantProfileId());

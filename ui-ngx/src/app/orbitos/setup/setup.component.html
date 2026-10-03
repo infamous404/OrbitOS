@@ -1,0 +1,169 @@
+<!--
+  SPDX-FileCopyrightText: Copyright The OrbitOS Authors
+  SPDX-License-Identifier: Apache-2.0
+-->
+<div class="tb-login-content mat-app-background tb-dark flex flex-1 items-center justify-center">
+  <mat-card appearance="raised" class="orbitos-setup-card">
+    <mat-card-content class="!p-6">
+      <div class="orbitos-setup-top flex items-center justify-between">
+        <tb-logo class="login-logo"></tb-logo>
+        <orbitos-language-switcher [dark]="true"></orbitos-language-switcher>
+      </div>
+
+      <div class="orbitos-setup-heading">
+        <span class="orbitos-setup-step" aria-hidden="true">
+          {{ step < 4 ? ('0' + step + ' / 03') : '// OK' }}
+        </span>
+        <h1>
+          @switch (step) {
+            @case (1) { {{ 'orbitos.setup.title' | translate: {brandName: brandName} }} }
+            @case (2) { {{ 'orbitos.setup.account-title' | translate }} }
+            @case (3) { {{ 'orbitos.setup.device-title' | translate }} }
+            @default { {{ 'orbitos.setup.done-title' | translate }} }
+          }
+        </h1>
+        <div class="orbitos-setup-scanline" aria-hidden="true"></div>
+      </div>
+
+      @if (busy) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      }
+      @if (error) {
+        <p class="orbitos-setup-error" role="alert">{{ error | translate: {min: minPassword} }}</p>
+      }
+
+      <!-- 1. Language and setup code -->
+      @if (step === 1) {
+        <form [formGroup]="codeForm" (ngSubmit)="next()" class="flex flex-col">
+          <p class="orbitos-setup-text">{{ 'orbitos.setup.intro' | translate: {brandName: brandName} }}</p>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'orbitos.setup.code' | translate }}</mat-label>
+            <input matInput formControlName="setupCode" class="orbitos-mono orbitos-code-input"
+                   autocomplete="one-time-code" autocapitalize="characters" spellcheck="false" autofocus
+                   placeholder="XXXX-XXXX-XXXX" aria-describedby="orbitos-code-hint">
+            <mat-icon matPrefix>key</mat-icon>
+            @if (codeForm.get('setupCode')?.invalid && codeForm.get('setupCode')?.touched) {
+              <mat-error>{{ 'orbitos.setup.code-required' | translate }}</mat-error>
+            }
+          </mat-form-field>
+          <p id="orbitos-code-hint" class="orbitos-setup-hint">
+            {{ 'orbitos.setup.code-hint' | translate }}
+            <code class="orbitos-mono">docker compose logs orbitos</code>
+          </p>
+          <div class="orbitos-setup-actions flex justify-end">
+            <button mat-flat-button color="accent" type="submit">{{ 'orbitos.setup.next' | translate }}</button>
+          </div>
+        </form>
+      }
+
+      <!-- 2. Accounts -->
+      @if (step === 2) {
+        <form [formGroup]="accountForm" (ngSubmit)="next()" class="flex flex-col">
+          <p class="orbitos-setup-text">{{ 'orbitos.setup.account-intro' | translate }}</p>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'orbitos.setup.organization' | translate }}</mat-label>
+            <input matInput formControlName="organizationName" autocomplete="organization" autofocus>
+            <mat-icon matPrefix>business</mat-icon>
+            @if (accountForm.get('organizationName')?.invalid && accountForm.get('organizationName')?.touched) {
+              <mat-error>{{ 'orbitos.setup.error.organization' | translate }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'orbitos.setup.email' | translate }}</mat-label>
+            <input matInput type="email" formControlName="email" autocomplete="email">
+            <mat-icon matPrefix>email</mat-icon>
+            @if (accountForm.get('email')?.invalid && accountForm.get('email')?.touched) {
+              <mat-error>{{ 'orbitos.setup.error.email' | translate }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'orbitos.setup.password' | translate }}</mat-label>
+            <input matInput type="password" formControlName="password" autocomplete="new-password">
+            <tb-toggle-password matSuffix></tb-toggle-password>
+            <mat-icon matPrefix>lock</mat-icon>
+            <mat-hint>{{ 'orbitos.setup.password-hint' | translate: {min: minPassword} }}</mat-hint>
+            @if (accountForm.get('password')?.invalid && accountForm.get('password')?.touched) {
+              <mat-error>{{ 'orbitos.setup.error.password' | translate: {min: minPassword} }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'orbitos.setup.confirm' | translate }}</mat-label>
+            <input matInput type="password" formControlName="confirm" autocomplete="new-password">
+            <mat-icon matPrefix>lock</mat-icon>
+          </mat-form-field>
+          @if (accountForm.hasError('mismatch') && accountForm.get('confirm')?.touched) {
+            <p class="orbitos-setup-error" role="alert">{{ 'orbitos.setup.error.mismatch' | translate }}</p>
+          }
+          <details class="orbitos-setup-details">
+            <summary>{{ 'orbitos.setup.sysadmin-title' | translate }}</summary>
+            <p class="orbitos-setup-hint">{{ 'orbitos.setup.sysadmin-hint' | translate }}</p>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>{{ 'orbitos.setup.sysadmin-email' | translate }}</mat-label>
+              <input matInput type="email" formControlName="sysadminEmail" class="orbitos-mono">
+              <mat-icon matPrefix>admin_panel_settings</mat-icon>
+            </mat-form-field>
+          </details>
+          <div class="orbitos-setup-actions flex justify-between">
+            <button mat-button type="button" (click)="back()">{{ 'orbitos.setup.back' | translate }}</button>
+            <button mat-flat-button color="accent" type="submit">{{ 'orbitos.setup.next' | translate }}</button>
+          </div>
+        </form>
+      }
+
+      <!-- 3. First device -->
+      @if (step === 3) {
+        <form [formGroup]="deviceForm" (ngSubmit)="finish()" class="flex flex-col">
+          <p class="orbitos-setup-text">{{ 'orbitos.setup.device-intro' | translate }}</p>
+          <mat-checkbox formControlName="createDevice">{{ 'orbitos.setup.create-device' | translate }}</mat-checkbox>
+          @if (deviceForm.get('createDevice')?.value) {
+            <mat-form-field appearance="outline" class="orbitos-setup-device-name">
+              <mat-label>{{ 'orbitos.setup.device-name' | translate }}</mat-label>
+              <input matInput formControlName="deviceName">
+              <mat-icon matPrefix>memory</mat-icon>
+            </mat-form-field>
+          }
+          <div class="orbitos-setup-actions flex justify-between">
+            <button mat-button type="button" (click)="back()" [disabled]="busy">{{ 'orbitos.setup.back' | translate }}</button>
+            <button mat-flat-button color="accent" type="submit" [disabled]="busy">
+              {{ 'orbitos.setup.finish' | translate }}
+            </button>
+          </div>
+        </form>
+      }
+
+      <!-- 4. Done -->
+      @if (step === 4 && result) {
+        <div class="flex flex-col">
+          <p class="orbitos-setup-text">{{ 'orbitos.setup.done-intro' | translate }}</p>
+          @if (result.accessToken) {
+            <p class="orbitos-setup-label">{{ 'orbitos.setup.token' | translate }}</p>
+            <code class="orbitos-mono orbitos-setup-token">{{ result.accessToken }}</code>
+            <p class="orbitos-setup-hint">{{ 'orbitos.setup.token-hint' | translate }}</p>
+            <div class="orbitos-setup-test flex flex-wrap items-center gap-3">
+              <button mat-stroked-button type="button" (click)="sendTestValue()">
+                <mat-icon>sensors</mat-icon>
+                {{ 'orbitos.setup.send-test' | translate }}
+              </button>
+              @if (testSent) {
+                <span class="orbitos-setup-ok orbitos-mono" role="status">&gt; {{ 'orbitos.setup.test-sent' | translate }}</span>
+              }
+            </div>
+            <details class="orbitos-setup-details">
+              <summary>{{ 'orbitos.setup.from-device' | translate }}</summary>
+              <pre class="orbitos-mono orbitos-setup-command">{{ curlCommand }}</pre>
+              <button mat-button type="button" (click)="copyCommand()">
+                <mat-icon>content_copy</mat-icon>
+                {{ (copied ? 'orbitos.setup.copied' : 'orbitos.setup.copy') | translate }}
+              </button>
+            </details>
+          }
+          <div class="orbitos-setup-actions flex justify-end">
+            <button mat-flat-button color="accent" type="button" (click)="signIn()" [disabled]="busy">
+              {{ (result.dashboardId ? 'orbitos.setup.open-dashboard' : 'orbitos.setup.sign-in') | translate }}
+            </button>
+          </div>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -16,6 +16,7 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '@core/auth/auth.service';
 import { UserPasswordPolicy } from '@shared/models/settings.models';
+import { OrbitosSetupComponent } from '@app/orbitos/setup/setup.component';
 
 const passwordPolicyResolver: ResolveFn<UserPasswordPolicy> = (route: ActivatedRouteSnapshot,
    state: RouterStateSnapshot,
@@ -29,6 +30,16 @@ const passwordPolicyResolver: ResolveFn<UserPasswordPolicy> = (route: ActivatedR
 };
 
 const routes: Routes = [
+  // OrbitOS: first-run setup page (only works until the first account exists).
+  {
+    path: 'setup',
+    component: OrbitosSetupComponent,
+    data: {
+      title: 'orbitos.setup.page-title',
+      module: 'public'
+    },
+    canActivate: [AuthGuard]
+  },
   {
     path: 'login',
     component: LoginComponent,

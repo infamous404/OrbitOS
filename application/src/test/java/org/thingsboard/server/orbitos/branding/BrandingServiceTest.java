@@ -92,4 +92,13 @@ class BrandingServiceTest {
         assertThat(branding.assets()).isEmpty();
     }
 
+    @Test
+    void brandNameSettingReplacesFileName() throws Exception {
+        BrandingService.Branding branding = BrandingService.withName(load("name: From File"), "  Acme IoT ");
+        assertThat(branding.name()).isEqualTo("Acme IoT");
+        assertThat(branding.publicConfig().get("name")).isEqualTo("Acme IoT");
+        assertThat(BrandingService.withName(branding, "").name()).isEqualTo("Acme IoT");
+        assertThat(BrandingService.withName(branding, "x".repeat(65)).name()).isEqualTo("Acme IoT");
+    }
+
 }

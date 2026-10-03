@@ -6,7 +6,7 @@ OrbitOS is an open-source IoT platform for Canada and beyond: connect devices, c
 see it on dashboards and act on it with rules. It works in English and French, runs fully on your
 own computer or server, and never sends data or usage information to anyone.
 
-> **Status: early development (Phase 1 of 6).** Not ready for production. See [CHANGELOG.md](CHANGELOG.md).
+> **Status: early development (Phase 3 of 6).** Not ready for production yet. See [CHANGELOG.md](CHANGELOG.md).
 
 ## What makes it different
 
@@ -15,30 +15,23 @@ own computer or server, and never sends data or usage information to anyone.
 - **Your brand.** Name, logo, colors, login text and legal links come from one file:
   [`orbitos/branding/branding.yml`](orbitos/branding/branding.yml). See the
   [branding guide](orbitos/docs/en/branding.md).
-- **Bilingual.** English and French (Canada and France) are first-class. *(Work in progress: Phase 2.)*
+- **Bilingual.** English and French (Canada and France) are first-class: screens, emails, dates.
+- **Simple to run.** One command, about 2 GB of RAM, no default passwords, works offline.
 - **Open licence.** Apache License 2.0, forever. See [Licence](#licence).
 
-## Try it (developers)
+## Quick start
 
-You need Docker. Everything else is built inside Docker.
+You need Docker. In this folder:
 
-1. Build the image (about 20 minutes the first time):
-   ```bash
-   docker build -f orbitos/docker/Dockerfile -t orbitos/orbitos:dev .
-   ```
-2. Create `orbitos/docker/.env` with one line: `ORBITOS_DB_PASSWORD=` followed by a long random value.
-3. Create the database (first time only):
-   ```bash
-   docker compose -f orbitos/docker/compose.yml --profile install run --rm orbitos-install
-   ```
-4. Start:
-   ```bash
-   docker compose -f orbitos/docker/compose.yml up -d
-   ```
-5. Open http://localhost:8080.
+```bash
+docker compose up -d
+```
 
-Phase 1 still uses the upstream default administrator account. A one-command install with
-generated passwords and a first-run wizard comes in Phase 3.
+The first start builds OrbitOS (15 to 30 minutes). Then open **http://localhost:8080**: the setup
+page creates your account, your organization and a sample device with a dashboard. The setup code
+it asks for is in the server log (`docker compose logs orbitos`).
+
+Full guide, backups, upgrades and HTTPS: [orbitos/docs/en/install.md](orbitos/docs/en/install.md).
 
 ## Licence
 

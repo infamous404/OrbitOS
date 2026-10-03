@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: Copyright The Thingsboard Authors
 // SPDX-License-Identifier: Apache-2.0
 import { getBranding } from '@app/orbitos/branding';
+import { redirectToSetupIfNeeded } from '@app/orbitos/setup/setup-redirect';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@core/auth/auth.service';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
@@ -38,6 +39,7 @@ export class LoginComponent extends PageComponent implements OnInit {
 
   ngOnInit() {
     this.oauth2Clients = this.authService.oauth2Clients;
+    redirectToSetupIfNeeded(this.router); // OrbitOS: new server, no account yet
   }
 
   login(): void {

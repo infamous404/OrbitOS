@@ -41,5 +41,6 @@ rebuild-docker.sh
 .planning
 docs/superpowers/
 # OrbitOS
-orbitos/docker/.env
+.env
+backups/
 smoke-test-*.log

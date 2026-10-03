@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: Copyright The OrbitOS Authors
+# SPDX-License-Identifier: Apache-2.0
+#
+# HTTPS in front of OrbitOS (compose profile "https").
+#   ORBITOS_DOMAIN  the name people type, e.g. iot.example.ca (default: localhost)
+#   ORBITOS_TLS     "internal" = certificate from a local authority, works offline (default)
+#                   an email address = free public certificate from Let's Encrypt (contacts the internet)
+{
+	admin off
+}
+
+{$ORBITOS_DOMAIN:localhost} {
+	tls {$ORBITOS_TLS:internal}
+	encode gzip
+	reverse_proxy orbitos:8080
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "same-origin"
+		-Server
+	}
+}

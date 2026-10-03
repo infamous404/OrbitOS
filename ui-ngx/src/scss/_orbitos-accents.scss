@@ -1,0 +1,28 @@
+// SPDX-FileCopyrightText: Copyright The OrbitOS Authors
+// SPDX-License-Identifier: Apache-2.0
+//
+// OrbitOS accents: a few small "cyber" details, kept subtle on purpose.
+// Lines and glows only; text colors are unchanged, so contrast stays as tested (WCAG 2.1 AA).
+
+$orbitos-accent: #22d3ee;
+
+// Thin cyan line under the top bar.
+mat-toolbar.tb-primary-toolbar {
+  box-shadow: inset 0 -1px 0 rgba($orbitos-accent, 0.55);
+}
+
+// Same line under the logo area of the side menu.
+mat-toolbar.tb-nav-header-toolbar {
+  box-shadow: inset 0 -1px 0 rgba($orbitos-accent, 0.35);
+}
+
+// Login and other public pages: a fine cyan edge on top of the card.
+.tb-login-content mat-card {
+  border-top: 2px solid rgba($orbitos-accent, 0.8);
+}
+
+// IDs, tokens and keys read better in monospace.
+.orbitos-mono,
+.tb-copy-to-clipboard code {
+  font-family: 'Roboto Mono', Consolas, monospace;
+}

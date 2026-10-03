@@ -7,7 +7,7 @@ branchez vos appareils, recueillez leurs données, consultez-les dans des tablea
 réagissez grâce à des règles. Elle fonctionne en français et en anglais, roule entièrement sur
 votre ordinateur ou votre serveur, et n'envoie jamais de données ni de statistiques d'utilisation à qui que ce soit.
 
-> **État : début du développement (phase 1 sur 6).** Pas prête pour la production. Voir [CHANGELOG.md](CHANGELOG.md).
+> **État : début du développement (phase 3 sur 6).** Pas encore prête pour la production. Voir [CHANGELOG.md](CHANGELOG.md).
 
 ## Ce qui la distingue
 
@@ -17,31 +17,24 @@ votre ordinateur ou votre serveur, et n'envoie jamais de données ni de statisti
 - **Votre image de marque.** Le nom, le logo, les couleurs, le texte de connexion et les liens
   légaux viennent d'un seul fichier : [`orbitos/branding/branding.yml`](orbitos/branding/branding.yml).
   Voir le [guide de l'image de marque](orbitos/docs/fr/branding.md).
-- **Bilingue.** Le français (Canada et France) et l'anglais sont traités à égalité. *(En cours : phase 2.)*
+- **Bilingue.** Le français (Canada et France) et l'anglais sont traités à égalité : écrans, courriels, dates.
+- **Simple à faire rouler.** Une seule commande, environ 2 Go de mémoire, aucun mot de passe par défaut, fonctionne hors ligne.
 - **Licence ouverte.** Licence Apache 2.0, pour toujours. Voir [Licence](#licence).
 
-## Essayer (développeurs)
+## Démarrage rapide
 
-Il vous faut Docker. Tout le reste est construit dans Docker.
+Il vous faut Docker. Dans ce dossier :
 
-1. Construisez l'image (environ 20 minutes la première fois) :
-   ```bash
-   docker build -f orbitos/docker/Dockerfile -t orbitos/orbitos:dev .
-   ```
-2. Créez `orbitos/docker/.env` avec une seule ligne : `ORBITOS_DB_PASSWORD=` suivi d'une longue valeur aléatoire.
-3. Créez la base de données (la première fois seulement) :
-   ```bash
-   docker compose -f orbitos/docker/compose.yml --profile install run --rm orbitos-install
-   ```
-4. Démarrez :
-   ```bash
-   docker compose -f orbitos/docker/compose.yml up -d
-   ```
-5. Ouvrez http://localhost:8080.
+```bash
+docker compose up -d
+```
 
-La phase 1 utilise encore le compte administrateur par défaut hérité du projet d'origine.
-Une installation en une commande, avec des mots de passe générés et un assistant de premier
-démarrage, arrive à la phase 3.
+Le premier démarrage construit OrbitOS (de 15 à 30 minutes). Ouvrez ensuite **http://localhost:8080** :
+la page de configuration crée votre compte, votre organisation et un appareil d'exemple avec un
+tableau de bord. Le code de configuration demandé se trouve dans le journal du serveur
+(`docker compose logs orbitos`).
+
+Guide complet, sauvegardes, mises à jour et HTTPS : [orbitos/docs/fr/install.md](orbitos/docs/fr/install.md).
 
 ## Licence
 

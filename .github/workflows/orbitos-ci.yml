@@ -45,7 +45,7 @@ jobs:
         with:
           context: .
           file: orbitos/docker/Dockerfile
-          tags: orbitos/orbitos:dev
+          tags: localhost/orbitos:dev
           load: true
           cache-from: type=gha
           cache-to: type=gha,mode=max

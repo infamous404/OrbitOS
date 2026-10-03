@@ -3,7 +3,7 @@
 #
 # Builds the OrbitOS single-node image from source.
 # Run from the repository root:
-#   docker build -f orbitos/docker/Dockerfile -t orbitos/orbitos:dev .
+#   docker compose build orbitos      (or: docker build -f orbitos/docker/Dockerfile -t localhost/orbitos:dev .)
 
 # ---------- build stage ----------
 FROM maven:3.9-eclipse-temurin-17 AS build

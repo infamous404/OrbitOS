@@ -2,21 +2,28 @@
 # SPDX-FileCopyrightText: Copyright The OrbitOS Authors
 # SPDX-License-Identifier: Apache-2.0
 #
-# Starts OrbitOS. Modes, chosen by environment variables:
-#   ORBITOS_INSTALL=true                 create the database schema and system data, then exit
-#   ORBITOS_UPGRADE=true FROM_VERSION=x  upgrade the database schema from version x, then exit
-#   (neither)                            run the server
+# Starts OrbitOS.
+#   (no argument)  install the database on first start if it is empty, then run the server
+#   upgrade        upgrade the database after a new version (take a backup first), then exit
+#   install        install the database only, then exit
+#
+# The database password is read from ORBITOS_DB_PASSWORD_FILE when SPRING_DATASOURCE_PASSWORD is not set.
 set -e
 
 JAR=/usr/share/orbitos/bin/orbitos.jar
 DATA_DIR=/usr/share/orbitos/data
 LOG_CONFIG=${LOG_CONFIG:-/usr/share/orbitos/conf/logback.xml}
-JAVA_OPTS="${JAVA_OPTS:--XX:+UseG1GC -XX:MaxRAMPercentage=75}"
+JAVA_OPTS="${JAVA_OPTS:--Xms256m -Xmx1g -XX:+UseG1GC}"
 
-launch() {
+if [ -z "$SPRING_DATASOURCE_PASSWORD" ] && [ -n "$ORBITOS_DB_PASSWORD_FILE" ]; then
+    SPRING_DATASOURCE_PASSWORD="$(cat "$ORBITOS_DB_PASSWORD_FILE")"
+    export SPRING_DATASOURCE_PASSWORD
+fi
+
+java_main() {
     main_class="$1"; shift
     # shellcheck disable=SC2086
-    exec java -cp "$JAR" $JAVA_OPTS \
+    java -cp "$JAR" $JAVA_OPTS \
         -Dloader.main="$main_class" \
         -Dinstall.data_dir="$DATA_DIR" \
         -Dlogging.config="$LOG_CONFIG" \
@@ -24,15 +31,43 @@ launch() {
         org.springframework.boot.loader.launch.PropertiesLauncher
 }
 
-if [ "$ORBITOS_INSTALL" = "true" ]; then
-    echo "OrbitOS: installing database schema and system data ..."
-    launch org.thingsboard.server.ThingsboardInstallApplication \
+install_database() {
+    echo "OrbitOS: installing the database (first start, about 1-2 minutes) ..."
+    java_main org.thingsboard.server.ThingsboardInstallApplication \
         -Dinstall.load_demo=false -Dinstall.upgrade=false
-elif [ "$ORBITOS_UPGRADE" = "true" ]; then
-    echo "OrbitOS: upgrading database from version ${FROM_VERSION:?FROM_VERSION is required} ..."
-    launch org.thingsboard.server.ThingsboardInstallApplication \
-        -Dinstall.upgrade=true -Dinstall.upgrade.from_version="$FROM_VERSION"
-else
-    echo "OrbitOS: starting server ..."
-    launch org.thingsboard.server.ThingsboardServerApplication
-fi
+}
+
+case "${1:-run}" in
+    install)
+        install_database
+        ;;
+    upgrade)
+        echo "OrbitOS: upgrading the database ..."
+        java_main org.thingsboard.server.ThingsboardInstallApplication -Dinstall.upgrade=true \
+            ${FROM_VERSION:+-Dinstall.upgrade.from_version="$FROM_VERSION"}
+        ;;
+    run)
+        set +e
+        java -cp "$JAR" -Dloader.main=org.thingsboard.server.orbitos.install.DatabaseState \
+            org.springframework.boot.loader.launch.PropertiesLauncher
+        state=$?
+        set -e
+        if [ "$state" = "10" ]; then
+            install_database
+        elif [ "$state" != "0" ]; then
+            echo "OrbitOS: database problem (see the message above), stopping." >&2
+            exit 1
+        fi
+        echo "OrbitOS: starting the server ..."
+        # shellcheck disable=SC2086
+        exec java -cp "$JAR" $JAVA_OPTS \
+            -Dloader.main=org.thingsboard.server.ThingsboardServerApplication \
+            -Dinstall.data_dir="$DATA_DIR" \
+            -Dlogging.config="$LOG_CONFIG" \
+            org.springframework.boot.loader.launch.PropertiesLauncher
+        ;;
+    *)
+        echo "Usage: orbitos-entrypoint [run|install|upgrade]" >&2
+        exit 2
+        ;;
+esac

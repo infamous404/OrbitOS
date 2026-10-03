@@ -142,6 +142,22 @@ New OrbitOS files (no conflict risk): `ui-ngx/src/app/orbitos/{i18n,translations
 | `application/src/main/resources/templates/state.{enabled,warning,disabled}.ftl` | Remote images from `media.thingsboard.io` replaced by an inline brand header and text symbols | **Outbound call found in Phase 2:** opening these emails loaded images from the vendor's server (and showed its logo). |
 | `ui-ngx/.../home-page/doc-links-widget.component.ts` | Default "Documentation" link names are translation keys | Home page fully French. The links still point to upstream online docs until Phase 6. |
 
+### 5.4 Setup, secure defaults, offline (Phase 3)
+
+| File(s) | Change | Why |
+|---|---|---|
+| `application/.../service/install/DefaultSystemDataLoaderService.java` (`createSysAdmin`) | The system administrator is created as `sysadmin@setup.invalid` with an unknown random password, instead of `sysadmin@thingsboard.org` / `sysadmin` | No default password. The first-run setup page (`org.thingsboard.server.orbitos.setup`) gives it a real login. |
+| `application/.../service/install/InstallScripts.java` (`createRuleChainFromFile`) | Rule chain files pass through `DefaultDataTranslator` before they are saved | Default rule chains in the platform language (French node names). English output unchanged. |
+| `application/.../service/entitiy/tenant/DefaultTbTenantService.java` (`save`) | After a new organization is created, `DefaultDataTranslator.translateNewTenant` translates its default notification templates, rules and recipient groups | Default notifications in the platform language. Exact-text dictionary; anything without an entry stays in English, so upstream changes cannot break tenant creation. |
+| `ui-ngx/src/app/modules/login/login-routing.module.ts` | Adds the `/setup` route | First-run setup page. |
+| `ui-ngx/src/app/modules/login/pages/login/login.component.ts` | Sends visitors to `/setup` while the server has no account | A new server cannot be signed into before setup. |
+| `ui-ngx/src/styles.scss` | Imports `scss/_orbitos-accents.scss` | Small visual accents (thin cyan lines, monospace for codes). Text colors unchanged. |
+| `.gitignore`, `.dockerignore` | Ignore `.env` and `backups/` at the repository root | Secrets and backups never committed or sent to the image build. |
+
+New files only (no upstream change): `compose.yaml`, `.env.example`, `orbitos/docker/{Caddyfile,tools/backup.sh,tools/restore.sh}`, the
+setup service and page, `ContentSecurityPolicyFilter` (offline browser policy), `DatabaseState` (first-start check),
+`orbitos/docs/{en,fr}/install.md`. The old development compose file `orbitos/docker/compose.yml` was removed.
+
 ## 6. Upstream merge log
 
 | Date | Upstream ref | Commits | Licence check | Notes |

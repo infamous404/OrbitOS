@@ -27,6 +27,7 @@ import org.thingsboard.server.common.data.widget.WidgetTypeDetails;
 import org.thingsboard.server.common.data.widget.WidgetsBundle;
 import org.thingsboard.server.dao.dashboard.DashboardService;
 import org.thingsboard.server.exception.DataValidationException;
+import org.thingsboard.server.orbitos.i18n.DefaultDataTranslator;
 import org.thingsboard.server.dao.oauth2.OAuth2ConfigTemplateService;
 import org.thingsboard.server.dao.resource.ImageService;
 import org.thingsboard.server.dao.resource.ResourceService;
@@ -106,6 +107,11 @@ public class InstallScripts {
     @Autowired
     private ImageService imageService;
 
+    // OrbitOS: default rule chains are created in the platform default language.
+    // Absent in the installer, which creates no organization.
+    @Autowired(required = false)
+    private DefaultDataTranslator defaultDataTranslator;
+
     Path getTenantRuleChainsDir() {
         return Paths.get(getDataDir(), JSON_DIR, TENANT_DIR, RULE_CHAINS_DIR);
     }
@@ -180,6 +186,9 @@ public class InstallScripts {
 
     public RuleChain createRuleChainFromFile(TenantId tenantId, Path templateFilePath, String newRuleChainName) {
         JsonNode ruleChainJson = JacksonUtil.toJsonNode(templateFilePath.toFile());
+        if (defaultDataTranslator != null) {
+            ruleChainJson = defaultDataTranslator.translateRuleChain(ruleChainJson);
+        }
         RuleChain ruleChain = JacksonUtil.treeToValue(ruleChainJson.get("ruleChain"), RuleChain.class);
         RuleChainMetaData ruleChainMetaData = JacksonUtil.treeToValue(ruleChainJson.get("metadata"), RuleChainMetaData.class);
 

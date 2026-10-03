@@ -1,0 +1,138 @@
+# SPDX-FileCopyrightText: Copyright The OrbitOS Authors
+# SPDX-License-Identifier: Apache-2.0
+#
+# OrbitOS: start everything with one command, from this folder:
+#
+#     docker compose up -d
+#
+# Then open http://localhost:8080 and follow the setup page.
+# The first start builds the image from source (about 15-30 minutes) and creates the database.
+# Settings: copy .env.example to .env and edit it (optional).
+#
+# Démarrer : docker compose up -d, puis ouvrez http://localhost:8080.
+
+name: orbitos
+
+services:
+  # Creates the database password once (random, 40 characters) and keeps it in a private volume.
+  secrets:
+    image: postgres:16
+    restart: "no"
+    entrypoint:
+      - sh
+      - -c
+      - |
+        f=/run/orbitos-secrets/db_password
+        if [ ! -s "$$f" ]; then
+          head -c 64 /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c 40 > "$$f"
+          echo "Database password created."
+        fi
+        chown 799:999 "$$f" && chmod 0440 "$$f"
+    volumes:
+      - secrets:/run/orbitos-secrets
+
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: orbitos
+      POSTGRES_USER: orbitos
+      POSTGRES_PASSWORD_FILE: /run/orbitos-secrets/db_password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - secrets:/run/orbitos-secrets:ro
+    # No published port: only OrbitOS can reach the database.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orbitos -d orbitos"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    depends_on:
+      secrets:
+        condition: service_completed_successfully
+
+  orbitos:
+    image: localhost/orbitos:${ORBITOS_VERSION:-dev}
+    build:
+      context: .
+      dockerfile: orbitos/docker/Dockerfile
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/orbitos
+      SPRING_DATASOURCE_USERNAME: orbitos
+      ORBITOS_DB_PASSWORD_FILE: /run/orbitos-secrets/db_password
+      ORBITOS_DEFAULT_LANGUAGE: ${ORBITOS_DEFAULT_LANGUAGE:-en_US}
+      ORBITOS_BRAND_NAME: ${ORBITOS_BRAND_NAME:-}
+      ORBITOS_ONLINE_MAPS: ${ORBITOS_ONLINE_MAPS:-false}
+      ORBITOS_ALLOWED_HOSTS: ${ORBITOS_ALLOWED_HOSTS:-}
+      JAVA_OPTS: ${ORBITOS_JAVA_OPTS:--Xms256m -Xmx1g -XX:+UseG1GC}
+    volumes:
+      - orbitos-data:/var/lib/orbitos
+      - secrets:/run/orbitos-secrets:ro
+    ports:
+      # 127.0.0.1 = this computer only. Set ORBITOS_BIND=0.0.0.0 in .env to allow your network.
+      - "${ORBITOS_BIND:-127.0.0.1}:${ORBITOS_HTTP_PORT:-8080}:8080"
+      - "${ORBITOS_BIND:-127.0.0.1}:${ORBITOS_MQTT_PORT:-1883}:1883"
+      - "${ORBITOS_BIND:-127.0.0.1}:${ORBITOS_COAP_PORT:-5683}:5683/udp"
+    healthcheck:
+      # Must answer "UP" (during the first install, port 8080 only answers with redirects).
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/api/noauth/orbitos/health | grep -q UP"]
+      interval: 15s
+      timeout: 5s
+      retries: 4
+      start_period: 5m
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Optional HTTPS in front of OrbitOS:  docker compose --profile https up -d
+  # Local certificate by default (no internet). See orbitos/docs/en/install.md.
+  https:
+    image: caddy:2
+    profiles: ["https"]
+    restart: unless-stopped
+    environment:
+      ORBITOS_DOMAIN: ${ORBITOS_DOMAIN:-localhost}
+      ORBITOS_TLS: ${ORBITOS_TLS:-internal}
+    ports:
+      - "${ORBITOS_HTTPS_BIND:-0.0.0.0}:443:443"
+      - "${ORBITOS_HTTPS_BIND:-0.0.0.0}:80:80"
+    volumes:
+      - ./orbitos/docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+    depends_on:
+      - orbitos
+
+  # Backup:   docker compose run --rm backup            (writes to the backups folder)
+  # Restore:  docker compose stop orbitos
+  #           docker compose run --rm restore <file>    (a file name from the backups folder)
+  #           docker compose start orbitos
+  backup:
+    image: postgres:16
+    profiles: ["tools"]
+    entrypoint: ["sh", "/tools/backup.sh"]
+    volumes:
+      - ./orbitos/docker/tools:/tools:ro
+      - ./backups:/backups
+      - secrets:/run/orbitos-secrets:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  restore:
+    image: postgres:16
+    profiles: ["tools"]
+    entrypoint: ["sh", "/tools/restore.sh"]
+    volumes:
+      - ./orbitos/docker/tools:/tools:ro
+      - ./backups:/backups:ro
+      - secrets:/run/orbitos-secrets:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  secrets:
+  postgres-data:
+  orbitos-data:
+  caddy-data:

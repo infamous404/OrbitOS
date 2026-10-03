@@ -1,5 +1,26 @@
 # Changelog / Journal des modifications
 
+## Unreleased: Phase 3 (easy, safe, offline-first setup)
+
+### Added / Ajouts
+- One command: `docker compose up -d`. The database is created on first start; its password is generated.
+  / Une seule commande : `docker compose up -d`. La base de données est créée au premier démarrage; son mot de passe est généré.
+- First-run setup page: language, organization, your account, platform administrator, sample device and dashboard, test value. Protected by a one-time code printed in the server log.
+  / Page de configuration initiale : langue, organisation, votre compte, administrateur de la plateforme, appareil et tableau de bord d'exemple, valeur de test. Protégée par un code à usage unique affiché dans le journal du serveur.
+- Default rule chain and notifications created in the chosen language (French or English).
+  / Chaîne de règles et notifications par défaut créées dans la langue choisie (français ou anglais).
+- Offline browser policy: the web interface only loads data from your server; `ORBITOS_ONLINE_MAPS` and `ORBITOS_ALLOWED_HOSTS` open it up.
+  / Politique hors ligne du navigateur : l'interface ne charge des données que depuis votre serveur; `ORBITOS_ONLINE_MAPS` et `ORBITOS_ALLOWED_HOSTS` l'élargissent.
+- Health check (`docker compose ps`), backup and restore commands, optional HTTPS (Caddy, local certificate by default), upgrade and rollback guide.
+  / Vérification de l'état (`docker compose ps`), commandes de sauvegarde et de restauration, HTTPS facultatif (Caddy, certificat local par défaut), guide de mise à jour et de retour en arrière.
+- `ORBITOS_BRAND_NAME` setting; server memory capped at 1 GB by default.
+  / Paramètre `ORBITOS_BRAND_NAME`; mémoire du serveur limitée à 1 Go par défaut.
+- Small visual accents: thin cyan lines, monospace for codes and values, a dark sample dashboard.
+  / Petites touches visuelles : fines lignes cyan, police à chasse fixe pour les codes et les valeurs, tableau de bord d'exemple sombre.
+
+### Removed / Retraits
+- The upstream default account `sysadmin@thingsboard.org` / `sysadmin`. / Le compte par défaut d'origine.
+
 ## Unreleased: Phase 2 (English and French)
 
 ### Added / Ajouts

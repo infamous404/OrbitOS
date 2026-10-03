@@ -277,7 +277,16 @@
       "account-not-active": "Ce compte n'est pas encore activé. Utilisez le lien reçu par courriel.",
       "invalid-credentials": "Adresse courriel ou mot de passe incorrect."
     },
-    "powered-by": "Propulsé par {{brandName}}"
+    "powered-by": "Propulsé par {{brandName}}",
+    "setup": {
+      "email": "Votre adresse courriel",
+      "error": {
+        "email": "Entrez une adresse courriel valide.",
+        "same-email": "Les deux comptes doivent avoir des adresses courriel différentes.",
+        "sysadmin-email": "Entrez une adresse courriel valide pour l'administrateur de la plateforme."
+      },
+      "sysadmin-email": "Adresse courriel de l'administrateur de la plateforme"
+    }
   },
   "ota-update": {
     "change-ota-setting-title": "Êtes-vous sûr de vouloir modifier les paramètres OTA?",

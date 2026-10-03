@@ -37,7 +37,7 @@ Colors are compiled into the interface, so they need a new image.
 1. Edit `colors` in `orbitos/branding/branding.yml` (`primary`, `secondary`, `accent`, as `#RRGGBB`).
 2. Build the image again:
    ```bash
-   docker build -f orbitos/docker/Dockerfile -t orbitos/orbitos:dev .
+   docker compose build orbitos
    ```
 3. Restart with the new image.
 

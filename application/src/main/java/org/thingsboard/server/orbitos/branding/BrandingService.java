@@ -52,11 +52,15 @@ public class BrandingService {
     @Value("${orbitos.branding.dir:/etc/orbitos/branding}")
     private String brandingDir;
 
+    /** ORBITOS_BRAND_NAME: replaces the name from branding.yml (handy with Docker). */
+    @Value("${orbitos.branding.name:}")
+    private String nameOverride = "";
+
     private volatile Branding branding = Branding.defaults();
 
     @PostConstruct
     public void init() {
-        branding = load(Path.of(brandingDir));
+        branding = withName(load(Path.of(brandingDir)), nameOverride);
         log.info("Branding loaded: name='{}', logo={}, favicon={}", branding.name(),
                 branding.assets().containsKey("logo"), branding.assets().containsKey("favicon"));
     }
@@ -104,6 +108,19 @@ public class BrandingService {
             readAsset(dir, key, raw.get(key)).ifPresent(asset -> assets.put(key, asset));
         }
         return new Branding(name, publicConfig, assets);
+    }
+
+    static Branding withName(Branding loaded, String name) {
+        if (name == null || name.isBlank()) {
+            return loaded;
+        }
+        if (name.strip().length() > MAX_NAME_LENGTH) {
+            log.warn("ORBITOS_BRAND_NAME must be 1-{} characters, ignored", MAX_NAME_LENGTH);
+            return loaded;
+        }
+        Map<String, Object> config = new LinkedHashMap<>(loaded.publicConfig());
+        config.put("name", name.strip());
+        return new Branding(name.strip(), config, loaded.assets());
     }
 
     private static Map<String, String> readColors(Object value) {

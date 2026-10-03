@@ -12,6 +12,7 @@ import { AppState } from '@core/core.state';
 import { getCurrentAuthState } from '@core/auth/auth.selectors';
 import { environment as env } from '@env/environment';
 import { storeLanguage } from '@app/orbitos/i18n';
+import { ActionSettingsChangeLanguage } from '@core/settings/settings.actions';
 
 /**
  * Language menu. The choice is saved in the user's profile (when signed in) and in this browser,
@@ -76,6 +77,9 @@ export class OrbitosLanguageSwitcherComponent {
       return;
     }
     storeLanguage(lang);
+    // Also replace the language remembered from the last signed-in user (upstream settings),
+    // which otherwise wins on the login and setup pages after a sign-out.
+    this.store.dispatch(new ActionSettingsChangeLanguage({userLang: lang}));
     if (getCurrentAuthState(this.store)?.isAuthenticated) {
       this.http.get<any>('/api/auth/user').subscribe({
         next: user => {
