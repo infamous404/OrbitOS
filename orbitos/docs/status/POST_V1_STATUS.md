@@ -21,6 +21,11 @@ Requested by the owner after testing version 1 on their PC.
 | Upstream developer files naming the upstream product (`docker/README.md`, `msa/tb/README.md`, `msa/black-box-tests/README.md`, `SECURITY.md`) | VERIFIED | Replaced by short OrbitOS notes. `TEST_FAST.md` only contains Java package names (code, not branding) |
 | Edge install instructions (name the upstream Edge product) | NOT DONE | Only shown if Edge is turned on; Edge is off by default and deferred |
 | Accessibility check | PARTLY | Automated contrast check of all visible text on sign-in, home, devices, dashboards, rule chains, alarms: 4 upstream problems fixed (notification badge, home usage labels and icons, inactive tab labels); missing screen-reader label added (show password); logo now read as "OrbitOS". Not done: screen-reader walk-through, every dialog and widget, a full WCAG 2.1 AA audit |
+| Signing in to an account in another language than the browser's left you on the sign-in page | VERIFIED fixed | Cause: the reload that applies the account's date and number formats kept the sign-in address. Browser (EN browser, FR account): lands on the home page in French |
+| Docs page: logo overflowed the header; language button dark on dark; page wider than a phone screen | VERIFIED fixed | Browser at 1280 px and 375 px |
+| Password reset, two-factor and expired-link pages kept the old light background | VERIFIED fixed | Same dark style as the sign-in page |
+| Windows clone (`core.autocrlf=true`) could break the container scripts (CRLF line endings) | VERIFIED fixed | New `.gitattributes`; fresh Windows-style clone: image built, smoke test 33/33 |
+| Secrets in the repository | VERIFIED none | Only upstream test certificates and example values. Your email is the author of the OrbitOS commits (git history) |
 | Unit tests and end-to-end test | see below | |
 
 ## Test run (2026-10-03, fresh install, rebuilt image)

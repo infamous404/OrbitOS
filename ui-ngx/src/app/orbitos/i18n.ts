@@ -99,16 +99,21 @@ export function bootLocaleId(): string {
  */
 export function onLanguageApplied(lang: string) {
   storeLanguage(lang);
-  if (angularLocale(lang) !== bootLocaleId()) {
-    const guard = 'orbitos.lang-reload';
-    try {
-      if (sessionStorage.getItem(guard) !== lang) {
-        sessionStorage.setItem(guard, lang);
+  const guard = 'orbitos.lang-reload';
+  try {
+    if (angularLocale(lang) === bootLocaleId()) {
+      sessionStorage.removeItem(guard); // formats match: a later change may reload again
+    } else if (sessionStorage.getItem(guard) !== lang) {
+      sessionStorage.setItem(guard, lang);
+      // Just signed in on the sign-in page: reload into the app, not back to the sign-in form.
+      if (window.location.pathname.startsWith('/login') && localStorage.getItem('jwt_token')) {
+        window.location.replace('/');
+      } else {
         window.location.reload();
       }
-    } catch {
-      // no session storage: keep the page as it is
     }
+  } catch {
+    // no session or local storage: keep the page as it is
   }
 }
 

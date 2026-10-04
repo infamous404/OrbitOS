@@ -92,9 +92,13 @@ tb-home-links {
   }
 }
 
-// ---------- sign-in, setup and other public pages ----------
-.tb-login-content {
+// ---------- sign-in, setup and other public pages (password reset, two-factor, expired link) ----------
+.tb-login-content,
+.tb-password-content,
+.tb-expired-link-content,
+.tb-two-factor-auth-login-content {
   margin: 0 !important; // full-height dark background (upstream leaves light bands above and below)
+  min-height: 100vh;
   background-color: $orbitos-night !important;
   background-image:
     radial-gradient(ellipse 60% 45% at 50% 0%, rgba($orbitos-blue, 0.28), transparent 70%),

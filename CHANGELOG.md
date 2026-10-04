@@ -14,6 +14,12 @@
 - Language menu after sign-in: the choice was replaced by the old one when the page reloaded.
   / Menu de langue après la connexion : le choix était remplacé par l'ancien au rechargement de la page.
 - Browser console error on the sign-in, setup and docs pages (logo link).
+- Signing in to an account set to another language left you on the sign-in page.
+  / La connexion à un compte réglé dans une autre langue laissait sur la page de connexion.
+- Docs page: logo size, language button contrast, phone layout. Dark style also on password-reset and two-factor pages.
+  / Page d'aide : taille du logo, contraste du bouton de langue, affichage sur téléphone. Style sombre aussi sur les pages de réinitialisation et de double authentification.
+- Windows clones keep Linux line endings for container scripts (`.gitattributes`).
+  / Les clones sous Windows gardent les fins de ligne Linux pour les scripts des conteneurs.
   / Erreur dans la console du navigateur sur les pages de connexion, de configuration et d'aide (lien du logo).
 
 ### Added / Ajouts
