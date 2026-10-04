@@ -25,7 +25,8 @@ $accent-text: #0e7490; // 5.4:1 on white
   a { color: #fff; text-decoration: none; }
 }
 
-.orbitos-docs-logo { max-height: 36px; }
+// The logo is 4 times wider than high: give it a fixed box so it never overflows the header.
+.orbitos-docs-logo { display: block; flex: 0 0 auto; height: 36px; width: 144px; }
 .orbitos-docs-label {
   font-family: 'Roboto Mono', Consolas, monospace;
   font-size: 13px;

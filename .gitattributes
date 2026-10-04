@@ -1,0 +1,14 @@
+# OrbitOS: files that run inside Linux containers must keep LF line endings, even when the
+# repository is cloned on Windows with core.autocrlf=true (the Git for Windows default).
+# Without this, scripts fail in the container with "/bin/sh^M: not found".
+*.sh        text eol=lf
+*.py        text eol=lf
+Caddyfile   text eol=lf
+Dockerfile  text eol=lf
+/compose.yaml text eol=lf
+/orbitos/** text=auto eol=lf
+
+# Images are never converted.
+*.png binary
+*.ico binary
+*.jpg binary
