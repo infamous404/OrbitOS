@@ -112,7 +112,7 @@ bibliothèque OPC UA (asyncua, LGPL-3.0) n'est pas incluse : le connecteur OPC U
 2. Dans `.env` : `ORBITOS_GATEWAY_TOKEN=<le jeton>`.
 3. Copiez la configuration de démonstration, puis démarrez :
    ```bash
-   mkdir gateway-config
+   mkdir -p gateway-config
    cp orbitos/gateway/demo-config/* gateway-config/
    docker compose --profile gateway --profile gateway-demo up -d
    ```

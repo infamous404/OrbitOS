@@ -42,8 +42,10 @@ rebuild-docker.sh
 docs/superpowers/
 # OrbitOS
 .env
-backups/
+backups/*
+!backups/README.md
 smoke-test-*.log
-gateway-config/
+gateway-config/*
+!gateway-config/README.md
 .smoke-gateway/
 .smoke-tmp-*

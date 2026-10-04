@@ -111,7 +111,7 @@ needs no internet connection for Modbus and BACnet (their libraries are included
 2. In `.env`: `ORBITOS_GATEWAY_TOKEN=<the token>`.
 3. Copy the demo configuration, then start:
    ```bash
-   mkdir gateway-config
+   mkdir -p gateway-config
    cp orbitos/gateway/demo-config/* gateway-config/
    docker compose --profile gateway --profile gateway-demo up -d
    ```

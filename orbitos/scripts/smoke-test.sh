@@ -18,11 +18,11 @@ BACKUP=""
 cleanup() {
   $COMPOSE logs orbitos > smoke-test-orbitos.log 2>&1 || true
   $COMPOSE logs gateway > smoke-test-gateway.log 2>&1 || true
-  if [ -n "$BACKUP" ]; then rm -f "backups/$BACKUP"; fi
+  if [ -n "$BACKUP" ]; then rm -f "backups/$BACKUP" 2>/dev/null || true; fi
   docker rm -f orbitos-smoke-opcua > /dev/null 2>&1 || true
   if [ "${KEEP_RUNNING:-}" = "1" ]; then echo "Left running: $BASE (stop: $COMPOSE down -v)"; return; fi
   $COMPOSE down -v > /dev/null 2>&1 || true
-  rm -rf .smoke-gateway smoke-test-mqtt.crt
+  rm -rf .smoke-gateway smoke-test-mqtt.crt 2>/dev/null || true
 }
 trap cleanup EXIT
 

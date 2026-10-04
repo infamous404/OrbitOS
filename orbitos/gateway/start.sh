@@ -8,6 +8,8 @@ CONF=/thingsboard_gateway/config
 mkdir -p "$CONF" /thingsboard_gateway/extensions
 cp -rn /default-config/config/. "$CONF"/ 2>/dev/null || true
 cp -rn /default-config/extensions/. /thingsboard_gateway/extensions/ 2>/dev/null || true
+# On Linux the gateway runs as root: give the files to the owner of gateway-config/ so they stay editable.
+chown -R "$(stat -c '%u:%g' "$CONF")" "$CONF" 2>/dev/null || true
 
 if [ -z "$accessToken" ]; then
     echo "IoT Gateway: set ORBITOS_GATEWAY_TOKEN in .env (token of a device marked 'Is gateway' in OrbitOS)." >&2

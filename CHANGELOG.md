@@ -20,6 +20,8 @@
   / Page d'aide : taille du logo, contraste du bouton de langue, affichage sur téléphone. Style sombre aussi sur les pages de réinitialisation et de double authentification.
 - Windows clones keep Linux line endings for container scripts (`.gitattributes`).
   / Les clones sous Windows gardent les fins de ligne Linux pour les scripts des conteneurs.
+- Linux: backups and gateway configuration files now belong to you, not to root (you can read, copy and edit them without sudo).
+  / Linux : les sauvegardes et les fichiers de configuration de la passerelle vous appartiennent, plus à root.
   / Erreur dans la console du navigateur sur les pages de connexion, de configuration et d'aide (lien du logo).
 
 ### Added / Ajouts
