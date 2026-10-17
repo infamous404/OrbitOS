@@ -3,7 +3,8 @@
 ## Reporting a vulnerability
 
 Please report security problems **privately**, not in a public issue.
-Use the repository's **Security** tab, then **Report a vulnerability** (GitHub private vulnerability reporting).
+Use the repository's **Security** tab, then **Report a vulnerability** (GitHub private vulnerability reporting),
+or open <https://github.com/infamous404/OrbitOS/security/advisories/new> directly.
 
 Include: what is affected, steps to reproduce, and the impact you expect.
 We aim to reply within 5 business days.
@@ -13,12 +14,14 @@ We fix them in OrbitOS ourselves; see [UPSTREAM_PATCHES.md](UPSTREAM_PATCHES.md)
 
 ## Supported versions
 
-OrbitOS has no release yet. Until 1.0, only the latest `main` branch receives fixes.
+Only the latest 1.x release (and the `main` branch) receives security fixes.
+OrbitOS is free software provided as is, without warranty (Apache License 2.0); fixes are made on a best-effort basis.
 
 ## Signaler une vulnérabilité
 
 Signalez les problèmes de sécurité **en privé**, pas dans un ticket public.
-Utilisez l'onglet **Security** du dépôt, puis **Report a vulnerability** (signalement privé de GitHub).
+Utilisez l'onglet **Security** du dépôt, puis **Report a vulnerability** (signalement privé de GitHub),
+ou ouvrez directement <https://github.com/infamous404/OrbitOS/security/advisories/new>.
 
 Indiquez : ce qui est touché, les étapes pour reproduire le problème et l'impact attendu.
 Nous visons une réponse en 5 jours ouvrables.
@@ -28,4 +31,5 @@ Nous les corrigeons nous-mêmes dans OrbitOS ; voir [UPSTREAM_PATCHES.md](UPSTRE
 
 ## Versions prises en charge
 
-OrbitOS n'a pas encore de version publiée. Jusqu'à la 1.0, seule la branche `main` reçoit des correctifs.
+Seule la dernière version 1.x (et la branche `main`) reçoit des correctifs de sécurité.
+OrbitOS est un logiciel libre fourni tel quel, sans garantie (licence Apache 2.0) ; les correctifs sont faits au mieux de nos moyens.

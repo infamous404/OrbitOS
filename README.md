@@ -13,7 +13,7 @@ OrbitOS is an open-source IoT platform for Canada and beyond: connect devices, c
 see it on dashboards and act on it with rules. It works in English and French, runs fully on your
 own computer or server, and never sends data or usage information to anyone.
 
-> **Status: version 1 candidate.** All six phases done; see [the final status report](orbitos/docs/status/FINAL_STATUS.md). Have a privacy lawyer or officer review it before production use. See [CHANGELOG.md](CHANGELOG.md).
+> **Status: version 1.0.** All six phases done; see [the final status report](orbitos/docs/status/FINAL_STATUS.md). Have a privacy lawyer or officer review it before production use. See [CHANGELOG.md](CHANGELOG.md).
 
 ## What makes it different
 
@@ -50,6 +50,11 @@ OrbitOS is a fork of [ThingsBoard](https://github.com/thingsboard/thingsboard) C
 4.3.1.6, the last Apache-2.0 release line. It does not contain code from ThingsBoard 4.4 or later,
 which use a different licence. OrbitOS is not affiliated with or endorsed by ThingsBoard, Inc.
 See [NOTICE](NOTICE) and [UPSTREAM_PATCHES.md](UPSTREAM_PATCHES.md).
+
+## Support
+
+OrbitOS is free and provided as is, without warranty (Apache License 2.0). Help comes from the community:
+ask questions and report bugs in [GitHub Issues](../../issues). Security problems: privately, see [SECURITY.md](SECURITY.md).
 
 ## Security
 

@@ -14,7 +14,7 @@ branchez vos appareils, recueillez leurs données, consultez-les dans des tablea
 réagissez grâce à des règles. Elle fonctionne en français et en anglais, roule entièrement sur
 votre ordinateur ou votre serveur, et n'envoie jamais de données ni de statistiques d'utilisation à qui que ce soit.
 
-> **État : candidate à la version 1.** Les six phases sont terminées; voir [le rapport final](orbitos/docs/status/FINAL_STATUS.md). Faites-la examiner par un avocat ou un responsable de la protection des renseignements personnels avant un usage en production. Voir [CHANGELOG.md](CHANGELOG.md).
+> **État : version 1.0.** Les six phases sont terminées; voir [le rapport final](orbitos/docs/status/FINAL_STATUS.md). Faites-la examiner par un avocat ou un responsable de la protection des renseignements personnels avant un usage en production. Voir [CHANGELOG.md](CHANGELOG.md).
 
 ## Ce qui la distingue
 
@@ -54,6 +54,11 @@ OrbitOS est un embranchement (fork) de l'édition communautaire de
 licence Apache 2.0. Elle ne contient aucun code de ThingsBoard 4.4 ou plus récent, qui utilise une
 autre licence. OrbitOS n'est ni affiliée à ThingsBoard, Inc. ni approuvée par elle.
 Voir [NOTICE](NOTICE) et [UPSTREAM_PATCHES.md](UPSTREAM_PATCHES.md).
+
+## Soutien
+
+OrbitOS est gratuit et fourni tel quel, sans garantie (licence Apache 2.0). L'aide vient de la communauté :
+posez vos questions et signalez les bogues dans les [Issues GitHub](../../issues). Problèmes de sécurité : en privé, voir [SECURITY.md](SECURITY.md).
 
 ## Sécurité
 
